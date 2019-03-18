@@ -1,0 +1,21 @@
+{{yield (hash
+  block='header'
+)}}
+
+<div class='js-page-body' style={{{this.bodyStyle}}}>
+  {{yield (hash
+    block='body'
+    element=this.element
+    registerSection=(action 'registerSection')
+    onReadyForNextItem=(action 'onReadyForNextItem')
+  )}}
+
+  {{! element used to check if the content has overflowed PrintableReport-Page-body}}
+  <div class='js-visibility-tail' style="height: 1px;"></div>
+</div>
+
+{{yield (hash
+  block='footer'
+)}}
+
+<div class="page-break-after js-page-break-after"></div>

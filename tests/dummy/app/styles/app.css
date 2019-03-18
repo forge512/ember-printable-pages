@@ -1,0 +1,91 @@
+body {
+  background-color: #1c313a;
+  margin: 0;
+}
+
+.PrintableReport-Page {
+  background-color: white;
+  margin: 0.5rem;
+  padding-top: 0.5in;
+  padding-bottom: 0.5in;
+  height: 9.75in;
+}
+
+.js-page-body {
+  /* TODO REMOVE */
+  border: 1px solid black;
+}
+
+.PrintableReport-Page-body {
+  overflow: hidden;
+  column-count: 2;
+  column-fill: auto;
+}
+
+/* make sections separated */
+.separated-sections .PrintableReport-Page {
+  &-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-section-container {
+    flex: 1 0;
+  }
+}
+
+@media print {
+  .PrintableReport-Page {
+    /*
+     * add 0.25in bonus height when printing to ensure the
+     * slight size changes made in print doesn't cause loss of data
+     */
+    height: 10in;
+    padding: 0;
+  }
+
+  .Reports-container {
+    margin: 0;
+  }
+
+  @page {
+    margin: 0.5in;
+  }
+}
+
+.print-layout-wrapper {
+  flex-direction: row;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+.page-break-after,
+.page-break-before {
+  display: block;
+  border: none;
+  margin: 0;
+}
+
+.column-break-inside-avoid {
+  break-inside: avoid-column;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .page-break-after {
+    page-break-after: always;
+  }
+
+  .page-break-before {
+    page-break-before: always;
+  }
+
+  .print-layout-wrapper {
+    display: block !important;
+  }
+}

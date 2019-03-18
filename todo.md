@@ -1,0 +1,18 @@
+- get styles right for the default page size
+- page header & footers
+- section header & footers
+- is rendering
+- render optimizations
+  - instrument number of renders
+  - smart render for things of a consistent size
+  - attempt to limit
+- error handling
+  - throw and halt render when an item won't fit on the page
+  - throw and halt when unexpected re-render occurs
+- add debug mode (shows component outlines)
+- documentation
+  - basic docs
+  - make a really pretty document for an example
+  - document browser compatibility
+- add support for different page sizes
+- large sections of text which overflow

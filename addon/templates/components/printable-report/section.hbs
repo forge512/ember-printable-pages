@@ -1,0 +1,11 @@
+{{#if page}}
+  <h2>Section {{this.elementId}}</h2>
+  {{#each this.items as |item|}}
+    {{#printable-report/section-item}}
+      {{yield (hash
+        data=item
+      )}}
+    {{/printable-report/section-item}}
+  {{/each}}
+
+{{/if}}
