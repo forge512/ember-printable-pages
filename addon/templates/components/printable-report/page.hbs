@@ -1,14 +1,17 @@
 {{yield (hash
   block='header'
+  meta=@pageMeta
 )}}
 
 <div class='js-page-body' style={{{this.bodyStyle}}}>
   {{yield (hash
     block='body'
     element=this.element
+    meta=@pageMeta
     registerSection=(action 'registerSection')
     onReadyForNextItem=(action 'onReadyForNextItem')
-  )}}
+  )
+  }}
 
   {{! element used to check if the content has overflowed PrintableReport-Page-body}}
   <div class='js-visibility-tail' style="height: 1px;"></div>
@@ -16,6 +19,7 @@
 
 {{yield (hash
   block='footer'
+  meta=@pageMeta
 )}}
 
 <div class="page-break-after js-page-break-after"></div>
