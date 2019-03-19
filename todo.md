@@ -1,5 +1,6 @@
 - get styles right for the default page size [MS]
-- page header & footers
+- upgrade to the lastest ember
+√ page header & footers
 - section header & footers
 - is rendering
 - render optimizations
@@ -11,7 +12,7 @@
   - throw and halt when unexpected re-render occurs
 - add debug mode (shows component outlines)
 - documentation
-  - basic docs [MS]
+  √ basic docs [MS]
   - make a really pretty document for an example [MS]
   - make user configurable example
   - document browser compatibility
