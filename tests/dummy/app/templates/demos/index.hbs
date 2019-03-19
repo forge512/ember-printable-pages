@@ -35,8 +35,12 @@
           </p>
         {{/chapter.section}}
 
-        {{#chapter.section columnCount=2 data=(array 1 2 3 4 5) as |item|}}
-          <h3>Section 3 {{item.data}}</h3>
+        {{#chapter.section columnCount=2 data=(array 1 2 3 4 5) as |section|}}
+          {{#if (eq section.index 0)}}
+            <h3>Section 3</h3>
+          {{/if}}
+
+          <h4>Section 3 {{section.data}}</h4>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sapien ligula,
             scelerisque et imperdiet sit amet, imperdiet sit amet nisi. Nulla sit amet neque
