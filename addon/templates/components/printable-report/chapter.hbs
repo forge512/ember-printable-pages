@@ -20,6 +20,7 @@
       {{yield (hash
         page-header=(component 'printable-report/page-header' pageMeta=pageComponent.meta)
         section=(component 'printable-report/section' shouldRender=false)
+        page-footer=(component 'printable-report/page-footer' shouldRender=false)
       )}}
     {{/if}}
 
@@ -28,6 +29,7 @@
         number=pageComponent.meta
 
         page-header=(component 'printable-report/page-header' shouldRender=false)
+        page-footer=(component 'printable-report/page-footer' shouldRender=false)
 
         section=(component 'printable-report/section'
           sectionMap=this.chapter.sectionMap
@@ -37,6 +39,14 @@
           register=(action pageComponent.registerSection)
           onSectionOverflow=pageComponent.onSectionOverflow
         )
+      )}}
+    {{/if}}
+
+    {{#if (eq pageComponent.block 'footer')}}
+      {{yield (hash
+        page-header=(component 'printable-report/page-header' shouldRender=false)
+        section=(component 'printable-report/section' shouldRender=false)
+        page-footer=(component 'printable-report/page-footer' pageMeta=pageComponent.meta)
       )}}
     {{/if}}
   {{/printable-report/page}}
