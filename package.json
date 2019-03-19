@@ -1,11 +1,11 @@
 {
   "name": "ember-printable-report",
   "version": "0.0.1-0",
-  "description": "An addon for creating printable reports using ember components",
+  "description": "An addon for creating printable documents using ember components",
   "keywords": [
     "ember-addon",
-    "report",
-    "print"
+    "pagination",
+    "printable-files"
   ],
   "license": "MIT",
   "author": "Forge 512",
