@@ -4,5 +4,11 @@
     "name": "v0.0.1-0",
     "sha": "ff6eda9c32159eab69b0fbe56f9dce4b8797ca7d",
     "tag": "v0.0.1-0"
+  },
+  "v0.0.1-1": {
+    "path": "versions/v0.0.1-1",
+    "name": "v0.0.1-1",
+    "sha": "fdf40ec8bd2265d23aff35e85173bdaafbbfb367",
+    "tag": "v0.0.1-1"
   }
 }
