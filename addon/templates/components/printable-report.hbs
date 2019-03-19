@@ -1,7 +1,7 @@
 {{yield (hash
   chapter=(component 'printable-report/chapter'
     chapters=this.chapters
-    lastReportPage=this.lastPage
+    lastReportPage=this.reportObject.lastPage
 
     register=(action 'registerChapter')
     registerSection=(action 'registerSection' this.elementId)

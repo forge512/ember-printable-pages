@@ -1,4 +1,4 @@
-{{#if page}}
+{{#if (and this.shouldRender this.page)}}
   <h2>Section {{this.elementId}}</h2>
   {{#each this.items as |item|}}
     {{#printable-report/section-item}}
