@@ -1,7 +1,7 @@
 - get styles right for the default page size [MS]
-- page header & footers
-- section header & footers
-- is rendering
+- [x] page header & footers
+- [ ] section header & footers [CB]
+- [ ] is rendering
 - render optimizations
   - instrument number of renders
   - smart render for things of a consistent size
