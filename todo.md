@@ -1,4 +1,4 @@
-- get styles right for the default page size
+- get styles right for the default page size [MS]
 - page header & footers
 - section header & footers
 - is rendering
@@ -11,12 +11,13 @@
   - throw and halt when unexpected re-render occurs
 - add debug mode (shows component outlines)
 - documentation
-  - basic docs
-  - make a really pretty document for an example
+  - basic docs [MS]
+  - make a really pretty document for an example [MS]
+  - make user configurable example
   - document browser compatibility
 - add support for different page sizes
 - large sections of text which overflow
 - rename
-  - printable-page
+  - printable-pages
   - print-layout
   - printable-layout
