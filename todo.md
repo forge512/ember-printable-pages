@@ -16,3 +16,7 @@
   - document browser compatibility
 - add support for different page sizes
 - large sections of text which overflow
+- rename
+  - printable-page
+  - print-layout
+  - printable-layout

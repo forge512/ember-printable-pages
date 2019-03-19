@@ -12,7 +12,7 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     let reportObject = this.report.register(this.elementId);
-    this.set("reportObject");
+    this.set("reportObject", reportObject);
   },
 
   chapters: alias("reportObject.chapters"),

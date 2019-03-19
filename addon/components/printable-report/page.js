@@ -92,10 +92,12 @@ export default Component.extend({
 
   // HELPER FUNCTIONS
   setPageBodyHeight() {
-    let { wrapperHeight, columnCount } = this;
     // Use height based on parent (100%) so that parent owns the overall page height. This
     // allows adding an extra 0.25in of height in print css to ensure column wrapping doesn't hide data
-    this.set("bodyStyle", htmlSafe(`height: calc(100% - ${wrapperHeight}px);`));
+    this.set(
+      "bodyStyle",
+      htmlSafe(`height: calc(100% - ${this.wrapperHeight}px);`)
+    );
   },
 
   actions: {

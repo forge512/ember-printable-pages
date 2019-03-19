@@ -1,19 +1,7 @@
 import Component from "@ember/component";
 import layout from "../../templates/components/printable-report/chapter";
-import {
-  raw,
-  getBy,
-  array,
-  equal,
-  add,
-  difference
-} from "ember-awesome-macros";
+import { add, difference } from "ember-awesome-macros";
 import { alias } from "@ember/object/computed";
-import EmberObject, { computed } from "@ember/object";
-import { A } from "@ember/array";
-import { isBlank } from "@ember/utils";
-import { next, run } from "@ember/runloop";
-import { inject as service } from "@ember/service";
 
 export default Component.extend({
   layout,

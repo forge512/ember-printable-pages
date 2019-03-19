@@ -1,7 +1,7 @@
 import Service from "@ember/service";
 import EmberObject from "@ember/object";
 import { A } from "@ember/array";
-import { raw, array, equal, add, difference } from "ember-awesome-macros";
+import { array, equal } from "ember-awesome-macros";
 import { alias } from "@ember/object/computed";
 import { run } from "@ember/runloop";
 

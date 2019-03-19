@@ -1,6 +1,6 @@
 import Component from "@ember/component";
 import layout from "../../templates/components/printable-report/section";
-import { raw, array, getBy } from "ember-awesome-macros";
+import { getBy } from "ember-awesome-macros";
 import { alias } from "@ember/object/computed";
 import { htmlSafe } from "@ember/template";
 

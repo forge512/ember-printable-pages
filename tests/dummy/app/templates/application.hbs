@@ -1,69 +1,69 @@
 {{#printable-report as |report|}}
-  {{#report.chapter as |page|}}
-    {{#page.section columnCount=1}}
+  {{#report.chapter as |chapter|}}
+    {{#chapter.section columnCount=1}}
       <h1>Section 1</h1>
-      <div>current {{page.number.current}}</div>
-      <div>total {{page.number.total}}</div>
-      <div>isFirst {{page.number.isFirst}}</div>
-      <div>isLast {{page.number.isLast}}</div>
-      <div>isFirstInChapter {{page.number.isFirstInChapter}}</div>
-      <div>isLastInChapter {{page.number.isLastInChapter}}</div>
-    {{/page.section}}
+      <div>current {{chapter.number.current}}</div>
+      <div>total {{chapter.number.total}}</div>
+      <div>isFirst {{chapter.number.isFirst}}</div>
+      <div>isLast {{chapter.number.isLast}}</div>
+      <div>isFirstInChapter {{chapter.number.isFirstInChapter}}</div>
+      <div>isLastInChapter {{chapter.number.isLastInChapter}}</div>
+    {{/chapter.section}}
 
-    {{#page.section columnCount=1}}
+    {{#chapter.section columnCount=1}}
       <h3>Section 2</h3>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sapien ligula, scelerisque et imperdiet sit amet, imperdiet sit amet nisi. Nulla sit amet neque ullamcorper lorem tincidunt facilisis. Morbi ante risus, consectetur id feugiat nec, interdum ac enim. Phasellus molestie placerat lorem et pharetra. Aenean congue tempor viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus eros, id feugiat erat tortor et felis. Pellentesque id nisl non justo viverra lacinia id sit amet arcu. Mauris non euismod ipsum. Fusce lacinia felis nec euismod vulputate.</p>
-    {{/page.section}}
+    {{/chapter.section}}
 
-    {{#page.section columnCount=2 data=(array 1 2 3 4 5) as |item|}}
+    {{#chapter.section columnCount=2 data=(array 1 2 3 4 5) as |item|}}
       <h3>Section 3 {{item.data}}</h3>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sapien ligula, scelerisque et imperdiet sit amet, imperdiet sit amet nisi. Nulla sit amet neque ullamcorper lorem tincidunt facilisis. Morbi ante risus, consectetur id feugiat nec, interdum ac enim. Phasellus molestie placerat lorem et pharetra. Aenean congue tempor viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus eros, id feugiat erat tortor et felis. Pellentesque id nisl non justo viverra lacinia id sit amet arcu. Mauris non euismod ipsum. Fusce lacinia felis nec euismod vulputate.</p>
-    {{/page.section}}
+    {{/chapter.section}}
 
-    {{#page.section columnCount=1}}
+    {{#chapter.section columnCount=1}}
       <h3>Section 4</h3>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sapien ligula, scelerisque et imperdiet sit amet, imperdiet sit amet nisi. Nulla sit amet neque ullamcorper lorem tincidunt facilisis. Morbi ante risus, consectetur id feugiat nec, interdum ac enim. Phasellus molestie placerat lorem et pharetra. Aenean congue tempor viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus eros, id feugiat erat tortor et felis. Pellentesque id nisl non justo viverra lacinia id sit amet arcu. Mauris non euismod ipsum. Fusce lacinia felis nec euismod vulputate.</p>
-    {{/page.section}}
+    {{/chapter.section}}
   {{/report.chapter}}
 
-  {{#report.chapter as |page|}}
-    {{#page.section columnCount=1}}
+  {{#report.chapter as |chapter|}}
+    {{#chapter.section columnCount=1}}
       <h1>Chapter 2</h1>
       <div>
-        <div>current {{page.number.current}}</div>
-        <div>total {{page.number.total}}</div>
-        <div>isFirst {{page.number.isFirst}}</div>
-        <div>isLast {{page.number.isLast}}</div>
-        <div>isFirstInChapter {{page.number.isFirstInChapter}}</div>
-        <div>isLastInChapter {{page.number.isLastInChapter}}</div>
+        <div>current {{chapter.number.current}}</div>
+        <div>total {{chapter.number.total}}</div>
+        <div>isFirst {{chapter.number.isFirst}}</div>
+        <div>isLast {{chapter.number.isLast}}</div>
+        <div>isFirstInChapter {{chapter.number.isFirstInChapter}}</div>
+        <div>isLastInChapter {{chapter.number.isLastInChapter}}</div>
       </div>
-    {{/page.section}}
+    {{/chapter.section}}
   {{/report.chapter}}
 
-  {{#report.chapter as |page|}}
-    {{#page.section columnCount=1}}
+  {{#report.chapter as |chapter|}}
+    {{#chapter.section columnCount=1}}
       <h1>chapter 3</h1>
       <p>here</p>
-    {{/page.section}}
+    {{/chapter.section}}
   {{/report.chapter}}
 
-  {{#report.chapter as |page|}}
-    {{#page.section columnCount=1}}
+  {{#report.chapter as |chapter|}}
+    {{#chapter.section columnCount=1}}
       <h1>chapter 4</h1>
-    {{/page.section}}
+    {{/chapter.section}}
   {{/report.chapter}}
 
-  {{#report.chapter as |page|}}
-    {{#page.section columnCount=1}}
+  {{#report.chapter as |chapter|}}
+    {{#chapter.section columnCount=1}}
     <h1>chapter 5</h1>
     <div>
-      <div>current {{page.number.current}}</div>
-      <div>total {{page.number.total}}</div>
-      <div>isFirst {{page.number.isFirst}}</div>
-      <div>isLast {{page.number.isLast}}</div>
-      <div>isFirstInChapter {{page.number.isFirstInChapter}}</div>
-      <div>isLastInChapter {{page.number.isLastInChapter}}</div>
+      <div>current {{chapter.number.current}}</div>
+      <div>total {{chapter.number.total}}</div>
+      <div>isFirst {{chapter.number.isFirst}}</div>
+      <div>isLast {{chapter.number.isLast}}</div>
+      <div>isFirstInChapter {{chapter.number.isFirstInChapter}}</div>
+      <div>isLastInChapter {{chapter.number.isLastInChapter}}</div>
     </div>
-    {{/page.section}}
+    {{/chapter.section}}
   {{/report.chapter}}
 {{/printable-report}}
