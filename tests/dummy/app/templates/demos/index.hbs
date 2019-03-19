@@ -5,7 +5,12 @@
 
       {{#document.chapter as |chapter|}}
         {{!#chapter.title-page}}
-        {{!#chapter.page-header}}
+        {{#chapter.page-header as |header|}}
+          <div>
+            <div>Chapter {{header.chapterNumber}}</div>
+            <div>page {{header.current}} of {{header.total}}</div>
+          </div>
+        {{/chapter.page-header}}
 
         {{#chapter.section columnCount=1}}
           <h1>Section 1</h1>
@@ -31,9 +36,35 @@
           <h3>Section 4</h3>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sapien ligula, scelerisque et imperdiet sit amet, imperdiet sit amet nisi. Nulla sit amet neque ullamcorper lorem tincidunt facilisis. Morbi ante risus, consectetur id feugiat nec, interdum ac enim. Phasellus molestie placerat lorem et pharetra. Aenean congue tempor viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus eros, id feugiat erat tortor et felis. Pellentesque id nisl non justo viverra lacinia id sit amet arcu. Mauris non euismod ipsum. Fusce lacinia felis nec euismod vulputate.</p>
         {{/chapter.section}}
+
+        {{#chapter.page-footer as |footer|}}
+          <div>Footer page {{footer.current}} of {{footer.total}}</div>
+        {{/chapter.page-footer}}
+
       {{/document.chapter}}
 
       {{#document.chapter as |chapter|}}
+        {{#chapter.page-header as |header|}}
+          <div>
+            <div>Chapter {{header.chapterNumber}}</div>
+            <div>page {{header.current}} of {{header.total}}</div>
+          </div>
+        {{/chapter.page-header}}
+
+        {{#chapter.page-footer as |footer|}}
+          <div>Footer page {{footer.current}} of {{footer.total}}</div>
+        {{/chapter.page-footer}}
+
+      {{/document.chapter}}
+
+      {{#document.chapter as |chapter|}}
+        {{#chapter.page-header as |header|}}
+          <div>
+            <div>Chapter {{header.chapterNumber}}</div>
+            <div>page {{header.current}} of {{header.total}}</div>
+          </div>
+        {{/chapter.page-header}}
+
         {{#chapter.section columnCount=1}}
           <h1>Chapter 2</h1>
           <div>
@@ -47,22 +78,58 @@
         {{/chapter.section}}
 
         {{!#chapter.page-title}}
+
+        {{#chapter.page-footer as |footer|}}
+          <div>Footer page {{footer.current}} of {{footer.total}}</div>
+        {{/chapter.page-footer}}
+
       {{/document.chapter}}
 
       {{#document.chapter as |chapter|}}
+        {{#chapter.page-header as |header|}}
+          <div>
+            <div>Chapter {{header.chapterNumber}}</div>
+            <div>page {{header.current}} of {{header.total}}</div>
+          </div>
+        {{/chapter.page-header}}
+
         {{#chapter.section columnCount=1}}
           <h1>chapter 3</h1>
           <p>here</p>
         {{/chapter.section}}
+
+        {{#chapter.page-footer as |footer|}}
+          <div>Footer page {{footer.current}} of {{footer.total}}</div>
+        {{/chapter.page-footer}}
+
       {{/document.chapter}}
 
       {{#document.chapter as |chapter|}}
+        {{#chapter.page-header as |header|}}
+          <div>
+            <div>Chapter {{header.chapterNumber}}</div>
+            <div>page {{header.current}} of {{header.total}}</div>
+          </div>
+        {{/chapter.page-header}}
+
         {{#chapter.section columnCount=1}}
           <h1>chapter 4</h1>
         {{/chapter.section}}
+
+        {{#chapter.page-footer as |footer|}}
+          <div>Footer page {{footer.current}} of {{footer.total}}</div>
+        {{/chapter.page-footer}}
+
       {{/document.chapter}}
 
       {{#document.chapter as |chapter|}}
+        {{#chapter.page-header as |header|}}
+          <div>
+            <div>Chapter {{header.chapterNumber}}</div>
+            <div>page {{header.current}} of {{header.total}}</div>
+          </div>
+        {{/chapter.page-header}}
+
         {{#chapter.section columnCount=1}}
         <h1>chapter 5</h1>
         <div>
@@ -74,6 +141,11 @@
           <div>isLastInChapter {{chapter.number.isLastInChapter}}</div>
         </div>
         {{/chapter.section}}
+
+        {{#chapter.page-footer as |footer|}}
+          <div>Footer page {{footer.current}} of {{footer.total}}</div>
+        {{/chapter.page-footer}}
+
       {{/document.chapter}}
     {{/printable-report}}
 
