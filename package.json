@@ -1,12 +1,14 @@
 {
   "name": "ember-printable-report",
   "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "An addon for creating printable reports using ember components",
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "report",
+    "print"
   ],
   "license": "MIT",
-  "author": "",
+  "author": "Forge 512",
   "directories": {
     "doc": "doc",
     "test": "tests"

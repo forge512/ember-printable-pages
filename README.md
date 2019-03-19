@@ -1,7 +1,7 @@
 ember-printable-report
 ==============================================================================
 
-[Short description of the addon.]
+COMING SOON... A tool for creating printable reports using ember components.
 
 Installation
 ------------------------------------------------------------------------------
