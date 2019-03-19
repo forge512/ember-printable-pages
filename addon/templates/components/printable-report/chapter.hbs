@@ -1,31 +1,35 @@
 {{#each this.pages as |page pageIndexInChapter|}}
   {{#printable-report/page
     pageIndexInChapter=pageIndexInChapter
+    pageMeta=(hash
+      current=(add this.startPage pageIndexInChapter)
+      chapterNumber=(inc this.chapter.index)
+      total=@lastReportPage
+      isFirst=(eq page.number 1)
+      isFirstInChapter=(eq page.number this.startPage)
+      isLast=(eq page.number @lastReportPage)
+      isLastInChapter=(eq page.number this.endPage)
+    )
+
     registerSection=(action this.registerSection this.elementId)
     renderNextItem=(action 'renderNextItem' pageIndexInChapter)
     onPageOverflow=(action 'onPageOverflow' pageIndexInChapter)
     as |pageComponent|
   }}
-
-    {{#if (and (eq pageComponent.block 'header') (eq pageIndexInChapter 0))}}
-      <h2>Chapter {{inc this.chapter.index}} - {{this.elementId}}</h2>
+    {{#if (eq pageComponent.block 'header')}}
+      {{yield (hash
+        page-header=(component 'printable-report/page-header' pageMeta=pageComponent.meta)
+        section=(component 'printable-report/section' shouldRender=false)
+        page-footer=(component 'printable-report/page-footer' shouldRender=false)
+      )}}
     {{/if}}
 
-    {{! TODO
-      need to improve handling of block.
-      instead of if, pass a 'shouldRender' flag into
-      section, header, footer... and conditionally render them
-    }}
     {{#if (eq pageComponent.block 'body')}}
       {{yield (hash
-        number=(hash
-          current=page.number
-          total=@lastReportPage
-          isFirst=(eq page.number 1)
-          isFirstInChapter=(eq page.number this.startPage)
-          isLast=(eq page.number @lastReportPage)
-          isLastInChapter=(eq page.number this.endPage)
-        )
+        number=pageComponent.meta
+
+        page-header=(component 'printable-report/page-header' shouldRender=false)
+        page-footer=(component 'printable-report/page-footer' shouldRender=false)
 
         section=(component 'printable-report/section'
           sectionMap=this.chapter.sectionMap
@@ -35,6 +39,14 @@
           register=(action pageComponent.registerSection)
           onSectionOverflow=pageComponent.onSectionOverflow
         )
+      )}}
+    {{/if}}
+
+    {{#if (eq pageComponent.block 'footer')}}
+      {{yield (hash
+        page-header=(component 'printable-report/page-header' shouldRender=false)
+        section=(component 'printable-report/section' shouldRender=false)
+        page-footer=(component 'printable-report/page-footer' pageMeta=pageComponent.meta)
       )}}
     {{/if}}
   {{/printable-report/page}}

@@ -8,6 +8,7 @@ export default Component.extend({
   layout,
   classNames: ["PrintableReport-Section", "js-printable-report-section"],
   attributeBindings: ["style"],
+  shouldRender: true,
 
   // LIFECYCLE HOOKS
   init() {
@@ -16,6 +17,8 @@ export default Component.extend({
   },
   didInsertElement() {
     this._super(...arguments);
+    if (!this.shouldRender) return;
+
     let id = this.register(this.data || []);
     this.set("id", id);
   },
