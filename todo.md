@@ -1,23 +1,24 @@
-- get styles right for the default page size [MS]
+- [ ] get styles right for the default page size [MS]
+- [ ] upgrade to the lastest ember
 - [x] page header & footers
 - [ ] section header & footers [CB]
 - [ ] is rendering
-- render optimizations
-  - instrument number of renders
-  - smart render for things of a consistent size
-  - attempt to limit
-- error handling
-  - throw and halt render when an item won't fit on the page
-  - throw and halt when unexpected re-render occurs
-- add debug mode (shows component outlines)
-- documentation
-  - basic docs [MS]
-  - make a really pretty document for an example [MS]
-  - make user configurable example
-  - document browser compatibility
-- add support for different page sizes
-- large sections of text which overflow
-- rename
-  - printable-pages
-  - print-layout
-  - printable-layout
+- [ ] render optimizations
+  - [ ] instrument number of renders
+  - [ ] smart render for things of a consistent size
+  - [ ] attempt to limit
+- [ ] error handling
+  - [ ] throw and halt render when an item won't fit on the page
+  - [ ] throw and halt when unexpected re-render occurs
+- [ ] add debug mode (shows component outlines)
+- [ ] documentation
+- [x] basic docs [MS]
+  - [ ] make a really pretty document for an example [MS]
+  - [ ] make user configurable example
+  - [ ] document browser compatibility
+- [ ] add support for different page sizes
+- [ ] large sections of text which overflow
+- [ ] rename
+  - [ ] printable-pages
+  - [ ] print-layout
+  - [ ] printable-layout
