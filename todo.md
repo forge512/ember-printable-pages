@@ -1,9 +1,9 @@
 - [x] get styles right for the default page size [MS]
 - [x] upgrade to the lastest ember [MS]
 - [x] page header & footers [CB]
-- [ ] section header & footers [CB]
-- [ ] is rendering
-- [ ] render optimizations
+- [x] section header & footers [CB]
+- [x] is rendering
+- [ ] render optimizations [CB]
   - [ ] instrument number of renders
   - [ ] smart render for things of a consistent size
   - [ ] attempt to limit
