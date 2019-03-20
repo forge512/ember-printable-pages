@@ -1,0 +1,5 @@
+.PrintablePages-section {
+  column-fill: balance;
+  column-gap: 24px;
+  column-rule: 1px solid rgba(0,0,0,0.12);
+}
