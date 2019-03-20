@@ -7,7 +7,7 @@ import { inject as service } from "@ember/service";
 export default Component.extend({
   layout,
   report: service(),
-  classNames: ["PrintableReport-Page"],
+  classNames: ["PrintablePages-page"],
 
   // LIFECYCLE HOOKS
   didInsertElement() {
@@ -92,10 +92,11 @@ export default Component.extend({
 
   // HELPER FUNCTIONS
   setPageBodyHeight() {
-    // Use height based on parent (100%) so that parent owns the overall page height. This
-    // allows adding an extra 0.25in of height in print css to ensure column wrapping doesn't hide data
+    // Use height based on parent (100%) so that parent owns the overall page
+    // height. This allows adding an extra 0.25in of height in print css to
+    // ensure column wrapping doesn't hide data
     this.set(
-      "bodyStyle",
+      "bodyStyles",
       htmlSafe(`height: calc(100% - ${this.wrapperHeight}px);`)
     );
   },

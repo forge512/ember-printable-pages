@@ -5,7 +5,7 @@ import { alias } from "@ember/object/computed";
 
 export default Component.extend({
   layout,
-  classNames: ["PrintableReport-Chapter"],
+  classNames: ["PrintablePages-chapter"],
 
   // LIFECYCLE HOOKS
   didInsertElement() {

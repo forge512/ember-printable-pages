@@ -3,6 +3,6 @@ import layout from "../../templates/components/printable-report/page-header";
 
 export default Component.extend({
   layout,
-  classNames: ["PrintableReport-PageHeader"],
+  classNames: ["PrintablePages-pageHeader"],
   shouldRender: true
 });
