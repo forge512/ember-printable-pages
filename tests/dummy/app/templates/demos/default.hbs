@@ -41,20 +41,14 @@
         </p>
       {{/chapter.section}}
 
-      {{#chapter.section columnCount=2 data=(array 1 2 3 4 5) as |section|}}
+      {{#chapter.section columnCount=2 data=this.sectionData as |section|}}
         {{#if (eq section.index 0)}}
           <h3 style="column-span:all">Section 3</h3>
         {{/if}}
 
         <h4>Section 3 {{section.data}}</h4>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sapien ligula,
-          scelerisque et imperdiet sit amet, imperdiet sit amet nisi. Nulla sit amet neque
-          ullamcorper lorem tincidunt facilisis. Morbi ante risus, consectetur id feugiat
-          nec, interdum ac enim. Phasellus molestie placerat lorem et pharetra. Aenean congue
-          tempor viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus eros,
-          id feugiat erat tortor et felis. Pellentesque id nisl non justo viverra lacinia
-          id sit amet arcu. Mauris non euismod ipsum. Fusce lacinia felis nec euismod vulputate.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </p>
       {{/chapter.section}}
 
