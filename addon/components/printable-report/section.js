@@ -6,8 +6,7 @@ import { htmlSafe } from "@ember/template";
 
 export default Component.extend({
   layout,
-  classNames: ["PrintablePages-section"],
-  attributeBindings: ["style"],
+  tagName: "",
   shouldRender: true,
 
   // LIFECYCLE HOOKS
@@ -19,6 +18,7 @@ export default Component.extend({
     this._super(...arguments);
     if (!this.shouldRender) return;
 
+    console.log(this.toString(), "register");
     let id = this.register(this.data || []);
     this.set("id", id);
   },

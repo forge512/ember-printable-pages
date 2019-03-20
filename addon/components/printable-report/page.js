@@ -38,7 +38,7 @@ export default Component.extend({
     //  return;
     //}
 
-    if (this.overflowedElementId) return;
+    if (this.overflowedElement) return;
 
     // TODO tweak on this after adding support for page header/footer
     if (this.firstRender) {
@@ -72,19 +72,18 @@ export default Component.extend({
 
     // if the previously overflowed element is still in the dom then return...
     // we are waiting for the chapter to move the item to the next page
-    if (this.overflowedElementId && hasOverflow) {
-      if (this.element.querySelector(`#${this.overflowedElementId}`)) return;
+    if (this.overflowedElement && hasOverflow) {
+      if (this.element.querySelector(`#${this.overflowedElement}`)) return;
 
-      this.set("overflowedElementId", null);
+      this.set("overflowedElement", null);
     }
 
     if (hasOverflow) {
       // eslint-disable-next-line
       // console.log(this.toString(), "didRender --- overflowed");
       this.set(
-        "overflowedElementId",
+        "overflowedElement",
         this.element.querySelector(".js-visibility-tail").previousElementSibling
-          .id
       );
       this.onPageOverflow();
     } else {

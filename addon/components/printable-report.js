@@ -26,23 +26,23 @@ export default Component.extend({
   chapters: alias("reportObject.chapters"),
 
   // TASKS
-  renderStartTask: task(function*(currentPage, endPage) {
+  renderStartTask: task(function*(currentPage) {
     if (this.onRenderStart) {
       next(() => this.onRenderStart(currentPage));
     }
-  }),
+  }).keepLatest(),
 
   renderProgressTask: task(function*() {
     if (this.onRenderProgress) {
       next(() => this.onRenderProgress(this.reportObject.lastPage));
     }
-  }),
+  }).keepLatest(),
 
   reportIfCompleteTask: task(function*() {
     if (this.reportObject.isFinishedRendering && this.onRenderComplete) {
       next(() => this.onRenderComplete(this.reportObject.lastPage));
     }
-  }),
+  }).keepLatest(),
 
   // ACTIONS
   actions: {

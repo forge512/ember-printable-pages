@@ -1,10 +1,12 @@
 {{#if (and this.shouldRender this.page)}}
-  {{#each this.items as |item index|}}
-    {{#printable-report/section-item}}
-      {{yield (hash
-        data=item
-        index=index
-      )}}
-    {{/printable-report/section-item}}
-  {{/each}}
+  <div class='PrintablePages-section' style={{{this.style}}}>
+    {{#each this.items as |item index|}}
+      {{#printable-report/section-item}}
+        {{yield (hash
+          data=item
+          index=index
+        )}}
+      {{/printable-report/section-item}}
+    {{/each}}
+  </div>
 {{/if}}
