@@ -188,6 +188,6 @@ export default Service.extend({
    */
   log() {
     // eslint-disable-next-line
-    console.log(this.toString(), ...arguments);
+    // console.log(this.toString(), ...arguments);
   }
 });

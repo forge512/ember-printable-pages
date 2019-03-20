@@ -8,7 +8,7 @@ export default Component.extend({
   layout,
   report: service(),
   classNames: ["PrintablePages-page"],
-  attributeBindings: ['pageStyles:style'],
+  attributeBindings: ["pageStyles:style"],
 
   // LIFECYCLE HOOKS
   didInsertElement() {
@@ -31,7 +31,7 @@ export default Component.extend({
   didRender() {
     this._super(...arguments);
     // eslint-disable-next-line
-    console.log(this.toString(), "didRender");
+    // console.log(this.toString(), "didRender");
 
     //if (this.section.isFullyRendered && this.alreadyNotified) {
     //  console.log(this.toString(), "is finished rendering");
@@ -80,7 +80,7 @@ export default Component.extend({
 
     if (hasOverflow) {
       // eslint-disable-next-line
-      console.log(this.toString(), "didRender --- overflowed");
+      // console.log(this.toString(), "didRender --- overflowed");
       this.set(
         "overflowedElementId",
         this.element.querySelector(".js-visibility-tail").previousElementSibling
@@ -102,13 +102,13 @@ export default Component.extend({
   // HELPER FUNCTIONS
   _setPageLayout() {
     this.set(
-      'pageStyles',
+      "pageStyles",
       htmlSafe(
-        `height:${this.pageLayout.height};`
-        + `width:${this.pageLayout.width};`
-        + `padding:${this.pageLayout.margins};`
+        `height:${this.pageLayout.height};` +
+          `width:${this.pageLayout.width};` +
+          `padding:${this.pageLayout.margins};`
       )
-    )
+    );
   },
 
   _setPageBodyHeight(wrapperHeight) {
