@@ -177,6 +177,7 @@ export default Service.extend({
    * HELPER STUFF
    */
   log() {
+    // eslint-disable-next-line
     console.log(this.toString(), ...arguments);
   }
 });

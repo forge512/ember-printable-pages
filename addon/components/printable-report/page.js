@@ -11,7 +11,8 @@ export default Component.extend({
 
   // LIFECYCLE HOOKS
   didInsertElement() {
-    // console.log(this.toString(), "didInsertElement");
+    // eslint-disable-next-line
+    console.log(this.toString(), "didInsertElement");
     let topOfBreakAfter = this.element
       .querySelector(".js-page-break-after")
       .getBoundingClientRect().top;
@@ -23,6 +24,7 @@ export default Component.extend({
 
   didRender() {
     this._super(...arguments);
+    // eslint-disable-next-line
     console.log(this.toString(), "didRender");
 
     //if (this.section.isFullyRendered && this.alreadyNotified) {
@@ -71,6 +73,7 @@ export default Component.extend({
     }
 
     if (hasOverflow) {
+      // eslint-disable-next-line
       console.log(this.toString(), "didRender --- overflowed");
       this.set(
         "overflowedElementId",

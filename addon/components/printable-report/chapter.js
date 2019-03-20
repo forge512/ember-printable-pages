@@ -22,12 +22,14 @@ export default Component.extend({
 
   actions: {
     onPageOverflow(pageIndex) {
+      // eslint-disable-next-line
       console.log(this.toString(), "onPageOverflow", pageIndex);
       this.chapter.moveLastItemToNextPage(pageIndex);
       this.addPage(this.elementId);
     },
 
     renderNextItem(pageIndex) {
+      // eslint-disable-next-line
       console.log(this.toString(), "renderNextItem", pageIndex);
       this.chapter.renderNextItem(pageIndex);
     }

@@ -12,7 +12,7 @@ Router.map(function() {
   });
   docsRoute(this, function() {
     // doc routes
-    this.route('example')
+    this.route('example');
   });
   this.route('not-found', { path: '/*path' });
 });
