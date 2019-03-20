@@ -1,0 +1,11 @@
+{{#if this.isRunning}}
+  <div>
+    Report is rendering page {{this.currentPage}}
+    {{#if this.endPage}}of {{this.endPage}}{{/if}}
+  </div>
+{{/if}}
+{{yield (hash
+  start=(action 'start')
+  updateProgress=(action 'updateProgress')
+  complete=(action 'complete')
+)}}

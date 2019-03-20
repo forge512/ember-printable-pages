@@ -32,6 +32,7 @@ export default Component.extend({
       // eslint-disable-next-line
       console.log(this.toString(), "renderNextItem", pageIndex);
       this.chapter.renderNextItem(pageIndex);
+      this.checkIfComplete();
     }
   }
 });
