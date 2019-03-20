@@ -6,7 +6,7 @@ import { htmlSafe } from "@ember/template";
 
 export default Component.extend({
   layout,
-  classNames: ["PrintableReport-Section", "js-printable-report-section"],
+  classNames: ["PrintablePages-section"],
   attributeBindings: ["style"],
   shouldRender: true,
 

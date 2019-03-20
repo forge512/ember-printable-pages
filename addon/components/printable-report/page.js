@@ -7,11 +7,12 @@ import { inject as service } from "@ember/service";
 export default Component.extend({
   layout,
   report: service(),
-  classNames: ["PrintableReport-Page"],
+  classNames: ["PrintablePages-page"],
 
   // LIFECYCLE HOOKS
   didInsertElement() {
-    // console.log(this.toString(), "didInsertElement");
+    // eslint-disable-next-line
+    console.log(this.toString(), "didInsertElement");
     let topOfBreakAfter = this.element
       .querySelector(".js-page-break-after")
       .getBoundingClientRect().top;
@@ -23,6 +24,7 @@ export default Component.extend({
 
   didRender() {
     this._super(...arguments);
+    // eslint-disable-next-line
     console.log(this.toString(), "didRender");
 
     //if (this.section.isFullyRendered && this.alreadyNotified) {
@@ -71,6 +73,7 @@ export default Component.extend({
     }
 
     if (hasOverflow) {
+      // eslint-disable-next-line
       console.log(this.toString(), "didRender --- overflowed");
       this.set(
         "overflowedElementId",
@@ -92,10 +95,11 @@ export default Component.extend({
 
   // HELPER FUNCTIONS
   setPageBodyHeight() {
-    // Use height based on parent (100%) so that parent owns the overall page height. This
-    // allows adding an extra 0.25in of height in print css to ensure column wrapping doesn't hide data
+    // Use height based on parent (100%) so that parent owns the overall page
+    // height. This allows adding an extra 0.25in of height in print css to
+    // ensure column wrapping doesn't hide data
     this.set(
-      "bodyStyle",
+      "bodyStyles",
       htmlSafe(`height: calc(100% - ${this.wrapperHeight}px);`)
     );
   },

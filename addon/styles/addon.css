@@ -1,0 +1,71 @@
+/**
+ * EmberPrintablePages | MIT License | github.com/forge512/ember-printable-pages
+ * ======================================+++====================================
+ **/
+.PrintablePages {
+  background-color: #1c313a;
+  margin: 0;
+}
+  .PrintablePages-page {
+    background-color: #fff;
+    margin: 16px auto 0;
+    /* TODO make these dynamic and set by the JS */
+    height: 11in;
+    width: 8.5in;
+    padding: 0.5in;
+  }
+    .PrintablePages-pageHeader {}
+    .PrintablePages-pageBody {
+      overflow: hidden;
+    }
+    .PrintablePages-pageFooter {}
+
+  .PrintablePages-chapter {}
+  .PrintablePages-section {
+    column-fill: balance;
+    column-rule: 1px solid rgba(0,0,0,0.12);
+  }
+  .PrintablePages-sectionItem {
+    /* DEBUG This breaks the column layout */
+    /* break-inside: avoid-column; */
+  }
+
+/* Utility Classes */
+.u-page-break-after,
+.u-page-break-before {
+  display: block;
+  border: none;
+  margin: 0;
+}
+.u-page-break-before {
+  page-break-before: always;
+}
+.u-page-break-after {
+  page-break-after: always;
+}
+.u-column-break-inside-avoid {
+  break-inside: avoid-column;
+}
+
+/* Debug mode classes */
+.debug-page {
+  border: 3px dotted #455a64; /* blue-grey darken-4 */
+}
+.debug-pageBody {
+  border: 3px dotted #ef6c00; /* orange darken-3 */
+}
+
+@media print {
+  .PrintablePages-page {
+    /*
+     * add 0.25in bonus height when printing to ensure the
+     * slight size changes made in print doesn't cause loss of data
+     * NOTE Not sure why we need this
+    /* height: 10in; */
+    padding: 0;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}

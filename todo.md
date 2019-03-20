@@ -1,12 +1,13 @@
-- [ ] get styles right for the default page size [MS]
-- [ ] upgrade to the lastest ember
-- [x] page header & footers
+- [x] get styles right for the default page size [MS]
+- [x] upgrade to the lastest ember [MS]
+- [x] page header & footers [CB]
 - [ ] section header & footers [CB]
 - [ ] is rendering
 - [ ] render optimizations
   - [ ] instrument number of renders
   - [ ] smart render for things of a consistent size
   - [ ] attempt to limit
+  - [ ] move away from ember element id to a different uuid
 - [ ] error handling
   - [ ] throw and halt render when an item won't fit on the page
   - [ ] throw and halt when unexpected re-render occurs

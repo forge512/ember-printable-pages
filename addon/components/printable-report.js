@@ -6,7 +6,7 @@ import { alias } from "@ember/object/computed";
 export default Component.extend({
   layout,
   report: service(),
-  classNames: ["PrintableReport"],
+  classNames: ["PrintablePages"],
 
   // LIFECYCLE HOOKS
   init() {
