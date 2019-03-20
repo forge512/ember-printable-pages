@@ -17,7 +17,7 @@
   - [ ] make a really pretty document for an example [MS]
   - [ ] make user configurable example
   - [ ] document browser compatibility
-- [ ] add support for different page sizes
+- [x] add support for different page sizes
 - [ ] large sections of text which overflow
 - [ ] rename
   - [ ] printable-pages
