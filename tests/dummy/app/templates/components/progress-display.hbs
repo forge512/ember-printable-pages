@@ -4,6 +4,9 @@
     {{#if this.endPage}}of {{this.endPage}}{{/if}}
   </div>
 {{/if}}
+{{#if this.isComplete}}
+  <p>Rendered {{this.endPage}} pages in {{this.renderTime}}s</p>
+{{/if}}
 {{yield (hash
   start=(action 'start')
   updateProgress=(action 'updateProgress')
