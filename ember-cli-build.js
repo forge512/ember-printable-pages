@@ -4,7 +4,6 @@ const EmberAddon = require('ember-cli/lib/broccoli/ember-addon');
 
 module.exports = function(defaults) {
   let app = new EmberAddon(defaults, {
-    // Add options here
     'ember-cli-uglify': {
       uglify: {
         compress: {
@@ -12,6 +11,7 @@ module.exports = function(defaults) {
         }
       }
     },
+    snippetPaths: ['tests/dummy/app/templates/demos'],
   });
 
   /*
