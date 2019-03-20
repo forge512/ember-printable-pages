@@ -1,7 +1,7 @@
 import Service from "@ember/service";
-import EmberObject from "@ember/object";
+import EmberObject, { computed } from "@ember/object";
 import { A } from "@ember/array";
-import { array, equal } from "ember-awesome-macros";
+import { array, equal, raw } from "ember-awesome-macros";
 import { alias } from "@ember/object/computed";
 import { run } from "@ember/runloop";
 
@@ -18,7 +18,13 @@ const Report = EmberObject.extend({
   chapterMap: null,
   chapters: null,
   chapterCount: alias("chapters.length"),
-  lastPage: alias("chapters.lastObject.endPage")
+  lastPage: alias("chapters.lastObject.endPage"),
+  isFinishedRendering: computed(
+    "chapters.@each.isFinishedRendering",
+    function() {
+      return this.chapters.isEvery("isFinishedRendering", true);
+    }
+  )
 });
 
 /*
@@ -40,12 +46,16 @@ const Chapter = EmberObject.extend({
   startPage: 1,
   endPage: 1,
   sectionCount: alias("sections.length"),
+  isFinishedRendering: false,
 
   renderNextItem(pageIndex) {
     let section = this.sections.findBy("isFullyRendered", false);
 
     // If no section, then this chapter is done!
-    if (!section) return;
+    if (!section) {
+      this.set("isFinishedRendering", true);
+      return;
+    }
 
     let nextItem = section.data[section.nextItemIndex];
 
