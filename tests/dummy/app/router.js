@@ -10,6 +10,7 @@ Router.map(function() {
   this.route('demos', function() {
     // demo routes
     this.route('default');
+    this.route('page-layout');
   });
   docsRoute(this, function() {
     // doc routes

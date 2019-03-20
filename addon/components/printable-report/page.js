@@ -8,18 +8,24 @@ export default Component.extend({
   layout,
   report: service(),
   classNames: ["PrintablePages-page"],
+  attributeBindings: ['pageStyles:style'],
 
   // LIFECYCLE HOOKS
   didInsertElement() {
     // eslint-disable-next-line
     console.log(this.toString(), "didInsertElement");
+
+    // immediately set the page size and margins
+    this._setPageLayout();
+
     let topOfBreakAfter = this.element
       .querySelector(".js-page-break-after")
       .getBoundingClientRect().top;
     let topOfElement = this.element.getBoundingClientRect().top;
-    this.set("wrapperHeight", topOfBreakAfter - topOfElement);
+    let wrapperHeight = topOfBreakAfter - topOfElement;
 
-    this.setPageBodyHeight();
+    // set the page body height
+    this._setPageBodyHeight(wrapperHeight);
   },
 
   didRender() {
@@ -94,13 +100,24 @@ export default Component.extend({
   firstRender: true,
 
   // HELPER FUNCTIONS
-  setPageBodyHeight() {
+  _setPageLayout() {
+    this.set(
+      'pageStyles',
+      htmlSafe(
+        `height:${this.pageLayout.height};`
+        + `width:${this.pageLayout.width};`
+        + `padding:${this.pageLayout.margins};`
+      )
+    )
+  },
+
+  _setPageBodyHeight(wrapperHeight) {
     // Use height based on parent (100%) so that parent owns the overall page
     // height. This allows adding an extra 0.25in of height in print css to
     // ensure column wrapping doesn't hide data
     this.set(
       "bodyStyles",
-      htmlSafe(`height: calc(100% - ${this.wrapperHeight}px);`)
+      htmlSafe(`height: calc(100% - ${wrapperHeight}px);`)
     );
   },
 
