@@ -11,6 +11,7 @@ Router.map(function() {
     // demo routes
     this.route('default');
     this.route('page-layout');
+    this.route('title-page');
   });
   docsRoute(this, function() {
     // doc routes

@@ -3,3 +3,16 @@
   column-gap: 24px;
   column-rule: 1px solid rgba(0,0,0,0.12);
 }
+
+.TitlePage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.TitlePage-hero {
+  background: #607d8b;
+  color: #fff;
+  text-align: center;
+  padding: 1in;
+}
