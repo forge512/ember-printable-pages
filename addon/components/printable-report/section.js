@@ -1,13 +1,12 @@
 import Component from "@ember/component";
 import layout from "../../templates/components/printable-report/section";
-import { getBy } from "ember-awesome-macros";
+import { getBy, array, sum, raw } from "ember-awesome-macros";
 import { alias } from "@ember/object/computed";
 import { htmlSafe } from "@ember/template";
 
 export default Component.extend({
   layout,
-  classNames: ["PrintablePages-section"],
-  attributeBindings: ["style"],
+  tagName: "",
   shouldRender: true,
 
   // LIFECYCLE HOOKS
@@ -19,7 +18,7 @@ export default Component.extend({
     this._super(...arguments);
     if (!this.shouldRender) return;
 
-    let id = this.register(this.data || []);
+    let id = this.register({data: this.data || [], columnCount: this.columnCount});
     this.set("id", id);
   },
 
@@ -29,5 +28,9 @@ export default Component.extend({
   // COMPUTED PROPS
   section: getBy("sectionMap", "id"),
   page: getBy("section.pages", "pageIndexInChapter"),
-  items: alias("page.data")
+  items: array.slice(
+    "section.data",
+    "page.startIndex",
+    sum("page.endIndex", raw(1))
+  )
 });

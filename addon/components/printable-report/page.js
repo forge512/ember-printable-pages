@@ -8,7 +8,7 @@ export default Component.extend({
   layout,
   report: service(),
   classNames: ["PrintablePages-page"],
-  attributeBindings: ['pageStyles:style'],
+  attributeBindings: ["pageStyles:style"],
 
   // LIFECYCLE HOOKS
   didInsertElement() {
@@ -31,14 +31,14 @@ export default Component.extend({
   didRender() {
     this._super(...arguments);
     // eslint-disable-next-line
-    console.log(this.toString(), "didRender");
+    // console.log(this.toString(), "didRender");
 
     //if (this.section.isFullyRendered && this.alreadyNotified) {
     //  console.log(this.toString(), "is finished rendering");
     //  return;
     //}
 
-    if (this.overflowedElementId) return;
+    if (this.overflowedElement) return;
 
     // TODO tweak on this after adding support for page header/footer
     if (this.firstRender) {
@@ -72,24 +72,24 @@ export default Component.extend({
 
     // if the previously overflowed element is still in the dom then return...
     // we are waiting for the chapter to move the item to the next page
-    if (this.overflowedElementId && hasOverflow) {
-      if (this.element.querySelector(`#${this.overflowedElementId}`)) return;
+    if (this.overflowedElement && hasOverflow) {
+      if (this.element.querySelector(`#${this.overflowedElement}`)) return;
 
-      this.set("overflowedElementId", null);
+      this.set("overflowedElement", null);
     }
 
     if (hasOverflow) {
       // eslint-disable-next-line
-      console.log(this.toString(), "didRender --- overflowed");
+      // console.log(this.toString(), "didRender --- overflowed");
       this.set(
-        "overflowedElementId",
+        "overflowedElement",
         this.element.querySelector(".js-visibility-tail").previousElementSibling
-          .id
       );
       this.onPageOverflow();
     } else {
+      let extraSpace = pageBounding.bottom - tailBounding.bottom;
       next(() => {
-        this.renderNextItem();
+        this.renderNextItem(extraSpace);
         this.set("alreadyNotified", true);
       });
     }
@@ -102,13 +102,13 @@ export default Component.extend({
   // HELPER FUNCTIONS
   _setPageLayout() {
     this.set(
-      'pageStyles',
+      "pageStyles",
       htmlSafe(
-        `height:${this.pageLayout.height};`
-        + `width:${this.pageLayout.width};`
-        + `padding:${this.pageLayout.margins};`
+        `height:${this.pageLayout.height};` +
+          `width:${this.pageLayout.width};` +
+          `padding:${this.pageLayout.margins};`
       )
-    )
+    );
   },
 
   _setPageBodyHeight(wrapperHeight) {
