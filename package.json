@@ -1,6 +1,6 @@
 {
   "name": "ember-printable-report",
-  "version": "0.0.1-1",
+  "version": "0.0.1-2",
   "description": "An addon for creating printable documents using ember components",
   "keywords": [
     "ember-addon",
