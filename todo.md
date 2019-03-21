@@ -3,11 +3,10 @@
 - [x] page header & footers [CB]
 - [x] section header & footers [CB]
 - [x] is rendering
-- [ ] render optimizations [CB]
-  - [ ] instrument number of renders
-  - [ ] smart render for things of a consistent size
-  - [ ] attempt to limit
-  - [ ] move away from ember element id to a different uuid
+- [x] render optimizations [CB]
+  - [x] instrument render time
+  - [x] smart render for things of a consistent size
+  - [x] move away from ember element id to a different uuid
 - [ ] error handling
   - [ ] throw and halt render when an item won't fit on the page
   - [ ] throw and halt when unexpected re-render occurs
