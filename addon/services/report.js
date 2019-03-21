@@ -1,7 +1,7 @@
 import Service from "@ember/service";
 import EmberObject, { computed } from "@ember/object";
 import { A } from "@ember/array";
-import { array, equal, raw } from "ember-awesome-macros";
+import { array, equal, raw, difference } from "ember-awesome-macros";
 import { alias } from "@ember/object/computed";
 import { run } from "@ember/runloop";
 
@@ -48,7 +48,22 @@ const Chapter = EmberObject.extend({
   sectionCount: alias("sections.length"),
   isFinishedRendering: false,
 
-  renderNextItem(pageIndex) {
+  /*
+   *
+   * minSectionHeight
+   * maxSectionHeight
+   *
+   * if min within 20% of max, render a bunch
+   *
+   * - rework pages in section to provide a *window* of the data property
+   * - page component should say which index of the element overflowed
+   *
+   *
+   * TODO use item diff on section to decide when the render faster
+   *
+   */
+
+  renderNextItem(pageIndex, remainingHeight) {
     let section = this.sections.findBy("isFullyRendered", false);
 
     // If no section, then this chapter is done!
@@ -57,15 +72,33 @@ const Chapter = EmberObject.extend({
       return;
     }
 
-    let nextItem = section.data[section.nextItemIndex];
-
     if (!section.pages[pageIndex]) {
-      section.pages.set(pageIndex, EmberObject.create({ data: A([]) }));
+      section.pages.set(
+        pageIndex,
+        EmberObject.create({
+          startIndex: 0,
+          endIndex: 0
+        })
+      );
     }
     let page = section.pages[pageIndex];
 
-    page.data.pushObject(nextItem || {});
-    section.incrementProperty("nextItemIndex");
+    // If rendered 2 or more items AND similar in height (with 50px)
+    if (section.nextItemIndex > 1 && section.itemHeightDiff < 50) {
+      let remainingItemCount = section.data.length - section.nextItemIndex;
+      let fastForwardCount = Math.round(
+        (section.columnCount * remainingHeight) / section.minItemHeight
+      );
+      fastForwardCount = Math.max(1, fastForwardCount);
+      fastForwardCount = Math.min(fastForwardCount, remainingItemCount);
+      page.set("endIndex", page.endIndex + fastForwardCount);
+      section.set("nextItemIndex", section.nextItemIndex + fastForwardCount);
+    } else {
+      // ELSE increment forward by 1
+      page.set("endIndex", section.nextItemIndex);
+      section.incrementProperty("nextItemIndex");
+    }
+
     section.set(
       "isFullyRendered",
       section.nextItemIndex >= section.data.length
@@ -83,11 +116,15 @@ const Chapter = EmberObject.extend({
       let currentPage = section.pages[pageIndex];
       let nextPage = section.pages[pageIndex + 1];
       if (!nextPage) {
-        nextPage = EmberObject.create({ data: A([]) });
+        nextPage = EmberObject.create({
+          startIndex: currentPage.endIndex - 1,
+          endIndex: currentPage.endIndex - 1
+        });
         section.pages.set(pageIndex + 1, nextPage);
       }
-      let data = currentPage.data.popObject();
-      nextPage.data.addObject(data);
+      currentPage.decrementProperty("endIndex");
+      nextPage.incrementProperty("startIndex");
+      nextPage.incrementProperty("endIndex");
     });
   }
 });
@@ -105,12 +142,16 @@ let Section = EmberObject.extend({
     this.set("pages", EmberObject.create());
   },
   id: null,
+  columnCount: 1,
   nextItemIndex: 0,
   isFullyRendered: false,
   renderDataLength: 0,
   renderedItems: array.slice("data", 0, "renderDataLength"),
   hasFinishedRendering: equal("renderedItems.length", "data.length"),
-  pages: null
+  pages: null,
+  maxItemHeight: null,
+  minItemHeight: null,
+  itemHeightDiff: difference("maxItemHeight", "minItemHeight")
 });
 
 /*
@@ -153,7 +194,7 @@ export default Service.extend({
     return chapter;
   },
 
-  registerSection(reportId, chapterId, sectionId, data) {
+  registerSection(reportId, chapterId, sectionId, { data, columnCount }) {
     let report = this.reports[reportId];
     let chapter = report.chapterMap[chapterId];
     this.log("registerSection", reportId, chapterId, sectionId, data);
@@ -161,6 +202,7 @@ export default Service.extend({
     let section = Section.create({
       id: sectionId,
       data: data,
+      columnCount: columnCount,
       index: chapter.sectionCount
     });
     chapter.sectionMap.set(sectionId, section);

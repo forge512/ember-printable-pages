@@ -87,8 +87,9 @@ export default Component.extend({
       );
       this.onPageOverflow();
     } else {
+      let extraSpace = pageBounding.bottom - tailBounding.bottom;
       next(() => {
-        this.renderNextItem();
+        this.renderNextItem(extraSpace);
         this.set("alreadyNotified", true);
       });
     }

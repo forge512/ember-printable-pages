@@ -1,7 +1,7 @@
 {{#if (and this.shouldRender this.page)}}
   <div class='PrintablePages-section' style={{{this.style}}}>
     {{#each this.items as |item index|}}
-      {{#printable-report/section-item}}
+      {{#printable-report/section-item section=this.section}}
         {{yield (hash
           data=item
           index=index

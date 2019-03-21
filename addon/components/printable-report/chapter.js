@@ -28,10 +28,10 @@ export default Component.extend({
       this.addPage(this.elementId);
     },
 
-    renderNextItem(pageIndex) {
+    renderNextItem(pageIndex, remainingHeight) {
       // eslint-disable-next-line
       // console.log(this.toString(), "renderNextItem", pageIndex);
-      this.chapter.renderNextItem(pageIndex);
+      this.chapter.renderNextItem(pageIndex, remainingHeight);
       this.checkIfComplete();
     }
   }

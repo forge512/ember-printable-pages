@@ -3,7 +3,7 @@ import { computed } from "@ember/object";
 
 export default Controller.extend({
   sectionData: computed(function() {
-    return [...Array(100)].map((_, i) => i);
+    return [...Array(1000)].map((_, i) => i);
   }),
 
   actions: {
