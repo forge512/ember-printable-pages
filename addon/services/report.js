@@ -48,21 +48,6 @@ const Chapter = EmberObject.extend({
   sectionCount: alias("sections.length"),
   isFinishedRendering: false,
 
-  /*
-   *
-   * minSectionHeight
-   * maxSectionHeight
-   *
-   * if min within 20% of max, render a bunch
-   *
-   * - rework pages in section to provide a *window* of the data property
-   * - page component should say which index of the element overflowed
-   *
-   *
-   * TODO use item diff on section to decide when the render faster
-   *
-   */
-
   renderNextItem(pageIndex, remainingHeight) {
     let section = this.sections.findBy("isFullyRendered", false);
 

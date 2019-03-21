@@ -13,10 +13,7 @@
   onRenderComplete=(action 'complete')
   as |document|
 }}
-  {{! document.title-page}}
-
   {{#document.chapter as |chapter|}}
-    {{!#chapter.title-page}}
     {{#chapter.page-header as |header|}}
       <div>
         <div>Chapter {{header.chapterNumber}}</div>
@@ -38,6 +35,5 @@
     {{#chapter.page-footer as |footer|}}
       <div>Footer page {{footer.current}} of {{footer.total}}</div>
     {{/chapter.page-footer}}
-
   {{/document.chapter}}
 {{/printable-report}}
