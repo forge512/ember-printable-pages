@@ -43,7 +43,7 @@
 
       {{#chapter.section columnCount=2 data=(array 1 2 3 4 5) as |section|}}
         {{#if (eq section.index 0)}}
-          <h3>Section 3</h3>
+          <h3 style="column-span:all">Section 3</h3>
         {{/if}}
 
         <h4>Section 3 {{section.data}}</h4>

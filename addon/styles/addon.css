@@ -19,8 +19,8 @@
   .PrintablePages-chapter {}
   .PrintablePages-section {}
   .PrintablePages-sectionItem {
-    /* DEBUG This breaks the column layout */
-    /* break-inside: avoid-column; */
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
 /* Utility Classes */

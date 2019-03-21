@@ -9,6 +9,11 @@ export default Component.extend({
   layout,
   report: service(),
   classNames: ["PrintablePages"],
+  pageLayout: Object.freeze({
+    height: '11in',
+    width: '8.5in',
+    margins: '0.5in',
+  }),
 
   // LIFECYCLE HOOKS
   init() {
