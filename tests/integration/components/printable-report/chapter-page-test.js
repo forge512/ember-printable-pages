@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | printable-report/page', function(hooks) {
+module('Integration | Component | printable-report/chapter-page', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
@@ -16,9 +16,9 @@ module('Integration | Component | printable-report/page', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#printable-report/page}}
+      {{#printable-report/chapter-page}}
         template block text
-      {{/printable-report/page}}
+      {{/printable-report/chapter-page}}
     `);
 
     assert.equal(this.element.textContent.trim(), 'template block text');
