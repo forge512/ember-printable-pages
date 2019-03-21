@@ -16,8 +16,8 @@
   {{#document.chapter as |chapter|}}
     {{#chapter.page-header as |header|}}
       <div>
-        <div>Chapter {{header.chapterNumber}}</div>
-        <div>page {{header.current}} of {{header.total}}</div>
+        <div>Chapter {{header.pageMeta.chapterNumber}}</div>
+        <div>page {{header.pageMeta.current}} of {{header.pageMeta.total}}</div>
       </div>
     {{/chapter.page-header}}
 
@@ -33,7 +33,7 @@
     {{/chapter.section}}
 
     {{#chapter.page-footer as |footer|}}
-      <div>Footer page {{footer.current}} of {{footer.total}}</div>
+      <div>Footer page {{footer.pageMeta.current}} of {{footer.pageMeta.total}}</div>
     {{/chapter.page-footer}}
   {{/document.chapter}}
 {{/printable-report}}
