@@ -1,5 +1,5 @@
 import Component from "@ember/component";
-import layout from "../../templates/components/printable-report/page";
+import layout from "../../templates/components/printable-report/chapter-page";
 import { htmlSafe } from "@ember/template";
 import { next } from "@ember/runloop";
 import { inject as service } from "@ember/service";
@@ -7,16 +7,12 @@ import { inject as service } from "@ember/service";
 export default Component.extend({
   layout,
   report: service(),
-  classNames: ["PrintablePages-page"],
-  attributeBindings: ["pageStyles:style"],
+  classNames: ["PrintablePages-chapterPage"],
 
   // LIFECYCLE HOOKS
   didInsertElement() {
     // eslint-disable-next-line
     console.log(this.toString(), "didInsertElement");
-
-    // immediately set the page size and margins
-    this._setPageLayout();
 
     let topOfBreakAfter = this.element
       .querySelector(".js-page-break-after")
@@ -100,17 +96,6 @@ export default Component.extend({
   firstRender: true,
 
   // HELPER FUNCTIONS
-  _setPageLayout() {
-    this.set(
-      "pageStyles",
-      htmlSafe(
-        `height:${this.pageLayout.height};` +
-          `width:${this.pageLayout.width};` +
-          `padding:${this.pageLayout.margins};`
-      )
-    );
-  },
-
   _setPageBodyHeight(wrapperHeight) {
     // Use height based on parent (100%) so that parent owns the overall page
     // height. This allows adding an extra 0.25in of height in print css to

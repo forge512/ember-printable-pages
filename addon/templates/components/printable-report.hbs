@@ -1,4 +1,8 @@
 {{yield (hash
+  title-page=(component 'printable-report/title-page'
+    pageLayout=this.pageLayout
+    pageCount=this.reportObject.lastPage
+  )
   chapter=(component 'printable-report/chapter'
     chapters=this.chapters
     lastReportPage=this.reportObject.lastPage

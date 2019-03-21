@@ -17,11 +17,15 @@
     }
     .PrintablePages-pageFooter {}
   .PrintablePages-chapter {}
+    .PrintablePages-chapterPage {
+      min-height: 100%;
+      height: 100%;
+    }
   .PrintablePages-section {}
-  .PrintablePages-sectionItem {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
+    .PrintablePages-sectionItem {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
 
 /* Utility Classes */
 .u-page-break-after,

@@ -12,13 +12,18 @@
   - [ ] throw and halt when unexpected re-render occurs
 - [ ] add debug mode (shows component outlines)
 - [ ] documentation
-- [x] basic docs [MS]
+  - [x] basic docs [MS]
   - [ ] make a really pretty document for an example [MS]
   - [ ] make user configurable example
   - [ ] document browser compatibility
 - [x] add support for different page sizes
 - [ ] large sections of text which overflow
-- [ ] rename
-  - [ ] printable-pages
-  - [ ] print-layout
-  - [ ] printable-layout
+- [ ] rename (printable-pages)
+- [ ] add tests
+- [ ] integrate CI
+- [ ] angle brackets and ES classes
+- [ ] table of contents component
+- [ ] component cleanup and consistency
+- [ ] chapter title page component
+- [ ] rename page component to `chapter-page`
+- [ ] extract page layout into new component `page-layout`
