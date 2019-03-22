@@ -1,5 +1,5 @@
 {
-  "name": "ember-printable-report",
+  "name": "ember-printable-pages",
   "version": "0.0.1-2",
   "description": "An addon for creating printable documents using ember components",
   "keywords": [
@@ -7,7 +7,7 @@
     "pagination",
     "printable-files"
   ],
-  "repository": "https://github.com/forge512/ember-printable-report",
+  "repository": "https://github.com/forge512/ember-printable-pages",
   "license": "MIT",
   "author": "Forge 512",
   "directories": {
