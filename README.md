@@ -1,4 +1,4 @@
-ember-printable-report
+ember-printable-pages
 ==============================================================================
 
 COMING SOON... A tool for creating printable reports using ember components.
@@ -15,7 +15,7 @@ Installation
 ------------------------------------------------------------------------------
 
 ```
-ember install ember-printable-report
+ember install ember-printable-pages
 ```
 
 
