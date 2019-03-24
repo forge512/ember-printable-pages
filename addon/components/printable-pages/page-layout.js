@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import layout from '../../templates/components/printable-report/page-layout';
+import layout from '../../templates/components/printable-pages/page-layout';
 import { htmlSafe } from "@ember/template";
 
 export default Component.extend({

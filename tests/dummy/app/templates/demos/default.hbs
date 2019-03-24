@@ -7,7 +7,7 @@
   renderTime=this.renderTime
 }}
 
-{{#printable-report
+{{#printable-pages
   onRenderStart=(action 'start')
   onRenderProgress=(action 'updateProgress')
   onRenderComplete=(action 'complete')
@@ -36,4 +36,4 @@
       <div>Footer page {{footer.pageMeta.current}} of {{footer.pageMeta.total}}</div>
     {{/chapter.page-footer}}
   {{/document.chapter}}
-{{/printable-report}}
+{{/printable-pages}}

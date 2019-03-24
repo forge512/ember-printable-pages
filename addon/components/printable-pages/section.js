@@ -1,5 +1,5 @@
 import Component from "@ember/component";
-import layout from "../../templates/components/printable-report/section";
+import layout from "../../templates/components/printable-pages/section";
 import { getBy, array, sum, raw } from "ember-awesome-macros";
 import { alias } from "@ember/object/computed";
 import { htmlSafe } from "@ember/template";

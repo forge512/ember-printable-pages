@@ -2,7 +2,7 @@
   {{link-to "All Demos" "demos.index"}}
 </div>
 
-{{#printable-report as |document|}}
+{{#printable-pages as |document|}}
 
   <!-- Document Title Page -->
   {{#document.title-page as |titlePage|}}
@@ -68,4 +68,4 @@
       <div>Footer page {{footer.current}} of {{footer.total}}</div>
     {{/chapter.page-footer}}
   {{/document.chapter}}
-{{/printable-report}}
+{{/printable-pages}}

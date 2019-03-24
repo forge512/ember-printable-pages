@@ -3,22 +3,22 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | printable-report/page-header', function(hooks) {
+module('Integration | Component | printable-pages/page-header', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`{{printable-report/page-header}}`);
+    await render(hbs`{{printable-pages/page-header}}`);
 
     assert.equal(this.element.textContent.trim(), '');
 
     // Template block usage:
     await render(hbs`
-      {{#printable-report/page-header}}
+      {{#printable-pages/page-header}}
         template block text
-      {{/printable-report/page-header}}
+      {{/printable-pages/page-header}}
     `);
 
     assert.equal(this.element.textContent.trim(), 'template block text');

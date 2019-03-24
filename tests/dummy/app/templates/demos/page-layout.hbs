@@ -16,7 +16,7 @@
 </form>
 
 {{#unless hidePages}}
-  {{#printable-report
+  {{#printable-pages
     pageLayout=(hash
       height=this.pageHeight
       width=this.pageWidth
@@ -94,5 +94,5 @@
       {{/chapter.page-footer}}
 
     {{/document.chapter}}
-  {{/printable-report}}
+  {{/printable-pages}}
 {{/unless}}

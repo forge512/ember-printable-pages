@@ -1,1 +1,1 @@
-export { default } from 'ember-printable-report/services/report';
+export { default } from "ember-printable-pages/services/document-data";

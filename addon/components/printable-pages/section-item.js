@@ -1,5 +1,5 @@
 import Component from "@ember/component";
-import layout from "../../templates/components/printable-report/section-item";
+import layout from "../../templates/components/printable-pages/section-item";
 
 export default Component.extend({
   layout,

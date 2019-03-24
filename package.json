@@ -69,5 +69,5 @@
   "ember-addon": {
     "configPath": "tests/dummy/config"
   },
-  "homepage": "https://forge512.github.io/ember-printable-report"
+  "homepage": "https://forge512.github.io/ember-printable-pages"
 }
