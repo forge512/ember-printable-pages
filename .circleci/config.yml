@@ -1,0 +1,30 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:lts-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-deps-{{ checksum "yarn.lock" }}
+            - v1-deps-
+      - run:
+          name: Yarn Install
+          command: yarn install --non-interactive
+      - save_cache:
+          key: v1-deps-{{ checksum "yarn.lock" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: Make results dir
+          command: mkdir ~/ember
+      - run:
+          name: Run Tests
+          command: ember exam --split=$CIRCLE_NODE_TOTAL --partition=`expr $CIRCLE_NODE_INDEX + 1` --silent -r xunit > ~/ember/junit.xml
+          parallelism: true
+      - store_test_results:
+          path: ~/ember
+      - store_artifacts:
+          path: ~/ember
