@@ -1,5 +1,5 @@
 import Component from "@ember/component";
-import layout from "../../templates/components/printable-report/chapter";
+import layout from "../../templates/components/printable-pages/chapter";
 import { add, difference } from "ember-awesome-macros";
 import { alias } from "@ember/object/computed";
 

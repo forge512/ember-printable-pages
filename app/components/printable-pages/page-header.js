@@ -1,1 +1,1 @@
-export { default } from 'ember-printable-report/components/printable-report/page-header';
+export { default } from 'ember-printable-pages/components/printable-pages/page-header';

@@ -1,4 +1,4 @@
-{{#printable-report/page-layout pageLayout=@pageLayout}}
+{{#printable-pages/page-layout pageLayout=@pageLayout}}
   <div class="PrintablePages-titlePage">
     {{yield (hash
       pageMeta=(hash
@@ -6,4 +6,4 @@
       )
     )}}
   </div>
-{{/printable-report/page-layout}}
+{{/printable-pages/page-layout}}

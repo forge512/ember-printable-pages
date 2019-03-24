@@ -1,6 +1,6 @@
 {{#each this.pages as |page pageIndexInChapter|}}
-  {{#printable-report/page-layout pageLayout=@pageLayout}}
-    {{#printable-report/chapter-page
+  {{#printable-pages/page-layout pageLayout=@pageLayout}}
+    {{#printable-pages/chapter-page
       pageIndexInChapter=pageIndexInChapter
       pageMeta=(hash
         current=(add this.startPage pageIndexInChapter)
@@ -19,9 +19,9 @@
     }}
       {{#if (eq pageComponent.block 'header')}}
         {{yield (hash
-          page-header=(component 'printable-report/page-header' pageMeta=pageComponent.meta)
-          section=(component 'printable-report/section' shouldRender=false)
-          page-footer=(component 'printable-report/page-footer' shouldRender=false)
+          page-header=(component 'printable-pages/page-header' pageMeta=pageComponent.meta)
+          section=(component 'printable-pages/section' shouldRender=false)
+          page-footer=(component 'printable-pages/page-footer' shouldRender=false)
         )}}
       {{/if}}
 
@@ -29,10 +29,10 @@
         {{yield (hash
           number=pageComponent.meta
 
-          page-header=(component 'printable-report/page-header' shouldRender=false)
-          page-footer=(component 'printable-report/page-footer' shouldRender=false)
+          page-header=(component 'printable-pages/page-header' shouldRender=false)
+          page-footer=(component 'printable-pages/page-footer' shouldRender=false)
 
-          section=(component 'printable-report/section'
+          section=(component 'printable-pages/section'
             sectionMap=this.chapter.sectionMap
             pageIndexInChapter=pageIndexInChapter
             pageElement=pageComponent.element
@@ -45,11 +45,11 @@
 
       {{#if (eq pageComponent.block 'footer')}}
         {{yield (hash
-          page-header=(component 'printable-report/page-header' shouldRender=false)
-          section=(component 'printable-report/section' shouldRender=false)
-          page-footer=(component 'printable-report/page-footer' pageMeta=pageComponent.meta)
+          page-header=(component 'printable-pages/page-header' shouldRender=false)
+          section=(component 'printable-pages/section' shouldRender=false)
+          page-footer=(component 'printable-pages/page-footer' pageMeta=pageComponent.meta)
         )}}
       {{/if}}
-    {{/printable-report/chapter-page}}
-  {{/printable-report/page-layout}}
+    {{/printable-pages/chapter-page}}
+  {{/printable-pages/page-layout}}
 {{/each}}
