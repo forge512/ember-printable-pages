@@ -26,7 +26,7 @@ jobs:
           command: mkdir ~/ember
       - run:
           name: Run Tests
-          command: ember test --silent -r xunit > ~/ember/junit.xml
+          command: yarn test:all
           parallelism: true
       - store_test_results:
           path: ~/ember
