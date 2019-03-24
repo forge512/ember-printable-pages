@@ -18,6 +18,9 @@ jobs:
           paths:
             - ./node_modules
       - run:
+          name: Add project executables to the path
+          command: echo 'export PATH=~/firestorm/node_modules/.bin:$PATH' >> $BASH_EN
+      - run:
           name: Make results dir
           command: mkdir ~/ember
       - run:
