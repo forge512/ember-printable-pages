@@ -26,7 +26,7 @@ jobs:
           command: mkdir ~/ember
       - run:
           name: Run Tests
-          command: ember exam --split=$CIRCLE_NODE_TOTAL --partition=`expr $CIRCLE_NODE_INDEX + 1` --silent -r xunit > ~/ember/junit.xml
+          command: ember test --silent -r xunit > ~/ember/junit.xml
           parallelism: true
       - store_test_results:
           path: ~/ember
