@@ -2,9 +2,9 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:lts-browsers
+      - image: circleci/node:10.15.3-browsers
         environment:
-          JOBS: 1
+          JOBS: 2
     parallelism: 1
     working_directory: ~/repo
     steps:
