@@ -1,5 +1,6 @@
 ember-printable-pages
 ==============================================================================
+[![CircleCI](https://circleci.com/gh/forge512/ember-printable-pages.svg?style=svg)](https://circleci.com/gh/forge512/ember-printable-pages)
 
 COMING SOON... A tool for creating printable reports using ember components.
 
