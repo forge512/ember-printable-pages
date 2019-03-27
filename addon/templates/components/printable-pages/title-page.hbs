@@ -1,8 +1,8 @@
-{{#printable-pages/page-layout pageLayout=@pageLayout}}
+{{#printable-pages/page-layout pageLayout=pageLayout}}
   <div class="PrintablePages-titlePage">
     {{yield (hash
       pageMeta=(hash
-        total=@pageCount
+        total=pageCount
       )
     )}}
   </div>

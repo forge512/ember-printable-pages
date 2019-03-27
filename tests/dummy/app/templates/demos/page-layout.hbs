@@ -7,12 +7,12 @@
       {{#if (eq layout this.pageSize)}}
         <option selected value={{layout}}>{{layout}}</option>
       {{else}}
-         <option value={{layout}}>{{layout}}</option>
-       {{/if}}
+        <option value={{layout}}>{{layout}}</option>
+      {{/if}}
     {{/each}}
   </select>
   {{input type="text" value=this.marginSize}}
-  <input type='submit' value="Update" />
+  <input type="submit" value="Update">
 </form>
 
 {{#unless hidePages}}

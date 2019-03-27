@@ -8,9 +8,9 @@
 }}
 
 {{#printable-pages
-  onRenderStart=(action 'start')
-  onRenderProgress=(action 'updateProgress')
-  onRenderComplete=(action 'complete')
+  onRenderStart=(action "start")
+  onRenderProgress=(action "updateProgress")
+  onRenderComplete=(action "complete")
   as |document|
 }}
   {{#document.chapter as |chapter|}}

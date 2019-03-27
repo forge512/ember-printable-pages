@@ -4,6 +4,7 @@ import { inject as service } from "@ember/service";
 import { alias } from "@ember/object/computed";
 import { next } from "@ember/runloop";
 import { task } from "ember-concurrency";
+import { Promise } from "rsvp";
 
 export default Component.extend({
   layout,
@@ -28,19 +29,34 @@ export default Component.extend({
   // TASKS
   renderStartTask: task(function*(currentPage) {
     if (this.onRenderStart) {
-      next(() => this.onRenderStart(currentPage));
+      yield new Promise(resolve => {
+        next(() => {
+          this.onRenderStart(currentPage);
+          resolve();
+        });
+      });
     }
   }).keepLatest(),
 
   renderProgressTask: task(function*() {
     if (this.onRenderProgress) {
-      next(() => this.onRenderProgress(this.reportObject.lastPage));
+      yield new Promise(resolve => {
+        next(() => {
+          this.onRenderProgress(this.reportObject.lastPage);
+          resolve();
+        });
+      });
     }
   }).keepLatest(),
 
   reportIfCompleteTask: task(function*() {
     if (this.reportObject.isFinishedRendering && this.onRenderComplete) {
-      next(() => this.onRenderComplete(this.reportObject.lastPage));
+      yield new Promise(resolve => {
+        next(() => {
+          this.onRenderComplete(this.reportObject.lastPage);
+          resolve();
+        });
+      });
     }
   }).keepLatest(),
 

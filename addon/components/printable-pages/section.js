@@ -1,7 +1,6 @@
 import Component from "@ember/component";
 import layout from "../../templates/components/printable-pages/section";
 import { getBy, array, sum, raw } from "ember-awesome-macros";
-import { alias } from "@ember/object/computed";
 import { htmlSafe } from "@ember/template";
 
 export default Component.extend({
@@ -18,7 +17,10 @@ export default Component.extend({
     this._super(...arguments);
     if (!this.shouldRender) return;
 
-    let id = this.register({data: this.data || [], columnCount: this.columnCount});
+    let id = this.register({
+      data: this.data || [],
+      columnCount: this.columnCount
+    });
     this.set("id", id);
   },
 
