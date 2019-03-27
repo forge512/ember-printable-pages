@@ -1,6 +1,6 @@
 {{yield (hash
   block="header"
-  meta=@pageMeta
+  meta=pageMeta
 )}}
 
 {{! template-lint-disable no-inline-styles }}
@@ -8,7 +8,7 @@
   {{yield (hash
     block="body"
     element=this.element
-    meta=@pageMeta
+    meta=pageMeta
     registerSection=(action "registerSection")
     onReadyForNextItem=(action "onReadyForNextItem")
   )
@@ -21,7 +21,7 @@
 
 {{yield (hash
   block="footer"
-  meta=@pageMeta
+  meta=pageMeta
 )}}
 
 <div class="js-page-break-after u-page-break-after"></div>

@@ -1,14 +1,14 @@
 {{#each this.pages as |page pageIndexInChapter|}}
-  {{#printable-pages/page-layout pageLayout=@pageLayout}}
+  {{#printable-pages/page-layout pageLayout=pageLayout}}
     {{#printable-pages/chapter-page
       pageIndexInChapter=pageIndexInChapter
       pageMeta=(hash
         current=(add this.startPage pageIndexInChapter)
         chapterNumber=(inc this.chapter.index)
-        total=@lastReportPage
+        total=lastReportPage
         isFirst=(eq page.number 1)
         isFirstInChapter=(eq page.number this.startPage)
-        isLast=(eq page.number @lastReportPage)
+        isLast=(eq page.number lastReportPage)
         isLastInChapter=(eq page.number this.endPage)
       )
 
