@@ -3,6 +3,9 @@ jobs:
   build:
     docker:
       - image: circleci/node:lts-browsers
+        environment:
+          JOBS: 1
+    parallelism: 1
     working_directory: ~/repo
     steps:
       - checkout
