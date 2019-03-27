@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:10.15.3-browsers
+      - image: circleci/node:8.10-browsers
         environment:
           JOBS: 2
     parallelism: 1
