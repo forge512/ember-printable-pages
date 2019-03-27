@@ -13,26 +13,26 @@
       )
 
       registerSection=(action this.registerSection this.elementId)
-      renderNextItem=(action 'renderNextItem' pageIndexInChapter)
-      onPageOverflow=(action 'onPageOverflow' pageIndexInChapter)
+      renderNextItem=(action "renderNextItem" pageIndexInChapter)
+      onPageOverflow=(action "onPageOverflow" pageIndexInChapter)
       as |pageComponent|
     }}
-      {{#if (eq pageComponent.block 'header')}}
+      {{#if (eq pageComponent.block "header")}}
         {{yield (hash
-          page-header=(component 'printable-pages/page-header' pageMeta=pageComponent.meta)
-          section=(component 'printable-pages/section' shouldRender=false)
-          page-footer=(component 'printable-pages/page-footer' shouldRender=false)
+          page-header=(component "printable-pages/page-header" pageMeta=pageComponent.meta)
+          section=(component "printable-pages/section" shouldRender=false)
+          page-footer=(component "printable-pages/page-footer" shouldRender=false)
         )}}
       {{/if}}
 
-      {{#if (eq pageComponent.block 'body')}}
+      {{#if (eq pageComponent.block "body")}}
         {{yield (hash
           number=pageComponent.meta
 
-          page-header=(component 'printable-pages/page-header' shouldRender=false)
-          page-footer=(component 'printable-pages/page-footer' shouldRender=false)
+          page-header=(component "printable-pages/page-header" shouldRender=false)
+          page-footer=(component "printable-pages/page-footer" shouldRender=false)
 
-          section=(component 'printable-pages/section'
+          section=(component "printable-pages/section"
             sectionMap=this.chapter.sectionMap
             pageIndexInChapter=pageIndexInChapter
             pageElement=pageComponent.element
@@ -43,11 +43,11 @@
         )}}
       {{/if}}
 
-      {{#if (eq pageComponent.block 'footer')}}
+      {{#if (eq pageComponent.block "footer")}}
         {{yield (hash
-          page-header=(component 'printable-pages/page-header' shouldRender=false)
-          section=(component 'printable-pages/section' shouldRender=false)
-          page-footer=(component 'printable-pages/page-footer' pageMeta=pageComponent.meta)
+          page-header=(component "printable-pages/page-header" shouldRender=false)
+          section=(component "printable-pages/section" shouldRender=false)
+          page-footer=(component "printable-pages/page-footer" pageMeta=pageComponent.meta)
         )}}
       {{/if}}
     {{/printable-pages/chapter-page}}

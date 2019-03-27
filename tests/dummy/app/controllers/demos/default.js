@@ -15,7 +15,7 @@ export default Controller.extend({
     updateProgress(currentPage) {
       this.set("currentPage", currentPage);
     },
-    complete(currentPage) {
+    complete() {
       this.set("renderTime", (new Date() - this.startTimeStamp) / 1000);
       this.set("isRunning", false);
       this.set("isComplete", true);

@@ -1,24 +1,26 @@
 {{yield (hash
-  block='header'
+  block="header"
   meta=@pageMeta
 )}}
 
-<div class='PrintablePages-pageBody js-page-body' style={{{this.bodyStyles}}}>
+{{! template-lint-disable no-inline-styles }}
+<div class="PrintablePages-pageBody js-page-body" style={{this.bodyStyles}}>
   {{yield (hash
-    block='body'
+    block="body"
     element=this.element
     meta=@pageMeta
-    registerSection=(action 'registerSection')
-    onReadyForNextItem=(action 'onReadyForNextItem')
+    registerSection=(action "registerSection")
+    onReadyForNextItem=(action "onReadyForNextItem")
   )
   }}
 
   {{! element used to check if the content has overflowed page body}}
-  <div class='js-visibility-tail' style="height: 1px;"></div>
+  <div class="js-visibility-tail" style="height: 1px;"></div>
 </div>
+{{! template-lint-enable no-inline-styles }}
 
 {{yield (hash
-  block='footer'
+  block="footer"
   meta=@pageMeta
 )}}
 

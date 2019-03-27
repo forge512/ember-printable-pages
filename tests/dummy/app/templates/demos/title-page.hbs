@@ -4,18 +4,18 @@
 
 {{#printable-pages as |document|}}
 
-  <!-- Document Title Page -->
+  {{! Document Title Page }}
   {{#document.title-page as |titlePage|}}
-    <div style="text-align:center;">As of March 2019</div>
+    <div>As of March 2019</div>
     <div class="TitlePage-hero">
       <h1>This is the document title page</h1>
     </div>
-    <div style="text-align:center;">
+    <div>
       ©2019 Forge 512, LLC | {{titlePage.pageMeta.total}}
     </div>
   {{/document.title-page}}
 
-  <!-- Chapters -->
+  {{! Chapters }}
   {{#document.chapter as |chapter|}}
     {{#chapter.page-header as |header|}}
       <div>
