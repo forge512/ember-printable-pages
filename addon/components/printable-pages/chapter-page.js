@@ -11,9 +11,6 @@ export default Component.extend({
 
   // LIFECYCLE HOOKS
   didInsertElement() {
-    // eslint-disable-next-line
-    console.log(this.toString(), "didInsertElement");
-
     let topOfBreakAfter = this.element
       .querySelector(".js-page-break-after")
       .getBoundingClientRect().top;
@@ -26,14 +23,6 @@ export default Component.extend({
 
   didRender() {
     this._super(...arguments);
-    // eslint-disable-next-line
-    // console.log(this.toString(), "didRender");
-
-    //if (this.section.isFullyRendered && this.alreadyNotified) {
-    //  console.log(this.toString(), "is finished rendering");
-    //  return;
-    //}
-
     if (this.overflowedElement) return;
 
     // TODO tweak on this after adding support for page header/footer
