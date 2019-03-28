@@ -1,14 +1,21 @@
 {{#if (and this.shouldRender this.page)}}
   {{! template-lint-disable no-inline-styles no-triple-curlies}}
   <div class="PrintablePages-section" style={{{this.style}}}>
-    {{#each this.items as |item index|}}
-      {{#printable-pages/section-item section=this.section}}
-        {{yield (hash
-          data=item
-          index=index
-        )}}
-      {{/printable-pages/section-item}}
-    {{/each}}
+    {{#if (and this.hasOnlyBlock this.page)}}
+      {{yield (hash
+        data=item
+        index=index
+      )}}
+    {{else}}
+      {{#each this.items as |item index|}}
+        {{#printable-pages/section-item section=this.section}}
+          {{yield (hash
+            data=item
+            index=index
+          )}}
+        {{/printable-pages/section-item}}
+      {{/each}}
+    {{/if}}
   </div>
   {{! template-lint-enable no-inline-styles }}
 {{/if}}

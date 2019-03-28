@@ -1,6 +1,6 @@
 import Component from "@ember/component";
 import layout from "../../templates/components/printable-pages/section";
-import { getBy, array, sum, raw } from "ember-awesome-macros";
+import { getBy, array, sum, raw, isEmpty } from "ember-awesome-macros";
 import { htmlSafe } from "@ember/template";
 
 export default Component.extend({
@@ -28,6 +28,7 @@ export default Component.extend({
   columnCount: 1,
 
   // COMPUTED PROPS
+  hasOnlyBlock: isEmpty("data"),
   section: getBy("sectionMap", "id"),
   page: getBy("section.pages", "pageIndexInChapter"),
   items: array.slice(
