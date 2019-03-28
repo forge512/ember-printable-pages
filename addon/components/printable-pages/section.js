@@ -2,6 +2,7 @@ import Component from "@ember/component";
 import layout from "../../templates/components/printable-pages/section";
 import { getBy, array, sum, raw, isEmpty } from "ember-awesome-macros";
 import { htmlSafe } from "@ember/template";
+import { get } from "@ember/object";
 
 export default Component.extend({
   layout,
@@ -22,6 +23,15 @@ export default Component.extend({
       columnCount: this.columnCount
     });
     this.set("id", id);
+  },
+  didUpdateAttrs() {
+    let columnCountChanged =
+      get(this, "section.columnCount") != this.sectionCount;
+    let dataLengthChanged =
+      get(this, "section.data.length") != get(this, "data.length");
+    if (this.shouldRender && (columnCountChanged || dataLengthChanged)) {
+      this.triggerRerender();
+    }
   },
 
   // INPUT PROPS

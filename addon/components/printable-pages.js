@@ -25,14 +25,7 @@ export default Component.extend({
 
   didUpdateAttrs() {
     this._super(...arguments);
-
-    // Unregister, clear reportObject, clear the dom
-    this.documentData.unregister(this.elementId);
-    this.set("reportObject", null);
-    this.set("rerendering", true);
-
-    // Re-render after next render
-    scheduleOnce("afterRender", this, () => this.renderTask.perform());
+    this.rerenderTask.perform();
   },
 
   chapters: alias("reportObject.chapters"),
@@ -45,6 +38,23 @@ export default Component.extend({
     this.set("rerendering", false);
     this.reportStartTask.perform(this.reportObject.lastPage, null);
   }),
+
+  rerenderTask: task(function*() {
+    yield new Promise(resolve => {
+      next(() => {
+        // Unregister, clear reportObject, clear the dom
+        this.documentData.unregister(this.elementId);
+        this.set("reportObject", null);
+        this.set("rerendering", true);
+
+        // Re-render after next render
+        scheduleOnce("afterRender", this, () => {
+          this.renderTask.perform();
+          resolve();
+        });
+      });
+    });
+  }).drop(),
 
   reportStartTask: task(function*(currentPage) {
     if (this.onRenderStart) {

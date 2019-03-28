@@ -3,6 +3,7 @@ import { computed } from "@ember/object";
 
 export default Controller.extend({
   dataLength: 1000,
+  columnCount: 2,
   sectionData: computed("dataLength", function() {
     return [...Array(Number(this.dataLength))].map((_, i) => i);
   }),
