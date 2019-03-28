@@ -3,8 +3,8 @@
   meta=pageMeta
 )}}
 
-{{! template-lint-disable no-inline-styles }}
-<div class="PrintablePages-pageBody js-page-body" style={{this.bodyStyles}}>
+{{! template-lint-disable no-inline-styles no-triple-curlies}}
+<div class="PrintablePages-pageBody js-page-body" style={{{this.bodyStyles}}}>
   {{yield (hash
     block="body"
     element=this.element

@@ -1,6 +1,6 @@
 {{#if (and this.shouldRender this.page)}}
-  {{! template-lint-disable no-inline-styles }}
-  <div class="PrintablePages-section" style={{this.style}}>
+  {{! template-lint-disable no-inline-styles no-triple-curlies}}
+  <div class="PrintablePages-section" style={{{this.style}}}>
     {{#each this.items as |item index|}}
       {{#printable-pages/section-item section=this.section}}
         {{yield (hash
