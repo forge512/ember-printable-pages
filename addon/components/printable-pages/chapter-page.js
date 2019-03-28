@@ -74,6 +74,7 @@ export default Component.extend({
     } else {
       let extraSpace = pageBounding.bottom - tailBounding.bottom;
       next(() => {
+        if (this.isDestroyed) return;
         this.renderNextItem(extraSpace);
         this.set("alreadyNotified", true);
       });

@@ -2,9 +2,10 @@ import Component from "@ember/component";
 import layout from "../templates/components/printable-pages";
 import { inject as service } from "@ember/service";
 import { alias } from "@ember/object/computed";
-import { next } from "@ember/runloop";
+import { next, scheduleOnce } from "@ember/runloop";
 import { task } from "ember-concurrency";
 import { Promise } from "rsvp";
+import { get } from "@ember/object";
 
 export default Component.extend({
   layout,
@@ -19,15 +20,33 @@ export default Component.extend({
   // LIFECYCLE HOOKS
   init() {
     this._super(...arguments);
-    let reportObject = this.documentData.register(this.elementId);
-    this.set("reportObject", reportObject);
-    this.renderStartTask.perform(this.reportObject.lastPage, null);
+    this.renderTask.perform();
+  },
+
+  didUpdateAttrs() {
+    this._super(...arguments);
+
+    // Unregister, clear reportObject, clear the dom
+    this.documentData.unregister(this.elementId);
+    this.set("reportObject", null);
+    this.set("rerendering", true);
+
+    // Re-render after next render
+    scheduleOnce("afterRender", this, () => this.renderTask.perform());
   },
 
   chapters: alias("reportObject.chapters"),
 
   // TASKS
-  renderStartTask: task(function*(currentPage) {
+  // eslint-disable-next-line require-yield
+  renderTask: task(function*() {
+    let reportObject = this.documentData.register(this.elementId);
+    this.set("reportObject", reportObject);
+    this.set("rerendering", false);
+    this.reportStartTask.perform(this.reportObject.lastPage, null);
+  }),
+
+  reportStartTask: task(function*(currentPage) {
     if (this.onRenderStart) {
       yield new Promise(resolve => {
         next(() => {
@@ -38,7 +57,7 @@ export default Component.extend({
     }
   }).keepLatest(),
 
-  renderProgressTask: task(function*() {
+  reportProgressTask: task(function*() {
     if (this.onRenderProgress) {
       yield new Promise(resolve => {
         next(() => {
@@ -50,7 +69,10 @@ export default Component.extend({
   }).keepLatest(),
 
   reportIfCompleteTask: task(function*() {
-    if (this.reportObject.isFinishedRendering && this.onRenderComplete) {
+    if (
+      get(this, "reportObject.isFinishedRendering") &&
+      this.onRenderComplete
+    ) {
       yield new Promise(resolve => {
         next(() => {
           this.onRenderComplete(this.reportObject.lastPage);
@@ -72,7 +94,7 @@ export default Component.extend({
 
     addPage(chapterId) {
       this.documentData.addPage(this.elementId, chapterId);
-      this.renderProgressTask.perform();
+      this.reportProgressTask.perform();
     }
   }
 });

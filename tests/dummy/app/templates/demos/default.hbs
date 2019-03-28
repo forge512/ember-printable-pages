@@ -1,5 +1,6 @@
 {{link-to "All Demos" "demos.index"}}
 
+
 {{progress-display
   isRunning=this.isRunning
   currentPage=this.currentPage
@@ -7,7 +8,10 @@
   renderTime=this.renderTime
 }}
 
+{{input type="number" value=this.dataLength min=1 max=10000}}
+
 {{#printable-pages
+  rerenderToggle=this.sectionData.length
   onRenderStart=(action "start")
   onRenderProgress=(action "updateProgress")
   onRenderComplete=(action "complete")

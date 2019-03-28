@@ -2,8 +2,9 @@ import Controller from "@ember/controller";
 import { computed } from "@ember/object";
 
 export default Controller.extend({
-  sectionData: computed(function() {
-    return [...Array(1000)].map((_, i) => i);
+  dataLength: 1000,
+  sectionData: computed("dataLength", function() {
+    return [...Array(Number(this.dataLength))].map((_, i) => i);
   }),
 
   actions: {
