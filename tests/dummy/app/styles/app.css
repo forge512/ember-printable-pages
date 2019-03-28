@@ -1,3 +1,9 @@
+.PrintablePages {
+  background-color: #263238;
+  margin: 0;
+  padding-top: 16px;
+}
+
 .PrintablePages-section {
   column-fill: balance;
   column-gap: 24px;

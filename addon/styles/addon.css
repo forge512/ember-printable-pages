@@ -2,30 +2,29 @@
  * EmberPrintablePages | MIT License | github.com/forge512/ember-printable-pages
  * ======================================+++====================================
  **/
-.PrintablePages {
-  background-color: #263238;
-  margin: 0;
-  padding-top: 16px;
+.PrintablePages-page {
+  background-color: #fff;
+  margin: 0 auto 16px;
 }
-  .PrintablePages-page {
-    background-color: #fff;
-    margin: 0 auto 16px;
-  }
-    .PrintablePages-pageHeader {}
-    .PrintablePages-pageBody {
-      overflow: hidden;
-    }
-    .PrintablePages-pageFooter {}
-  .PrintablePages-chapter {}
-    .PrintablePages-chapterPage {
-      min-height: 100%;
-      height: 100%;
-    }
-  .PrintablePages-section {}
-    .PrintablePages-sectionItem {
-      break-inside: avoid;
-      page-break-inside: avoid;
-    }
+.PrintablePages-pageHeader {
+}
+.PrintablePages-pageBody {
+  overflow: hidden;
+}
+.PrintablePages-pageFooter {
+}
+.PrintablePages-chapter {
+}
+.PrintablePages-chapterPage {
+  min-height: 100%;
+  height: 100%;
+}
+.PrintablePages-section {
+}
+.PrintablePages-sectionItem {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
 
 /* Utility Classes */
 .u-page-break-after,
