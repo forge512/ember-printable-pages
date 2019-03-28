@@ -12,8 +12,8 @@ export default Component.extend({
   documentData: service(),
   classNames: ["PrintablePages"],
   pageLayout: Object.freeze({
-    height: "11in",
-    width: "8.5in",
+    height: "10in",
+    width: "7.5in",
     margins: "0.5in"
   }),
 

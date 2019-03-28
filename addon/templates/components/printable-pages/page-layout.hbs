@@ -1,5 +1,7 @@
 {{! template-lint-disable no-inline-styles no-triple-curlies}}
-<section class="PrintablePages-page" style={{{pageStyles}}}>
-  {{yield}}
-</section>
+<div class="PrintablePages-pageContainer">
+  <section class="PrintablePages-page" style={{{pageStyles}}}>
+    {{yield}}
+  </section>
+</div>
 {{! template-lint-enable no-inline-styles }}

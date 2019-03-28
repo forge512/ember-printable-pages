@@ -7,7 +7,7 @@
 .PrintablePages-section {
   column-fill: balance;
   column-gap: 24px;
-  column-rule: 1px solid rgba(0,0,0,0.12);
+  column-rule: 1px solid rgba(0, 0, 0, 0.12);
 }
 
 .PrintablePages-titlePage {
@@ -23,4 +23,17 @@
   color: #fff;
   text-align: center;
   padding: 1in;
+}
+
+@media print {
+  .print-display-none {
+    display: none;
+  }
+  .PrintablePages {
+    padding-top: 0;
+  }
+  .docs-mt-1,
+  body > .ember-view {
+    margin-top: 0;
+  }
 }
