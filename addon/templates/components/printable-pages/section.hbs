@@ -1,6 +1,9 @@
 {{#if (and this.shouldRender this.page)}}
   {{! template-lint-disable no-inline-styles no-triple-curlies}}
-  <div class="PrintablePages-section" style={{{this.style}}}>
+  <div
+    class={{concat "PrintablePages-section " this.sectionClass}}
+    style={{{this.style}}}
+  >
     {{#if (and this.hasOnlyBlock this.page)}}
       {{yield (hash
         data=item
@@ -8,7 +11,7 @@
       )}}
     {{else}}
       {{#each this.items as |item index|}}
-        {{#printable-pages/section-item section=this.section}}
+        {{#printable-pages/section-item class=this.itemClass section=this.section}}
           {{yield (hash
             data=item
             index=index
