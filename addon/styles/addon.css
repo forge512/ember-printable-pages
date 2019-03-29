@@ -2,7 +2,7 @@
  * EmberPrintablePages | MIT License | github.com/forge512/ember-printable-pages
  * ======================================+++====================================
  **/
-.PrintablePages {
+.PrintablePages-pageLayout {
   flex-direction: row;
   box-sizing: border-box;
   display: flex;
@@ -15,7 +15,7 @@
   margin-bottom: 16px;
 }
 @media print {
-  .PrintablePages {
+  .PrintablePages-pageLayout {
     display: block !important;
   }
   .PrintablePages-pageContainer {

@@ -4,7 +4,7 @@ import { htmlSafe } from "@ember/template";
 
 export default Component.extend({
   layout,
-  tagName: "",
+  classNames: "PrintablePages-pageLayout",
   pageStyles: "",
 
   // LIFECYCLE HOOKS
