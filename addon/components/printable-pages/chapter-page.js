@@ -87,6 +87,7 @@ export default Component.extend({
 
   // HELPER FUNCTIONS
   _setPageBodyHeight(wrapperHeight) {
+    wrapperHeight = Math.ceil(wrapperHeight);
     // Use height based on parent (100%) so that parent owns the overall page
     // height. This allows adding an extra 0.25in of height in print css to
     // ensure column wrapping doesn't hide data
