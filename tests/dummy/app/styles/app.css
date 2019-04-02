@@ -1,3 +1,7 @@
+body.is-test {
+  background-color: #D2E0E6 !important;
+}
+
 .PrintablePages {
   background-color: #263238;
   margin: 0;

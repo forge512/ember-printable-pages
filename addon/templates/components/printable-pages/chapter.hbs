@@ -1,5 +1,8 @@
 {{#each this.pages as |page pageIndexInChapter|}}
-  {{#printable-pages/page-layout pageLayout=pageLayout}}
+  {{#printable-pages/page-layout
+    pageLayout=pageLayout
+    pageNumber=(add this.startPage pageIndexInChapter)
+  }}
     {{#printable-pages/chapter-page
       pageIndexInChapter=pageIndexInChapter
       pageMeta=(hash

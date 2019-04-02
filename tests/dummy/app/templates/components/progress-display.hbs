@@ -5,5 +5,5 @@
   </div>
 {{/if}}
 {{#if (and (not this.isRunning) this.isComplete)}}
-  <p>Rendered {{this.endPage}} pages in {{this.renderTime}}s</p>
+  <p>Rendered {{this.endPage}} pages in <span data-test-render-time>{{this.renderTime}}</span>s</p>
 {{/if}}

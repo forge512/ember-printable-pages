@@ -4,6 +4,7 @@ import layout from "../../templates/components/printable-pages/section-item";
 export default Component.extend({
   layout,
   classNames: ["PrintablePages-sectionItem"],
+  "data-test-section-item": true,
   didInsertElement() {
     this._super(...arguments);
     let height = this.element.offsetHeight;

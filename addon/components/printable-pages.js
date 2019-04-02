@@ -6,6 +6,10 @@ import { next, scheduleOnce } from "@ember/runloop";
 import { task } from "ember-concurrency";
 import { Promise } from "rsvp";
 import { get } from "@ember/object";
+import { registerWaiter } from "@ember/test";
+import Ember from "ember";
+
+let isRendering = false;
 
 export default Component.extend({
   layout,
@@ -61,6 +65,11 @@ export default Component.extend({
   }).drop(),
 
   reportStartTask: task(function*(currentPage) {
+    if (Ember.testing && !isRendering) {
+      isRendering = true;
+      registerWaiter(() => !isRendering);
+    }
+
     if (this.onRenderStart) {
       yield new Promise(resolve => {
         next(() => {
@@ -89,6 +98,7 @@ export default Component.extend({
     ) {
       yield new Promise(resolve => {
         next(() => {
+          isRendering = false;
           this.onRenderComplete(get(this, "reportObject.lastPage"));
           resolve();
         });
