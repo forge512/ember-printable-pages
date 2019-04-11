@@ -3,7 +3,7 @@ import EmberObject, { computed } from "@ember/object";
 import { A } from "@ember/array";
 import { array, equal, difference } from "ember-awesome-macros";
 import { alias } from "@ember/object/computed";
-import { run } from "@ember/runloop";
+import { next } from "@ember/runloop";
 
 /*
  * Report
@@ -91,7 +91,7 @@ const Chapter = EmberObject.extend({
   },
 
   moveLastItemToNextPage(pageIndex) {
-    run(() => {
+    next(() => {
       // Find sections with data in page at pageIndex
       let sectionsInPage = this.sections.filter(
         section => !!section.pages[pageIndex]
