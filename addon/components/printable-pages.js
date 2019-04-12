@@ -42,6 +42,8 @@ export default Component.extend({
   rerenderTask: task(function*() {
     yield new Promise(resolve => {
       next(() => {
+        if (this.isDestroyed) return;
+
         // Unregister, clear reportObject, clear the dom
         this.documentData.unregister(this.elementId);
         this.set("reportObject", null);
@@ -49,6 +51,8 @@ export default Component.extend({
 
         // Re-render after next render
         scheduleOnce("afterRender", this, () => {
+          if (this.isDestroyed) return;
+
           this.renderTask.perform();
           resolve();
         });
