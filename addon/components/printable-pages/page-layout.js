@@ -8,7 +8,8 @@ export default Component.extend({
   pageStyles: "",
 
   // LIFECYCLE HOOKS
-  didInsertElement() {
+  init() {
+    this._super(...arguments);
     this.set(
       "pageStyles",
       htmlSafe(
