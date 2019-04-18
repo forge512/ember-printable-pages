@@ -11,7 +11,11 @@
       )}}
     {{else}}
       {{#each this.items as |item index|}}
-        {{#printable-pages/section-item class=this.itemClass section=this.section}}
+        {{#printable-pages/section-item
+          class=this.itemClass
+          section=this.section
+          renderedItem=this.renderedItem
+        }}
           {{yield (hash
             data=item
             index=index

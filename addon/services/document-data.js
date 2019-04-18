@@ -1,7 +1,7 @@
 import Service from "@ember/service";
 import EmberObject, { computed } from "@ember/object";
 import { A } from "@ember/array";
-import { array, equal, difference } from "ember-awesome-macros";
+import { array, difference } from "ember-awesome-macros";
 import { alias } from "@ember/object/computed";
 import { next } from "@ember/runloop";
 
@@ -68,6 +68,8 @@ const Chapter = EmberObject.extend({
     }
     let page = section.pages[pageIndex];
 
+    if (page.delayRender) return;
+
     // If rendered 2 or more items AND similar in height (with 50px)
     if (section.nextItemIndex > 1 && section.itemHeightDiff < 50) {
       let remainingItemCount = section.data.length - section.nextItemIndex;
@@ -100,16 +102,39 @@ const Chapter = EmberObject.extend({
       let section = sectionsInPage[sectionsInPage.length - 1];
       let currentPage = section.pages[pageIndex];
       let nextPage = section.pages[pageIndex + 1];
-      if (!nextPage) {
-        nextPage = EmberObject.create({
-          startIndex: currentPage.endIndex - 1,
-          endIndex: currentPage.endIndex - 1
-        });
+
+      // Take an item away from the current page
+      currentPage.decrementProperty("endIndex");
+      section.decrementProperty("nextItemIndex");
+
+      // If the next page already exists move items to it
+      if (nextPage) {
+        nextPage.decrementProperty("startIndex");
+        // section.decrementProperty("nextItemIndex");
+      } else {
+        nextPage = EmberObject.create({ delayRender: true });
         section.pages.set(pageIndex + 1, nextPage);
       }
-      currentPage.decrementProperty("endIndex");
-      nextPage.incrementProperty("startIndex");
-      nextPage.incrementProperty("endIndex");
+    });
+  },
+
+  // This should get called during first render when a page
+  // has settled.
+  renderNextPage(pageIndex) {
+    next(() => {
+      // Find sections with data in page at pageIndex
+      let sectionsInPage = this.sections.filter(
+        section => !!section.pages[pageIndex]
+      );
+      // Grab the last section
+      let section = sectionsInPage[sectionsInPage.length - 1];
+      let currentPage = section.pages[pageIndex];
+      let nextPage = section.pages[pageIndex + 1];
+      nextPage.setProperties({
+        startIndex: currentPage.endIndex + 1,
+        endIndex: currentPage.endIndex + 1,
+        delayRender: false
+      });
     });
   }
 });
@@ -131,8 +156,6 @@ let Section = EmberObject.extend({
   nextItemIndex: 0,
   isFullyRendered: false,
   renderDataLength: 0,
-  renderedItems: array.slice("data", 0, "renderDataLength"),
-  hasFinishedRendering: equal("renderedItems.length", "data.length"),
   pages: null,
   maxItemHeight: null,
   minItemHeight: null,

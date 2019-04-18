@@ -22,17 +22,20 @@ export default Component.extend({
 
   actions: {
     onPageOverflow(pageIndex) {
-      // eslint-disable-next-line
-      // console.log(this.toString(), "onPageOverflow", pageIndex);
       this.chapter.moveLastItemToNextPage(pageIndex);
-      this.addPage(this.elementId);
+      // If the last page overflows then add a new page
+      if (pageIndex + 1 === this.pageCount) {
+        this.addPage(this.elementId);
+      }
     },
 
     renderNextItem(pageIndex, remainingHeight) {
-      // eslint-disable-next-line
-      // console.log(this.toString(), "renderNextItem", pageIndex);
       this.chapter.renderNextItem(pageIndex, remainingHeight);
       this.checkIfComplete();
-    }
+    },
+
+    renderNextPage(pageIndex) {
+      this.chapter.renderNextPage(pageIndex);
+    },
   }
 });

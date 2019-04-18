@@ -75,7 +75,7 @@ export default Component.extend({
     if (this.onRenderProgress) {
       yield new Promise(resolve => {
         next(() => {
-          this.onRenderProgress(this.reportObject.lastPage);
+          this.onRenderComplete(get(this, "reportObject.lastPage"));
           resolve();
         });
       });
@@ -89,7 +89,7 @@ export default Component.extend({
     ) {
       yield new Promise(resolve => {
         next(() => {
-          this.onRenderComplete(this.reportObject.lastPage);
+          this.onRenderComplete(get(this, "reportObject.lastPage"));
           resolve();
         });
       });

@@ -15,6 +15,7 @@
       registerSection=(action this.registerSection this.elementId)
       renderNextItem=(action "renderNextItem" pageIndexInChapter)
       onPageOverflow=(action "onPageOverflow" pageIndexInChapter)
+      renderNextPage=(action "renderNextPage" pageIndexInChapter)
       as |pageComponent|
     }}
       {{#if (eq pageComponent.block "header")}}
@@ -40,6 +41,7 @@
             register=(action pageComponent.registerSection)
             onSectionOverflow=pageComponent.onSectionOverflow
             triggerRerender=this.triggerRerender
+            renderedItem=pageComponent.renderedItem
           )
         )}}
       {{/if}}
