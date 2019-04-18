@@ -20,5 +20,12 @@ export default Component.extend({
     ) {
       this.section.set("minItemHeight", height);
     }
+
+    this.renderedItem(this.elementId);
+  },
+
+  willDestroyElement() {
+    this._super(...arguments);
+    this.renderedItem("-" + this.elementId);
   }
 });

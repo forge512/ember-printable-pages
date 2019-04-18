@@ -9,40 +9,49 @@
   }}
 
   <label>Chapter Count</label>
-  {{input type="number" value=this.chapterCount min=1}}
+  {{input type="number" value=this.chapterCount min=1 max=100}}
   <label>Section Count</label>
   {{input type="number" value=this.dataLength min=1 max=10000}}
   <label>Column Count</label>
   {{input type="number" value=this.columnCount min=1 max=3}}
+  <label>Section 1 Height (px)</label>
+  {{input type="number" value=this.sectionOneHeight min=1 max=300}}
 </div>
 
 {{#printable-pages
   onRenderStart=(action "start")
   onRenderProgress=(action "updateProgress")
   onRenderComplete=(action "complete")
-  rerender=this.chapterCount
+  rerender1=this.chapterCount
+  rerender2=this.sectionOneHeight
   as |document|
 }}
   {{#each chapters}}
     {{#document.chapter as |chapter|}}
       {{#chapter.page-header as |header|}}
         <div>
-          <div>Chapter {{header.pageMeta.chapterNumber}}</div>
-          <div>page {{header.pageMeta.current}} of {{header.pageMeta.total}}</div>
+          <div>Chapter {{header.pageMeta.chapterNumber}} -- page {{header.pageMeta.current}} of {{header.pageMeta.total}}</div>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sapien ligula,
+            scelerisque et imperdiet sit amet, imperdiet sit amet nisi. Nulla sit amet neque
+          </p>
         </div>
       {{/chapter.page-header}}
 
       {{#chapter.section}}
-        <h3>Section 1</h3>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sapien ligula,
-          scelerisque et imperdiet sit amet, imperdiet sit amet nisi. Nulla sit amet neque
-          ullamcorper lorem tincidunt facilisis. Morbi ante risus, consectetur id feugiat
-          nec, interdum ac enim. Phasellus molestie placerat lorem et pharetra. Aenean congue
-          tempor viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus eros,
-          id feugiat erat tortor et felis. Pellentesque id nisl non justo viverra lacinia
-          id sit amet arcu. Mauris non euismod ipsum. Fusce lacinia felis nec euismod vulputate.
-        </p>
+        {{! template-lint-disable no-inline-styles no-triple-curlies}}
+        <div style="min-height: {{{this.sectionOneHeightSanitized}}}px">
+          <h3>Section 1</h3>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sapien ligula,
+            scelerisque et imperdiet sit amet, imperdiet sit amet nisi. Nulla sit amet neque
+            ullamcorper lorem tincidunt facilisis. Morbi ante risus, consectetur id feugiat
+            nec, interdum ac enim. Phasellus molestie placerat lorem et pharetra. Aenean congue
+            tempor viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus eros,
+            id feugiat erat tortor et felis. Pellentesque id nisl non justo viverra lacinia
+            id sit amet arcu. Mauris non euismod ipsum. Fusce lacinia felis nec euismod vulputate.
+          </p>
+        </div>
       {{/chapter.section}}
 
       {{#chapter.section columnCount=this.columnCount data=this.sectionData as |section|}}

@@ -3,6 +3,7 @@ import layout from "../../templates/components/printable-pages/chapter-page";
 import { htmlSafe } from "@ember/template";
 import { next } from "@ember/runloop";
 import { inject as service } from "@ember/service";
+import { isPresent } from "@ember/utils";
 
 export default Component.extend({
   layout,
@@ -23,62 +24,70 @@ export default Component.extend({
 
   didRender() {
     this._super(...arguments);
-    if (this.overflowedElement) return;
 
-    // TODO tweak on this after adding support for page header/footer
+    // The first render is used to measure the header and footer height
+    // and set the page body to fixed height (in this component's
+    // didInsertElement hook). Don't ask to render more items
     if (this.firstRender) {
       this.set("firstRender", false);
       return;
     }
 
+    // This component determines whether it needs more items,
+    // or fewer based upon where the `.js-visibility-tail` is
+    // located in the dom relative to the `.js-page-body` element.
+    let tailElement = this.element.querySelector(".js-visibility-tail");
+    let tailBounding = tailElement.getBoundingClientRect();
+
+    // Grab the bounding rect for the `.js-page-body` element
     let pageBounding = this.element
       .querySelector(".js-page-body")
       .getBoundingClientRect();
-    let tailBounding = this.element
-      .querySelector(".js-visibility-tail")
-      .getBoundingClientRect();
-    // Add 1 to pageBounding to avoid rounding errors
-    let hasOverflow =
-      tailBounding.bottom > pageBounding.bottom + 1 ||
-      tailBounding.right > pageBounding.right + 1;
 
-    //// If the first item overflowed then...
-    //// - Release the page height so the user can see all the content (page breaks won't work quite right)
-    //// - Tell 'afterRender' we are full so the second item is given to the next page
-    //if (this.singleItemOverflowedPage && hasOverflow) {
-    //  // Setting bodyStyle will cause a re-render. Tell this function to ignore the next render.
-    //  this.set("firstRender", true);
-    //  this.set("bodyStyle", htmlSafe(`column-count: ${this.columnCount};`));
-    //  return this.afterRender({
-    //    pageNumber: this.pageNumber,
-    //    hasOverflow: true
-    //  });
-    //}
+    let tailPosition =
+      Math.floor(pageBounding.bottom) - Math.ceil(tailBounding.bottom);
 
-    // if the previously overflowed element is still in the dom then return...
-    // we are waiting for the chapter to move the item to the next page
-    if (this.overflowedElement && hasOverflow) {
-      if (this.element.querySelector(`#${this.overflowedElement}`)) return;
-
-      this.set("overflowedElement", null);
+    // If the tail hasn't moved, then do nothing.
+    // This can happen if the page count increments in a
+    // separate render from adding/removing section items.
+    if (
+      isPresent(this.previousTailPosition) &&
+      this.previousTailPosition === tailPosition &&
+      this.previousLastRenderedItemId === this.lastRenderedItemId
+    ) {
+      return;
     }
 
+    // Determine if the page has overflowed.
+    let hasOverflow = tailPosition < 0;
+
+    // NOTE One side effect of the conditionals below is that once
+    // a page thinks it is full, it will never ask for another item.
+    // This means if items change size (shrink) once rendered then
+    // extra whitespace will be left at the bottom of hte page. If
+    // items grow, and overflow the page, the page _will_ ask for
+    // an item to be removed.
     if (hasOverflow) {
-      // eslint-disable-next-line
-      // console.log(this.toString(), "didRender --- overflowed");
-      this.set(
-        "overflowedElement",
-        this.element.querySelector(".js-visibility-tail").previousElementSibling
-      );
+      // If the page overflowed...
+      // call onPageOverflow so the parent context can remove an item
+      this.set("overflowed", true);
       this.onPageOverflow();
-    } else {
-      let extraSpace = pageBounding.bottom - tailBounding.bottom;
+    } else if (!this.overflowed) {
+      // If the page did not overflow this time AND it has never overflowed...
+      // tell the context this page can handle more item(s)
       next(() => {
         if (this.isDestroyed) return;
-        this.renderNextItem(extraSpace);
-        this.set("alreadyNotified", true);
+        this.renderNextItem(tailPosition);
       });
+    } else {
+      // did not overflow this time, but did in the past...
+      // then the page is probably settled. let context know
+      // it can render the next page if it wants
+      this.renderNextPage();
     }
+
+    this.set("previousTailPosition", tailPosition);
+    this.set("previousLastRenderedItemId", this.lastRenderedItemId);
   },
 
   // INTERNAL STATE
@@ -111,9 +120,8 @@ export default Component.extend({
       this.incrementProperty("sectionRegistrationIndex");
       return id;
     },
-
-    onReadyForNextItem() {
-      this.set("readyForNextItem", true);
+    renderedItem(elementId) {
+      this.lastRenderedItemId = elementId;
     }
   }
 });
