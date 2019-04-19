@@ -128,6 +128,7 @@ const Chapter = EmberObject.extend({
       );
       // Grab the last section
       let section = sectionsInPage[sectionsInPage.length - 1];
+      section.incrementProperty("nextItemIndex");
       let currentPage = section.pages[pageIndex];
       let nextPage = section.pages[pageIndex + 1];
       nextPage.setProperties({
