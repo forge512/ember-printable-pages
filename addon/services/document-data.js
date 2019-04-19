@@ -70,8 +70,8 @@ const Chapter = EmberObject.extend({
 
     if (page.delayRender) return;
 
-    // If rendered 2 or more items AND similar in height (with 50px)
-    if (section.nextItemIndex > 1 && section.itemHeightDiff < 50) {
+    // If rendered 2 or more items AND similar in height (within 200px)
+    if (section.nextItemIndex > 1 && section.itemHeightDiff < 200) {
       let remainingItemCount = section.data.length - section.nextItemIndex;
       let fastForwardCount = Math.round(
         (section.columnCount * remainingHeight) / section.minItemHeight
