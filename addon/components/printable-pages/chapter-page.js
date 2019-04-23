@@ -79,10 +79,11 @@ export default Component.extend({
         if (this.isDestroyed) return;
         this.renderNextItem(tailPosition);
       });
-    } else {
+    } else if (!this.isSettled) {
       // did not overflow this time, but did in the past...
       // then the page is probably settled. let context know
       // it can render the next page if it wants
+      this.set("isSettled", true);
       this.renderNextPage();
     }
 
