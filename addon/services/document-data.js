@@ -73,15 +73,23 @@ const Chapter = EmberObject.extend({
     // If rendered 2 or more items AND similar in height (within 200px)
     if (section.nextItemIndex > 1 && section.itemHeightDiff < 200) {
       let remainingItemCount = section.data.length - section.nextItemIndex;
+      let heightGuess = (section.maxItemHeight + section.minItemHeight) / 2;
       let fastForwardCount = Math.round(
-        (section.columnCount * remainingHeight) / section.minItemHeight
+        (section.columnCount * remainingHeight) / heightGuess
       );
       fastForwardCount = Math.max(1, fastForwardCount);
       fastForwardCount = Math.min(fastForwardCount, remainingItemCount);
+      // console.log(
+      //   this.toString(),
+      //   `increment page ${pageIndex + 1} by ${fastForwardCount} - min ${
+      //     section.minItemHeight
+      //   }, max ${section.maxItemHeight}, guess ${heightGuess}`
+      // );
       page.set("endIndex", page.endIndex + fastForwardCount);
       section.set("nextItemIndex", section.nextItemIndex + fastForwardCount);
     } else {
       // ELSE increment forward by 1
+      // console.log(this.toString(), `increment page ${pageIndex + 1} by 1`);
       page.set("endIndex", section.nextItemIndex);
       section.incrementProperty("nextItemIndex");
     }
@@ -109,9 +117,17 @@ const Chapter = EmberObject.extend({
 
       // If the next page already exists move items to it
       if (nextPage) {
+        // console.log(
+        //   this.toString(),
+        //   `remove an item from page ${pageIndex + 1}`
+        // );
         nextPage.decrementProperty("startIndex");
         // section.decrementProperty("nextItemIndex");
       } else {
+        // console.log(
+        //   this.toString(),
+        //   `remove an item from page ${pageIndex + 1}, create new page`
+        // );
         nextPage = EmberObject.create({ delayRender: true });
         section.pages.set(pageIndex + 1, nextPage);
       }
