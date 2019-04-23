@@ -65,7 +65,7 @@
     {{/chapter.section}}
 
     {{#chapter.page-footer as |footer|}}
-      <div>Footer page {{footer.current}} of {{footer.total}}</div>
+      <div>Footer page {{footer.pageMeta.current}} of {{footer.pageMeta.total}}</div>
     {{/chapter.page-footer}}
   {{/document.chapter}}
 {{/printable-pages}}
