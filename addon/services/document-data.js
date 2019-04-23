@@ -4,6 +4,7 @@ import { A } from "@ember/array";
 import { difference } from "ember-awesome-macros";
 import { alias } from "@ember/object/computed";
 import { next } from "@ember/runloop";
+import { isPresent } from "@ember/utils";
 
 /*
  * Report
@@ -79,17 +80,16 @@ const Chapter = EmberObject.extend({
       );
       fastForwardCount = Math.max(1, fastForwardCount);
       fastForwardCount = Math.min(fastForwardCount, remainingItemCount);
-      // console.log(
-      //   this.toString(),
-      //   `increment page ${pageIndex + 1} by ${fastForwardCount} - min ${
-      //     section.minItemHeight
-      //   }, max ${section.maxItemHeight}, guess ${heightGuess}`
-      // );
+      this.log(
+        `increment page ${pageIndex + 1} by ${fastForwardCount} - min ${
+          section.minItemHeight
+        }, max ${section.maxItemHeight}, guess ${heightGuess}`
+      );
       page.set("endIndex", page.endIndex + fastForwardCount);
       section.set("nextItemIndex", section.nextItemIndex + fastForwardCount);
     } else {
       // ELSE increment forward by 1
-      // console.log(this.toString(), `increment page ${pageIndex + 1} by 1`);
+      this.log(`increment page ${pageIndex + 1} by 1`);
       page.set("endIndex", section.nextItemIndex);
       section.incrementProperty("nextItemIndex");
     }
@@ -111,23 +111,49 @@ const Chapter = EmberObject.extend({
       let currentPage = section.pages[pageIndex];
       let nextPage = section.pages[pageIndex + 1];
 
+      // If the same item overflows twice, then don't move
+      // it as it won't fit on any page
+      if (
+        isPresent(section.overflowedItemIndex) &&
+        section.overflowedItemIndex === currentPage.endIndex
+      ) {
+        console.warn(
+          "ember-printable-pages could not fit a section item in a blank page. " +
+            "Content is likely clipped or page/column breaks are in unexpected places. " +
+            `See page ${pageIndex + 1}.`
+        );
+        if (nextPage) {
+          throw "ember-printable-pages - A section item overflowed twice in the " +
+            `middle of the document. See page ${pageIndex + 1}. ` +
+            "Perhaps section items are growing in size after initial render.";
+        }
+
+        this.log(`create new page`);
+        section.overflowedItemIndex = null;
+        // The current page is definitely settled so let the next start immediately
+        nextPage = EmberObject.create({
+          startIndex: currentPage.endIndex + 1,
+          endIndex: currentPage.endIndex + 1,
+          delayRender: false
+        });
+        section.pages.set(pageIndex + 1, nextPage);
+        return;
+      }
+
+      // Capture which item didn't fit
+      section.set("overflowedItemIndex", currentPage.endIndex);
+
       // Take an item away from the current page
       currentPage.decrementProperty("endIndex");
       section.decrementProperty("nextItemIndex");
 
       // If the next page already exists move items to it
       if (nextPage) {
-        // console.log(
-        //   this.toString(),
-        //   `remove an item from page ${pageIndex + 1}`
-        // );
+        this.log(`remove an item from page ${pageIndex + 1}`);
         nextPage.decrementProperty("startIndex");
         // section.decrementProperty("nextItemIndex");
       } else {
-        // console.log(
-        //   this.toString(),
-        //   `remove an item from page ${pageIndex + 1}, create new page`
-        // );
+        this.log(`remove an item from page ${pageIndex + 1}, create new page`);
         nextPage = EmberObject.create({ delayRender: true });
         section.pages.set(pageIndex + 1, nextPage);
       }
@@ -153,6 +179,11 @@ const Chapter = EmberObject.extend({
         delayRender: false
       });
     });
+  },
+  log() {
+    if (true) {
+      console.log(this.toString(), ...arguments);
+    }
   }
 });
 
