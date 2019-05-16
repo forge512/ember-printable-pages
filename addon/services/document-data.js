@@ -181,7 +181,7 @@ const Chapter = EmberObject.extend({
     });
   },
   log() {
-    if (true) {
+    if (false) {
       console.log(this.toString(), ...arguments);
     }
   }
