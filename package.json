@@ -1,6 +1,6 @@
 {
   "name": "ember-printable-pages",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "An addon for creating printable documents using ember components",
   "keywords": [
     "ember-addon",
