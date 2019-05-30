@@ -50,12 +50,17 @@ export default Component.extend({
     // If the tail hasn't moved, then do nothing.
     // This can happen if the page count increments in a
     // separate render from adding/removing section items.
-    if (
-      isPresent(this.previousTailPosition) &&
-      this.previousTailPosition === tailPosition &&
-      this.previousLastRenderedItemId === this.lastRenderedItemId
-    ) {
-      return;
+    //
+    // Consider 'movement' to be more than 2px. This feels brittle
+    // and may need to be revised.
+    if (isPresent(this.previousTailPosition)) {
+      let tailMovement = Math.abs(this.previousTailPosition - tailPosition);
+      if (
+        tailMovement <= 2 &&
+        this.previousLastRenderedItemId === this.lastRenderedItemId
+      ) {
+        return;
+      }
     }
 
     // Determine if the page has overflowed.
