@@ -167,9 +167,6 @@ workflows:
       - test_default_with_jquery:
           requires:
             - install_dependencies
-      - test_lts_2_18:
-          requires:
-            - install_dependencies
       - test_lts_3_0:
           requires:
             - install_dependencies
