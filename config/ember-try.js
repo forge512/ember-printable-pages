@@ -13,8 +13,6 @@ module.exports = function() {
       scenarios: [
         {
           name: "ember-lts-2.18",
-          command:
-            "ember test --silent --reporter xunit > ~/ember/ember-lts-2.18.xml",
           env: {
             EMBER_OPTIONAL_FEATURES: JSON.stringify({
               "jquery-integration": true
@@ -29,8 +27,6 @@ module.exports = function() {
         },
         {
           name: "ember-lts-3.4",
-          command:
-            "ember test --silent --reporter xunit > ~/ember/ember-lts-3.4.xml",
           npm: {
             devDependencies: {
               "ember-source": "~3.4.0"
@@ -39,8 +35,6 @@ module.exports = function() {
         },
         {
           name: "ember-lts-3.8",
-          command:
-            "ember test --silent --reporter xunit > ~/ember/ember-lts-3.8.xml",
           npm: {
             devDependencies: {
               "ember-source": "~3.8.0"
@@ -49,8 +43,6 @@ module.exports = function() {
         },
         {
           name: "ember-release",
-          command:
-            "ember test --silent --reporter xunit > ~/ember/ember-release.xml",
           npm: {
             devDependencies: {
               "ember-source": urls[0]
@@ -59,8 +51,6 @@ module.exports = function() {
         },
         {
           name: "ember-beta",
-          command:
-            "ember test --silent --reporter xunit > ~/ember/ember-beta.xml",
           npm: {
             devDependencies: {
               "ember-source": urls[1]
@@ -69,8 +59,6 @@ module.exports = function() {
         },
         {
           name: "ember-canary",
-          command:
-            "ember test --silent --reporter xunit > ~/ember/ember-canary.xml",
           npm: {
             devDependencies: {
               "ember-source": urls[2]
@@ -83,16 +71,12 @@ module.exports = function() {
         // along with all the other scenarios.
         {
           name: "ember-default",
-          command:
-            "ember test --silent --reporter xunit > ~/ember/ember-default.xml",
           npm: {
             devDependencies: {}
           }
         },
         {
           name: "ember-default-with-jquery",
-          command:
-            "ember test --silent --reporter xunit > ~/ember/ember-default-with-jquery.xml",
           env: {
             EMBER_OPTIONAL_FEATURES: JSON.stringify({
               "jquery-integration": true
