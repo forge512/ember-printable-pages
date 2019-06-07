@@ -19,7 +19,7 @@ jobs:
     <<: *defaults
     steps:
       - attach_workspace:
-        at: .
+          at: .
       - restore_cache:
           keys:
             - v1-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
