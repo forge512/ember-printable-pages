@@ -179,6 +179,9 @@ workflows:
       - test_lts_3_3:
           requires:
             - install_dependencies
+      - test_lts_3_4:
+          requires:
+            - install_dependencies
       - test_lts_3_8:
           requires:
             - install_dependencies
