@@ -22,5 +22,17 @@
     "name": "master",
     "sha": "bc5d10489a3e282e45af73a64d3dcdbed4a13820",
     "tag": null
+  },
+  "v0.2.0": {
+    "path": "versions/v0.2.0",
+    "name": "v0.2.0",
+    "sha": "fa908fd95761906c2c3bd4a7a423f29ed71828d0",
+    "tag": "v0.2.0"
+  },
+  "-latest": {
+    "path": "",
+    "name": "Latest",
+    "sha": "fa908fd95761906c2c3bd4a7a423f29ed71828d0",
+    "tag": "v0.2.0"
   }
 }
