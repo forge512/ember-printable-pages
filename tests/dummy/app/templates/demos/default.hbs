@@ -39,8 +39,8 @@
       {{/chapter.page-header}}
 
       {{#chapter.section}}
-        {{! template-lint-disable no-inline-styles no-triple-curlies}}
-        <div style="min-height: {{{this.sectionOneHeightSanitized}}}px">
+        {{! template-lint-disable no-inline-styles}}
+        <div style={{html-safe (concat "min-height: " this.sectionOneHeightSanitized "px;")}}>
           <h3>Section 1</h3>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sapien ligula,
