@@ -117,6 +117,7 @@ const Chapter = EmberObject.extend({
         isPresent(section.overflowedItemIndex) &&
         section.overflowedItemIndex === currentPage.endIndex
       ) {
+        // eslint-disable-next-line no-console
         console.warn(
           "ember-printable-pages could not fit a section item in a blank page. " +
             "Content is likely clipped or page/column breaks are in unexpected places. " +
@@ -181,8 +182,10 @@ const Chapter = EmberObject.extend({
     });
   },
   log() {
+    // TODO make this an app enablable flag via config file
+    // eslint-disable-next-line no-constant-condition
     if (false) {
-      console.log(this.toString(), ...arguments);
+      console.log(this.toString(), ...arguments); // eslint-disable-line no-console
     }
   }
 });

@@ -12,6 +12,7 @@ Router.map(function() {
     this.route('default');
     this.route('page-layout');
     this.route('title-page');
+    this.route('large');
   });
   docsRoute(this, function() {
     // doc routes

@@ -9,7 +9,6 @@ module.exports = function() {
     getChannelURL("canary")
   ]).then(urls => {
     return {
-      command: "ember test --silent --reporter xunit > ~/ember/junit.xml",
       useYarn: true,
       scenarios: [
         {
@@ -27,10 +26,50 @@ module.exports = function() {
           }
         },
         {
+          name: "ember-lts-3.0",
+          npm: {
+            devDependencies: {
+              "ember-source": "~3.0.0"
+            }
+          }
+        },
+        {
+          name: "ember-lts-3.1",
+          npm: {
+            devDependencies: {
+              "ember-source": "~3.1.0"
+            }
+          }
+        },
+        {
+          name: "ember-lts-3.2",
+          npm: {
+            devDependencies: {
+              "ember-source": "~3.2.0"
+            }
+          }
+        },
+        {
+          name: "ember-lts-3.3",
+          npm: {
+            devDependencies: {
+              "ember-source": "~3.3.0"
+            }
+          }
+        },
+        {
           name: "ember-lts-3.4",
           npm: {
             devDependencies: {
               "ember-source": "~3.4.0"
+            }
+          }
+        },
+        {
+          name: "ember-lts-3.8",
+          npm: {
+            devDependencies: {
+              "ember-source": "~3.8.0"
             }
           }
         },

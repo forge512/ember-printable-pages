@@ -1,37 +1,180 @@
+defaults: &defaults
+  docker:
+    - image: circleci/node:8.10-browsers
+      environment:
+        JOBS: 2
+  working_directory: ~/repo
+
 version: 2
 jobs:
-  build:
-    docker:
-      - image: circleci/node:8.10-browsers
-        environment:
-          JOBS: 2
-    parallelism: 1
-    working_directory: ~/repo
+  checkout_code:
+    <<: *defaults
     steps:
       - checkout
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  install_dependencies:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
       - restore_cache:
           keys:
-            - v1-deps-{{ checksum "yarn.lock" }}
+            - v1-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v1-deps-{{ .Branch }}-
             - v1-deps-
       - run:
           name: Yarn Install
           command: yarn install --non-interactive
       - save_cache:
-          key: v1-deps-{{ checksum "yarn.lock" }}
+          key: v1-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  lint:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
       - run:
-          name: Add project executables to the path
-          command: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
-          parallel: true
+          name: Lint JS
+          command: yarn run lint:js
       - run:
-          name: Make results dir
-          command: mkdir ~/ember
+          name: Lint HBS
+          command: yarn run lint:hbs
+
+
+
+  test_default:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
       - run:
           name: Run Tests
-          command: yarn test:all
-          parallelism: true
-      - store_test_results:
-          path: ~/ember
-      - store_artifacts:
-          path: ~/ember
+          command: ember test
+
+  test_default_with_jquery:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-default-with-jquery --skip-cleanup=true
+
+  test_lts_3_1:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-lts-3.1 --skip-cleanup=true
+
+  test_lts_3_2:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-lts-3.2 --skip-cleanup=true
+
+  test_lts_3_3:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-lts-3.3 --skip-cleanup=true
+
+  test_lts_3_4:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-lts-3.4 --skip-cleanup=true
+
+  test_lts_3_8:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-lts-3.8 --skip-cleanup=true
+
+  test_release:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-release --skip-cleanup=true
+
+  test_beta:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-beta --skip-cleanup=true
+
+workflows:
+  version: 2
+  test_and_deploy:
+    jobs:
+      - checkout_code
+      - install_dependencies:
+          requires:
+            - checkout_code
+      - lint:
+          requires:
+            - install_dependencies
+      - test_default:
+          requires:
+            - install_dependencies
+      - test_default_with_jquery:
+          requires:
+            - install_dependencies
+      - test_lts_3_1:
+          requires:
+            - install_dependencies
+      - test_lts_3_2:
+          requires:
+            - install_dependencies
+      - test_lts_3_3:
+          requires:
+            - install_dependencies
+      - test_lts_3_4:
+          requires:
+            - install_dependencies
+      - test_lts_3_8:
+          requires:
+            - install_dependencies
+      - test_release:
+          requires:
+            - install_dependencies
+      - test_beta:
+          requires:
+            - install_dependencies

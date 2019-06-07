@@ -3,6 +3,7 @@
   <div
     class={{concat "PrintablePages-section " this.sectionClass}}
     style={{{this.style}}}
+    data-test-section
   >
     {{#if (and this.hasOnlyBlock this.page)}}
       {{yield (hash
