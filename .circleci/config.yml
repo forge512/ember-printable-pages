@@ -131,9 +131,6 @@ workflows:
       - lint:
           requires:
             - install_dependencies
-      - lint_hbs:
-          requires:
-            - install_dependencies
       - test_default:
           requires:
             - install_dependencies
