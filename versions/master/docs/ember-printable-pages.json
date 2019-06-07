@@ -1,0 +1,1 @@
+{"jsonapi":{"version":"1.0"},"data":{"type":"project","id":"ember-printable-pages","attributes":{"name":"ember-printable-pages","version":"0.1.10","navigationIndex":[]},"relationships":{"modules":{"data":[]}}}}
