@@ -1,13 +1,11 @@
-version: 2
-jobs:
-  build:
-    docker:
-      - image: circleci/node:8.10-browsers
-        environment:
-          JOBS: 2
-    parallelism: 1
-    working_directory: ~/repo
+defaults: &defaults
+  docker:
+    - image: circleci/node:8.10-browsers
+      environment:
+        JOBS: 2
+  working_directory: ~/repo
 
+version: 2
 jobs:
   checkout_code:
     <<: *defaults
