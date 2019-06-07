@@ -70,16 +70,6 @@ jobs:
           name: Run Tests
           command: ember try:one ember-default-with-jquery --skip-cleanup=true
 
-  test_lts_3_0:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: .
-      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
-      - run:
-          name: Run Tests
-          command: ember try:one ember-lts-3.0 --skip-cleanup=true
-
   test_lts_3_1:
     <<: *defaults
     steps:
@@ -165,9 +155,6 @@ workflows:
           requires:
             - install_dependencies
       - test_default_with_jquery:
-          requires:
-            - install_dependencies
-      - test_lts_3_0:
           requires:
             - install_dependencies
       - test_lts_3_1:
