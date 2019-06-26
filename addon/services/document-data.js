@@ -147,6 +147,7 @@ const Chapter = EmberObject.extend({
       // Take an item away from the current page
       currentPage.decrementProperty("endIndex");
       section.decrementProperty("nextItemIndex");
+      section.set("isFullyRendered", false);
 
       // If the next page already exists move items to it
       if (nextPage) {
