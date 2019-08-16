@@ -46,7 +46,7 @@ export default Component.extend({
   rerenderTask: task(function*() {
     yield new Promise(resolve => {
       next(() => {
-        if (this.isDestroyed) return;
+        if (this.isDestroyed) return resolve();
 
         // Unregister, clear reportObject, clear the dom
         this.documentData.unregister(this.elementId);
@@ -92,14 +92,14 @@ export default Component.extend({
   }).keepLatest(),
 
   reportIfCompleteTask: task(function*() {
-    if (
-      get(this, "reportObject.isFinishedRendering") &&
-      this.onRenderComplete
-    ) {
+    if (get(this, "reportObject.isFinishedRendering")) {
       yield new Promise(resolve => {
         next(() => {
           isRendering = false;
-          this.onRenderComplete(get(this, "reportObject.lastPage"));
+
+          if (this.onRenderComplete) {
+            this.onRenderComplete(get(this, "reportObject.lastPage"));
+          }
           resolve();
         });
       });
