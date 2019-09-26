@@ -8,7 +8,8 @@ module("Acceptance | large doc homogenous items", function(hooks) {
   // TODO add nested modules for various page sizes
 
   test("3-column mode, single page, with header and footer", async function(assert) {
-    await visit("/demos/large?columnCount=3&sectionCount=32");
+    await visit("/demos/large?columnCount=3&sectionCount=33");
+    console.log(find("[data-test-page]").getBoundingClientRect());
     assert.dom("[data-test-page]").exists({ count: 1 });
     assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
     assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
