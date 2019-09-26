@@ -9,8 +9,6 @@ import { get } from "@ember/object";
 import { registerWaiter } from "@ember/test";
 import Ember from "ember";
 
-let isRendering = false;
-
 export default Component.extend({
   layout,
   documentData: service(),
@@ -20,16 +18,17 @@ export default Component.extend({
     width: "7.3in",
     margins: "0.6in"
   }),
+  _isRendering: false,
 
   // LIFECYCLE HOOKS
   init() {
     this._super(...arguments);
-    this.renderTask.perform();
+    this.get("renderTask").perform();
   },
 
   didUpdateAttrs() {
     this._super(...arguments);
-    this.rerenderTask.perform();
+    this.get("rerenderTask").perform();
   },
 
   chapters: alias("reportObject.chapters"),
@@ -57,7 +56,7 @@ export default Component.extend({
         scheduleOnce("afterRender", this, () => {
           if (this.isDestroyed) return;
 
-          this.renderTask.perform();
+          this.get("renderTask").perform();
           resolve();
         });
       });
@@ -65,9 +64,9 @@ export default Component.extend({
   }).drop(),
 
   reportStartTask: task(function*(currentPage) {
-    if (Ember.testing && !isRendering) {
-      isRendering = true;
-      registerWaiter(() => !isRendering);
+    if (Ember.testing && !this._isRendering) {
+      this._isRendering = true;
+      registerWaiter(() => !this._isRendering);
     }
 
     if (this.onRenderStart) {
@@ -84,7 +83,7 @@ export default Component.extend({
     if (this.onRenderProgress) {
       yield new Promise(resolve => {
         next(() => {
-          this.onRenderComplete(get(this, "reportObject.lastPage"));
+          this.onRenderProgress(get(this, "reportObject.lastPage"));
           resolve();
         });
       });
@@ -95,7 +94,7 @@ export default Component.extend({
     if (get(this, "reportObject.isFinishedRendering")) {
       yield new Promise(resolve => {
         next(() => {
-          isRendering = false;
+          this.set("_isRendering", false);
 
           if (this.onRenderComplete) {
             this.onRenderComplete(get(this, "reportObject.lastPage"));

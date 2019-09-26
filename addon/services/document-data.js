@@ -98,6 +98,11 @@ const Chapter = EmberObject.extend({
       "isFullyRendered",
       section.nextItemIndex >= section.data.length
     );
+
+    // If no section, then this chapter is done!
+    if (!this.sections.findBy("isFullyRendered", false)) {
+      this.set("isFinishedRendering", true);
+    }
   },
 
   moveLastItemToNextPage(pageIndex) {

@@ -8,7 +8,7 @@ COMING SOON... A tool for creating printable reports using ember components.
 Compatibility
 ------------------------------------------------------------------------------
 
-* Ember.js v2.18 or above
+* Ember.js v3.1 to 3.12
 * Ember CLI v2.13 or above
 * Node.js v8 or above
 

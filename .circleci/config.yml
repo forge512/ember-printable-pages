@@ -49,8 +49,7 @@ jobs:
           command: yarn run lint:hbs
 
 
-
-  test_default:
+  test_lts_2_18:
     <<: *defaults
     steps:
       - attach_workspace:
@@ -58,9 +57,9 @@ jobs:
       - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
       - run:
           name: Run Tests
-          command: ember test
+          command: ember try:one ember-lts-2.18 --skip-cleanup=true
 
-  test_default_with_jquery:
+  test_lts_3_0:
     <<: *defaults
     steps:
       - attach_workspace:
@@ -68,9 +67,9 @@ jobs:
       - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
       - run:
           name: Run Tests
-          command: ember try:one ember-default-with-jquery --skip-cleanup=true
+          command: ember try:one ember-lts-3.0 --skip-cleanup=true
 
-  test_lts_3_1:
+  test_3_1:
     <<: *defaults
     steps:
       - attach_workspace:
@@ -78,9 +77,9 @@ jobs:
       - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
       - run:
           name: Run Tests
-          command: ember try:one ember-lts-3.1 --skip-cleanup=true
+          command: ember try:one ember-3.1 --skip-cleanup=true
 
-  test_lts_3_2:
+  test_3_2:
     <<: *defaults
     steps:
       - attach_workspace:
@@ -88,9 +87,9 @@ jobs:
       - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
       - run:
           name: Run Tests
-          command: ember try:one ember-lts-3.2 --skip-cleanup=true
+          command: ember try:one ember-3.2 --skip-cleanup=true
 
-  test_lts_3_3:
+  test_3_3:
     <<: *defaults
     steps:
       - attach_workspace:
@@ -98,7 +97,7 @@ jobs:
       - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
       - run:
           name: Run Tests
-          command: ember try:one ember-lts-3.3 --skip-cleanup=true
+          command: ember try:one ember-3.3 --skip-cleanup=true
 
   test_lts_3_4:
     <<: *defaults
@@ -140,6 +139,36 @@ jobs:
           name: Run Tests
           command: ember try:one ember-beta --skip-cleanup=true
 
+  test_canary:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-canary --skip-cleanup=true
+
+  test_default:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember test
+
+  test_default_with_jquery:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-default-with-jquery --skip-cleanup=true
+
 workflows:
   version: 2
   test_and_deploy:
@@ -151,19 +180,19 @@ workflows:
       - lint:
           requires:
             - install_dependencies
-      - test_default:
+      - test_lts_2_18:
           requires:
             - install_dependencies
-      - test_default_with_jquery:
+      - test_lts_3_0:
           requires:
             - install_dependencies
-      - test_lts_3_1:
+      - test_3_1:
           requires:
             - install_dependencies
-      - test_lts_3_2:
+      - test_3_2:
           requires:
             - install_dependencies
-      - test_lts_3_3:
+      - test_3_3:
           requires:
             - install_dependencies
       - test_lts_3_4:
@@ -176,5 +205,14 @@ workflows:
           requires:
             - install_dependencies
       - test_beta:
+          requires:
+            - install_dependencies
+      - test_canary:
+          requires:
+            - install_dependencies
+      - test_default:
+          requires:
+            - install_dependencies
+      - test_default_with_jquery:
           requires:
             - install_dependencies
