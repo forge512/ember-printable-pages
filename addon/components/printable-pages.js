@@ -23,12 +23,12 @@ export default Component.extend({
   // LIFECYCLE HOOKS
   init() {
     this._super(...arguments);
-    this.renderTask.perform();
+    this.get("renderTask").perform();
   },
 
   didUpdateAttrs() {
     this._super(...arguments);
-    this.rerenderTask.perform();
+    this.get("rerenderTask").perform();
   },
 
   chapters: alias("reportObject.chapters"),
@@ -56,7 +56,7 @@ export default Component.extend({
         scheduleOnce("afterRender", this, () => {
           if (this.isDestroyed) return;
 
-          this.renderTask.perform();
+          this.get("renderTask").perform();
           resolve();
         });
       });
