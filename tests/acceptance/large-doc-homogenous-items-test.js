@@ -1,7 +1,6 @@
 import { module, test } from "qunit";
 import { fillIn, find, visit } from "@ember/test-helpers";
 import { setupApplicationTest } from "ember-qunit";
-import { timeout } from "ember-concurrency";
 
 module("Acceptance | large doc homogenous items", function(hooks) {
   setupApplicationTest(hooks);
