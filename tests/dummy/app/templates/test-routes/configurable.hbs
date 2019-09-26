@@ -32,8 +32,23 @@
   as |document|
 }}
   {{#document.chapter as |chapter|}}
-    {{#chapter.section columnCount=this.columnCount data=this.sectionData as |section|}}
-      <div style='height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);'></div>
+    {{! template-lint-disable no-inline-styles}}
+    {{#chapter.page-header as |header|}}
+      <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">
+        <div>Chapter {{header.pageMeta.chapterNumber}}</div>
+        <div>page {{header.pageMeta.current}} of {{header.pageMeta.total}}</div>
+      </div>
+    {{/chapter.page-header}}
+
+    {{#chapter.section columnCount=this.columnCount data=this.sectionData}}
+      <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);"></div>
     {{/chapter.section}}
+
+    {{#chapter.page-footer as |footer|}}
+      <div style="height: 50px; background-color: rgba(0,0,0,0.12);">
+        Footer page {{footer.pageMeta.current}} of {{footer.pageMeta.total}}
+      </div>
+    {{/chapter.page-footer}}
+    {{! template-lint-enable no-inline-styles}}
   {{/document.chapter}}
 {{/printable-pages}}
