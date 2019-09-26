@@ -9,7 +9,25 @@ module("Acceptance | large doc homogenous items", function(hooks) {
 
   test("3-column mode, single page, with header and footer", async function(assert) {
     await visit("/demos/large?columnCount=3&sectionCount=33");
-    console.log(find("[data-test-page]").getBoundingClientRect());
+    let page = find("[data-test-page]").getBoundingClientRect();
+    console.log(
+      "bottom",
+      page.bottom,
+      "height",
+      page.height,
+      "left",
+      page.left,
+      "right",
+      page.right,
+      "top",
+      page.top,
+      "width",
+      page.width,
+      "x",
+      page.x,
+      "y",
+      page.y
+    );
     assert.dom("[data-test-page]").exists({ count: 1 });
     assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
     assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
