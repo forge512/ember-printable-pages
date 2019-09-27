@@ -201,15 +201,15 @@ workflows:
       - test_lts_3_8:
           requires:
             - install_dependencies
-      - test_release:
-          requires:
-            - install_dependencies
-      - test_beta:
-          requires:
-            - install_dependencies
-      - test_canary:
-          requires:
-            - install_dependencies
+      #- test_release:
+      #    requires:
+      #      - install_dependencies
+      #- test_beta:
+      #    requires:
+      #      - install_dependencies
+      #- test_canary:
+      #    requires:
+      #      - install_dependencies
       - test_default:
           requires:
             - install_dependencies
