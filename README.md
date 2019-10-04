@@ -2,8 +2,9 @@ ember-printable-pages
 ==============================================================================
 [![CircleCI](https://circleci.com/gh/forge512/ember-printable-pages.svg?style=svg)](https://circleci.com/gh/forge512/ember-printable-pages)
 
-COMING SOON... A tool for creating printable reports using ember components.
 
+Printable Pages allows you to create beautiful, printable documents built
+from your existing components. This makes the documents easy to build, test, customize, and maintain.
 
 Compatibility
 ------------------------------------------------------------------------------
@@ -24,7 +25,7 @@ ember install ember-printable-pages
 Usage
 ------------------------------------------------------------------------------
 
-[Longer description of how to use the addon in apps.]
+See the [documentation](https://forge512.github.io/ember-printable-pages/).
 
 
 Contributing

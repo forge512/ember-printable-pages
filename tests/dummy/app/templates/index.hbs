@@ -4,11 +4,89 @@
   logo="ember"
   slimHeading="My"
   strongHeading="Addon"
-  byline="My addon demo/marketing page."
+  byline="Beautiful, printable documents"
 }}
 
+<h2>Motivation</h2>
+
+<p>
+  Creating printable documents from your web app can be infuriatingly hard and either
+  requires unacceptable compromises (no headers or footers) or using awkward server side
+  libraries.
+</p>
+
+<p>
+  Printable Pages makes it easy. It allows you to create beautiful, printable documents built
+  from your existing components. They easy to build, test, customize, and maintain.
+</p>
+
+
+<h3>Printable</h3>
+
+<p>
+  Provide Printable Pages with your content and it will lay it out
+  across pages, interleaving page headers and footers.
+  In most cases (sorry IE), the browser's print menu can send to printer or create a PDF without trouble.
+</p>
+
+<h3>Beautiful</h3>
+
+<p>
+  By reusing your existing component library, you drive brand consistency between
+  your app and your documents. Product owners and designers rejoice.
+</p>
+
+<h3>Delightful</h3>
+
+<p>
+  No longer do you have to provide your users with 'the report' which comes in
+  one flavor and only makes 80% of your users happy. Instead, create interfaces
+  to customize the document and include in-browser preview.
+</p>
+
+<h3>Maintainable</h3>
+
+<p>
+  Gain speed of implementation and lower cost of ownership by building
+  documents from your existing component library.
+  Plus, testing requires no magic. It's just Ember code.
+</p>
+
+{{! TODO position this to the right of the text }}
+{{! also puts something interesting in it... maybe don't use the docs here?}}
 {{#docs-demo as |demo|}}
-  {{#demo.example name="my-demo.hbs"}}
-    <p>Make sure to read up on the DocsDemo component before building out this page.</p>
+  {{#demo.example name='docs-demo-basic.hbs'}}
+<PrintablePages as |document|>
+  <document.chapter as |chapter|>
+
+    {{! template-lint-disable no-inline-styles}}
+    <chapter.page-header as |header|>
+      <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.08);">
+        Header - Page {{header.pageMeta.pageNumber}}
+      </div>
+    </chapter.page-header>
+
+    <chapter.section>
+      <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">
+        Default Section Content
+      </div>
+    </chapter.section>
+
+    <chapter.section @columnCount=3 @data={{array 1 2 3 4 5 6}} as |section-item|>
+      <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">
+        Section Iterator. Item {{section-item.data}}
+      </div>
+    </chapter.section>
+
+    <chapter.page-footer as |footer|>
+      <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.08);">
+        Footer - Page {{footer.pageMeta.pageNumber}}
+      </div>
+    </chapter.page-footer>
+    {{! template-lint-enable no-inline-styles}}
+  </document.chapter>
+</PrintablePages>
   {{/demo.example}}
+
+  {{demo.snippet 'docs-demo-basic.hbs'}}
 {{/docs-demo}}
