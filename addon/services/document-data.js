@@ -1,10 +1,9 @@
 import Service from "@ember/service";
-import EmberObject, { computed } from "@ember/object";
+import EmberObject from "@ember/object";
 import { A } from "@ember/array";
-import { difference } from "ember-awesome-macros";
+import { array, difference, raw } from "ember-awesome-macros";
 import { alias } from "@ember/object/computed";
 import { next } from "@ember/runloop";
-import { isPresent } from "@ember/utils";
 
 /*
  * Report
@@ -20,11 +19,10 @@ const Report = EmberObject.extend({
   chapters: null,
   chapterCount: alias("chapters.length"),
   lastPage: alias("chapters.lastObject.endPage"),
-  isFinishedRendering: computed(
-    "chapters.@each.isFinishedRendering",
-    function() {
-      return this.chapters.isEvery("isFinishedRendering", true);
-    }
+  isFinishedRendering: array.isEvery(
+    "chapters",
+    raw("isFinishedRendering"),
+    raw(true)
   )
 });
 
@@ -47,25 +45,22 @@ const Chapter = EmberObject.extend({
   startPage: 1,
   endPage: 1,
   sectionCount: alias("sections.length"),
-  isFinishedRendering: false,
+
+  // COMPUTED PROPS
+  isFinishedRendering: array.isEvery(
+    "sections",
+    raw("isFullyRendered"),
+    raw(true)
+  ),
 
   renderNextItem(pageIndex, remainingHeight) {
     let section = this.sections.findBy("isFullyRendered", false);
 
     // If no section, then this chapter is done!
-    if (!section) {
-      this.set("isFinishedRendering", true);
-      return;
-    }
+    if (this.isFinishedRendering) return;
 
     if (!section.pages[pageIndex]) {
-      section.pages.set(
-        pageIndex,
-        EmberObject.create({
-          startIndex: 0,
-          endIndex: 0
-        })
-      );
+      section.addPage(pageIndex, 0);
     }
     let page = section.pages[pageIndex];
 
@@ -98,93 +93,72 @@ const Chapter = EmberObject.extend({
       "isFullyRendered",
       section.nextItemIndex >= section.data.length
     );
-
-    // If no section, then this chapter is done!
-    if (!this.sections.findBy("isFullyRendered", false)) {
-      this.set("isFinishedRendering", true);
-    }
   },
 
-  moveLastItemToNextPage(pageIndex) {
-    next(() => {
-      // Find sections with data in page at pageIndex
-      let sectionsInPage = this.sections.filter(
-        section => !!section.pages[pageIndex]
-      );
-      // Grab the last section
-      let section = sectionsInPage[sectionsInPage.length - 1];
-      let currentPage = section.pages[pageIndex];
-      let nextPage = section.pages[pageIndex + 1];
+  lastSectionInPage(pageIndex) {
+    // Find sections with data in page at pageIndex
+    let sectionsInPage = this.sections.filter(
+      section => !!section.pages[pageIndex]
+    );
+    return sectionsInPage[sectionsInPage.length - 1];
+  },
 
-      // If the same item overflows twice, then don't move
-      // it as it won't fit on any page
-      if (
-        isPresent(section.overflowedItemIndex) &&
-        section.overflowedItemIndex === currentPage.endIndex
-      ) {
+  itemCountForPage(pageIndex) {
+    return this.sections.reduce((a, v) => a + v.itemCountForPage(pageIndex), 0);
+  },
+
+  removeItemFromPage(pageIndex) {
+    let section = this.lastSectionInPage(pageIndex);
+    let pageInSection = section.pages[pageIndex];
+
+    // Take an item away from the current page
+    if (pageInSection.endIndex === 0) {
+      section.pages.set(pageIndex, null);
+    } else {
+      pageInSection.decrementProperty("endIndex");
+    }
+    section.decrementProperty("nextItemIndex");
+    section.set("isFullyRendered", false);
+  },
+
+  // Rename to 'removeLastItem'
+  moveLastItemToNextPage(pageIndex, addPage) {
+    next(() => {
+      let itemCountForPage = this.itemCountForPage(pageIndex);
+
+      // If there is only one item on the page, don't remove it
+      // as it won't fit anywhere else
+      if (itemCountForPage === 1) {
         // eslint-disable-next-line no-console
         console.warn(
-          "ember-printable-pages could not fit a section item in a blank page. " +
+          "ember-printable-pages could not fit a section item within a full page. " +
             "Content is likely clipped or page/column breaks are in unexpected places. " +
             `See page ${pageIndex + 1}.`
         );
-        if (nextPage) {
-          throw "ember-printable-pages - A section item overflowed twice in the " +
-            `middle of the document. See page ${pageIndex + 1}. ` +
-            "Perhaps section items are growing in size after initial render.";
-        }
 
-        this.log(`create new page`);
-        section.overflowedItemIndex = null;
-        // The current page is definitely settled so let the next start immediately
-        nextPage = EmberObject.create({
-          startIndex: currentPage.endIndex + 1,
-          endIndex: currentPage.endIndex + 1,
-          delayRender: false
-        });
-        section.pages.set(pageIndex + 1, nextPage);
+        if (!this.isFinishedRendering) {
+          this.renderNextPage(pageIndex + 1, addPage);
+        }
         return;
       }
 
-      // Capture which item didn't fit
-      section.set("overflowedItemIndex", currentPage.endIndex);
-
-      // Take an item away from the current page
-      currentPage.decrementProperty("endIndex");
-      section.decrementProperty("nextItemIndex");
-      section.set("isFullyRendered", false);
-
-      // If the next page already exists move items to it
-      if (nextPage) {
-        this.log(`remove an item from page ${pageIndex + 1}`);
-        nextPage.decrementProperty("startIndex");
-        // section.decrementProperty("nextItemIndex");
-      } else {
-        this.log(`remove an item from page ${pageIndex + 1}, create new page`);
-        nextPage = EmberObject.create({ delayRender: true });
-        section.pages.set(pageIndex + 1, nextPage);
-      }
+      this.removeItemFromPage(pageIndex);
     });
   },
 
-  // This should get called during first render when a page
-  // has settled.
-  renderNextPage(pageIndex) {
+  renderNextPage(pageIndex, addPage) {
     next(() => {
-      // Find sections with data in page at pageIndex
-      let sectionsInPage = this.sections.filter(
-        section => !!section.pages[pageIndex]
-      );
-      // Grab the last section
-      let section = sectionsInPage[sectionsInPage.length - 1];
-      section.incrementProperty("nextItemIndex");
-      let currentPage = section.pages[pageIndex];
-      let nextPage = section.pages[pageIndex + 1];
-      nextPage.setProperties({
-        startIndex: currentPage.endIndex + 1,
-        endIndex: currentPage.endIndex + 1,
-        delayRender: false
-      });
+      let chapterPage = this.pages[pageIndex + 1];
+      if (!chapterPage) addPage(this.id);
+
+      let lastSectionInPage = this.lastSectionInPage(pageIndex);
+
+      if (!lastSectionInPage.isFullyRendered) {
+        lastSectionInPage.reconcilePageStartIndex(pageIndex + 1);
+      } else {
+        let nextSection = this.sections[lastSectionInPage.index + 1];
+        nextSection.addItemToPage(pageIndex + 1);
+      }
     });
   },
   log() {
@@ -216,7 +190,44 @@ let Section = EmberObject.extend({
   pages: null,
   maxItemHeight: null,
   minItemHeight: null,
-  itemHeightDiff: difference("maxItemHeight", "minItemHeight")
+  itemHeightDiff: difference("maxItemHeight", "minItemHeight"),
+  itemCountForPage(pageIndex) {
+    let page = this.pages[pageIndex];
+    if (!page) return 0;
+    return page.endIndex - page.startIndex + 1;
+  },
+
+  reconcilePageStartIndex(pageIndex) {
+    let previousPage = this.pages[pageIndex - 1];
+    let startIndex = previousPage.endIndex + 1;
+    let page = this.pages[pageIndex];
+    if (!page) {
+      this.addPage(pageIndex, startIndex);
+    } else {
+      page.set("startIndex", startIndex);
+    }
+    this.incrementProperty("nextItemIndex");
+  },
+
+  addPage(pageIndex, startIndex) {
+    this.pages.set(
+      pageIndex,
+      EmberObject.create({
+        startIndex: startIndex,
+        endIndex: startIndex
+      })
+    );
+  },
+
+  addItemToPage(pageIndex) {
+    let page = this.pages[pageIndex];
+    if (!page) {
+      this.addPage(pageIndex, 0);
+    } else {
+      page.incrementProperty("endIndex");
+      this.incrementProperty("nextItemIndex");
+    }
+  }
 });
 
 /*
