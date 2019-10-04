@@ -153,7 +153,10 @@ const Chapter = EmberObject.extend({
 
       let lastSectionInPage = this.lastSectionInPage(pageIndex);
 
-      if (!lastSectionInPage.isFullyRendered) {
+      if (!lastSectionInPage) {
+        let nextSection = this.sections.findBy("isFullyRendered", false);
+        nextSection.addItemToPage(pageIndex + 1);
+      } else if (!lastSectionInPage.isFullyRendered) {
         lastSectionInPage.reconcilePageStartIndex(pageIndex + 1);
       } else {
         let nextSection = this.sections[lastSectionInPage.index + 1];

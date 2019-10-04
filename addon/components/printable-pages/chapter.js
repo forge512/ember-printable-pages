@@ -23,7 +23,7 @@ export default Component.extend({
 
   actions: {
     onPageOverflow(pageIndex) {
-      this.chapter.moveLastItemToNextPage(pageIndex);
+      this.chapter.moveLastItemToNextPage(pageIndex, this.addPage);
     },
 
     renderNextItem(pageIndex, remainingHeight) {

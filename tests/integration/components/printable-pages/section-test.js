@@ -1,6 +1,6 @@
 import { module, test } from "qunit";
 import { setupRenderingTest } from "ember-qunit";
-import { pauseTest, render } from "@ember/test-helpers";
+import { render } from "@ember/test-helpers";
 import hbs from "htmlbars-inline-precompile";
 
 module("Integration | Component | printable-pages/section", function(hooks) {
@@ -140,6 +140,12 @@ module("Integration | Component | printable-pages/section", function(hooks) {
             </div>
           {{/chapter.section}}
 
+          {{#chapter.section}}
+            <div style="height: 200px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">
+              Default Section 2 Content
+            </div>
+          {{/chapter.section}}
+
           {{#chapter.page-footer as |footer|}}
             <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.08);">
             </div>
@@ -159,6 +165,10 @@ module("Integration | Component | printable-pages/section", function(hooks) {
       assert
         .dom("[data-test-page='1'] [data-test-section]")
         .hasText("Default Section Content");
+
+      assert
+        .dom("[data-test-page='2'] [data-test-section]")
+        .hasText("Default Section 2 Content");
     });
   });
 
