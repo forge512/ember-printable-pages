@@ -59,31 +59,29 @@
 <PrintablePages as |document|>
   <document.chapter as |chapter|>
 
-    {{! template-lint-disable no-inline-styles}}
     <chapter.page-header as |header|>
-      <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.08);">
+      <div class="h-12 mb-1 bg-gray-100">
         Header - Page {{header.pageMeta.pageNumber}}
       </div>
     </chapter.page-header>
 
     <chapter.section>
-      <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">
+      <div class="h-12 mb-1 bg-gray-100">
         Default Section Content
       </div>
     </chapter.section>
 
     <chapter.section @columnCount=3 @data={{array 1 2 3 4 5 6}} as |section-item|>
-      <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">
+      <div class="h-12 mb-1 bg-gray-100">
         Section Iterator. Item {{section-item.data}}
       </div>
     </chapter.section>
 
     <chapter.page-footer as |footer|>
-      <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.08);">
+      <div class="h-12 mb-1 bg-gray-100">
         Footer - Page {{footer.pageMeta.pageNumber}}
       </div>
     </chapter.page-footer>
-    {{! template-lint-enable no-inline-styles}}
   </document.chapter>
 </PrintablePages>
   {{/demo.example}}
