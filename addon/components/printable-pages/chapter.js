@@ -19,14 +19,11 @@ export default Component.extend({
   startPage: alias("chapter.startPage"),
   endPage: alias("chapter.endPage"),
   pageCount: add(1, difference("endPage", "startPage")),
+  "data-test-chapter": alias("chapter.index"),
 
   actions: {
     onPageOverflow(pageIndex) {
-      this.chapter.moveLastItemToNextPage(pageIndex);
-      // If the last page overflows then add a new page
-      if (pageIndex + 1 === this.pageCount) {
-        this.addPage(this.elementId);
-      }
+      this.chapter.moveLastItemToNextPage(pageIndex, this.addPage);
     },
 
     renderNextItem(pageIndex, remainingHeight) {
@@ -35,7 +32,7 @@ export default Component.extend({
     },
 
     renderNextPage(pageIndex) {
-      this.chapter.renderNextPage(pageIndex);
-    },
+      this.chapter.renderNextPage(pageIndex, this.addPage);
+    }
   }
 });

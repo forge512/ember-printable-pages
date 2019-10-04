@@ -94,11 +94,14 @@ export default Component.extend({
     if (get(this, "reportObject.isFinishedRendering")) {
       yield new Promise(resolve => {
         next(() => {
+          if (this.isDestroyed) return resolve();
+
           this.set("_isRendering", false);
 
           if (this.onRenderComplete) {
             this.onRenderComplete(get(this, "reportObject.lastPage"));
           }
+
           resolve();
         });
       });
