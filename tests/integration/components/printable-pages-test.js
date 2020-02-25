@@ -632,32 +632,32 @@ module("Integration | Component | printable-pages", function(hooks) {
         [...Array(Number(context.itemsPerSection))].map((_, i) => i)
       );
       return render(hbs`
-        <PrintablePages as |document|>
-          <document.chapter as |chapter|>
+        {{#printable-pages as |document|}}
+          {{#document.chapter as |chapter|}}
             {{! template-lint-disable no-inline-styles}}
-            <chapter.page-header as |header|>
+            {{#chapter.page-header as |header|}}
               <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.08);">
               </div>
-            </chapter.page-header>
+            {{/chapter.page-header}}
 
             {{#each this.sections as |s i|}}
-              <chapter.section @data={{this.sectionData}} as |section|>
+              {{#chapter.section data=this.sectionData as |section|}}
                 <div
                   style="height: 45px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);"
                   data-test-item-for-section={{i}}
                 >
                   section {{i}}, item index {{section.index}}
                 </div>
-              </chapter.section>
+              {{/chapter.section}}
             {{/each}}
 
-            <chapter.page-footer as |footer|>
+            {{#chapter.page-footer as |footer|}}
               <div style="height: 50px; background-color: rgba(0,0,0,0.08);">
               </div>
-            </chapter.page-footer>
+            {{/chapter.page-footer}}
             {{! template-lint-enable no-inline-styles}}
-          </document.chapter>
-        </PrintablePages>
+          {{/document.chapter}}
+        {{/printable-pages}}
       `);
     };
 
