@@ -620,4 +620,104 @@ module("Integration | Component | printable-pages", function(hooks) {
         .exists({ count: 8 });
     });
   });
+
+  module("multiple sections", function() {
+    let renderTemplate = function(context) {
+      context.set(
+        "sections",
+        [...Array(Number(context.sectionCount))].map((_, i) => i)
+      );
+      context.set(
+        "sectionData",
+        [...Array(Number(context.itemsPerSection))].map((_, i) => i)
+      );
+      return render(hbs`
+        <PrintablePages as |document|>
+          <document.chapter as |chapter|>
+            {{! template-lint-disable no-inline-styles}}
+            <chapter.page-header as |header|>
+              <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.08);">
+              </div>
+            </chapter.page-header>
+
+            {{#each this.sections as |s i|}}
+              <chapter.section @data={{this.sectionData}} as |section|>
+                <div
+                  style="height: 45px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);"
+                  data-test-item-for-section={{i}}
+                >
+                  section {{i}}, item index {{section.index}}
+                </div>
+              </chapter.section>
+            {{/each}}
+
+            <chapter.page-footer as |footer|>
+              <div style="height: 50px; background-color: rgba(0,0,0,0.08);">
+              </div>
+            </chapter.page-footer>
+            {{! template-lint-enable no-inline-styles}}
+          </document.chapter>
+        </PrintablePages>
+      `);
+    };
+
+    test("1 page fitting 2 sections of 8 items", async function(assert) {
+      this.set("sectionCount", 2);
+      this.set("itemsPerSection", 8);
+
+      await renderTemplate(this);
+      assert
+        .dom("[data-test-page='1'] [data-test-item-for-section='0']")
+        .exists({ count: 8 });
+      assert
+        .dom("[data-test-page='1'] [data-test-item-for-section='1']")
+        .exists({ count: 8 });
+    });
+
+    test("2 sections, 1 item overflows to second page", async function(assert) {
+      this.set("sectionCount", 2);
+      this.set("itemsPerSection", 9);
+
+      await renderTemplate(this);
+      assert
+        .dom("[data-test-page='1'] [data-test-item-for-section='0']")
+        .exists({ count: 9 });
+      assert
+        .dom("[data-test-page='1'] [data-test-item-for-section='1']")
+        .exists({ count: 8 });
+
+      assert
+        .dom("[data-test-page='2'] [data-test-item-for-section='0']")
+        .doesNotExist();
+      assert
+        .dom("[data-test-page='2'] [data-test-item-for-section='1']")
+        .exists({ count: 1 });
+    });
+
+    test("3 sections, 1 item from secion 2 overflows to second page", async function(assert) {
+      this.set("sectionCount", 3);
+      this.set("itemsPerSection", 9);
+
+      await renderTemplate(this);
+      assert
+        .dom("[data-test-page='1'] [data-test-item-for-section='0']")
+        .exists({ count: 9 });
+      assert
+        .dom("[data-test-page='1'] [data-test-item-for-section='1']")
+        .exists({ count: 8 });
+      assert
+        .dom("[data-test-page='1'] [data-test-item-for-section='2']")
+        .doesNotExist();
+
+      assert
+        .dom("[data-test-page='2'] [data-test-item-for-section='0']")
+        .doesNotExist();
+      assert
+        .dom("[data-test-page='2'] [data-test-item-for-section='1']")
+        .exists({ count: 1 });
+      assert
+        .dom("[data-test-page='2'] [data-test-item-for-section='2']")
+        .exists({ count: 9 });
+    });
+  });
 });
