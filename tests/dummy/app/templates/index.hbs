@@ -1,90 +1,91 @@
-{{app-topbar}}
+<AppTopbar class="print:hidden" />
 
-{{docs-hero
-  logo="ember"
-  slimHeading="My"
-  strongHeading="Addon"
-  byline="Beautiful, printable documents"
-}}
+<DocsHero
+  @logo="ember"
+  @slimHeading="My"
+  @strongHeading="Addon"
+  @byline="Beautiful, printable documents"
+  @class="print:hidden"
+/>
 
-<h2>Motivation</h2>
+<div class="lg:flex lg:flex-row">
+  <div class="p-4 print:hidden">
+    <h1>Motivation</h1>
 
-<p>
-  Creating printable documents from your web app can be infuriatingly hard and either
-  requires unacceptable compromises (no headers or footers) or using awkward server side
-  libraries.
-</p>
+    <p>
+      Creating printable documents from your web app can be infuriatingly hard and either
+      requires unacceptable compromises (no headers or footers) or the use of server side
+      libraries (which have their own limitations).
+    </p>
 
-<p>
-  Printable Pages makes it easy. It allows you to create beautiful, printable documents built
-  from your existing components. They easy to build, test, customize, and maintain.
-</p>
+    <p>
+      Printable Pages makes it easy. It allows you to create beautiful, printable documents built
+      from your existing components which makes them easy to build, test, customize, and maintain.
+    </p>
 
 
-<h3>Printable</h3>
+    <h4>Printable</h4>
 
-<p>
-  Provide Printable Pages with your content and it will lay it out
-  across pages, interleaving page headers and footers.
-  In most cases (sorry IE), the browser's print menu can send to printer or create a PDF without trouble.
-</p>
+    <p>
+      Provide Printable Pages with your content and it will lay it out
+      across pages, interleaving page headers and footers.
+      In most cases (sorry IE), the browser's print menu can send to printer or create a PDF without trouble.
+    </p>
 
-<h3>Beautiful</h3>
+    <h4>Beautiful</h4>
 
-<p>
-  By reusing your existing component library, you drive brand consistency between
-  your app and your documents. Product owners and designers rejoice.
-</p>
+    <p>
+      By reusing your existing component library, you drive brand consistency between
+      your app and your documents. Product owners and designers rejoice.
+    </p>
 
-<h3>Delightful</h3>
+    <h4>Delightful</h4>
 
-<p>
-  No longer do you have to provide your users with 'the report' which comes in
-  one flavor and only makes 80% of your users happy. Instead, create interfaces
-  to customize the document and include in-browser preview.
-</p>
+    <p>
+      No longer do you have to provide your users with 'the report' which comes in
+      one flavor and only makes 80% of your users happy. Instead, create interfaces
+      to customize the document while displaying in-browser preview.
+    </p>
 
-<h3>Maintainable</h3>
+    <h4>Maintainable</h4>
 
-<p>
-  Gain speed of implementation and lower cost of ownership by building
-  documents from your existing component library.
-  Plus, testing requires no magic. It's just Ember code.
-</p>
+    <p>
+      Gain speed of implementation and lower cost of ownership by building
+      documents from your existing component library.
+      Plus, testing requires no magic. It's just Ember code.
+    </p>
+  </div>
 
-{{! TODO position this to the right of the text }}
-{{! also puts something interesting in it... maybe don't use the docs here?}}
-{{#docs-demo as |demo|}}
-  {{#demo.example name='docs-demo-basic.hbs'}}
-<PrintablePages as |document|>
-  <document.chapter as |chapter|>
+  {{! template-lint-disable no-inline-styles}}
+  <div class="overflow-y-auto flex-shrink-0 print:w-screen h-page print:h-full">
+    {{! template-lint-enable no-inline-styles }}
+    <PrintablePages class="pt-4 px-4 text-gray-700 print:pt-0 print:px-0" as |document|>
+      <document.chapter as |chapter|>
 
-    <chapter.page-header as |header|>
-      <div class="h-12 mb-1 bg-gray-100">
-        Header - Page {{header.pageMeta.pageNumber}}
-      </div>
-    </chapter.page-header>
+        <chapter.page-header>
+          <div class="mb-4 text-sm">
+            Ember Printable Pages
+          </div>
+        </chapter.page-header>
 
-    <chapter.section>
-      <div class="h-12 mb-1 bg-gray-100">
-        Default Section Content
-      </div>
-    </chapter.section>
+        <chapter.section>
+          <div class="mb-4 py-2 px-4 bg-gray-200 print:px-0">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eleifend, eros vitae hendrerit mattis, arcu nunc rutrum sem, in ultrices velit tellus at felis. Curabitur ac blandit magna. Nulla quis ornare felis, non lobortis nisi. Aliquam vestibulum suscipit sapien, vel ornare quam ultricies eu. Etiam rhoncus vehicula est, sed tincidunt sapien hendrerit eget. Nunc fermentum ante quis eros suscipit dapibus. Cras scelerisque enim et purus tempor pulvinar. Fusce eu ultricies ex, sit amet sodales felis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+          </div>
+        </chapter.section>
 
-    <chapter.section @columnCount=3 @data={{array 1 2 3 4 5 6}} as |section-item|>
-      <div class="h-12 mb-1 bg-gray-100">
-        Section Iterator. Item {{section-item.data}}
-      </div>
-    </chapter.section>
+        <chapter.section @columnCount={{3}} @data={{range 1 90}} as |data index|>
+          <div class="mb-2 py-2 bg-gray-200 text-center">
+            Item {{inc index}}
+          </div>
+        </chapter.section>
 
-    <chapter.page-footer as |footer|>
-      <div class="h-12 mb-1 bg-gray-100">
-        Footer - Page {{footer.pageMeta.pageNumber}}
-      </div>
-    </chapter.page-footer>
-  </document.chapter>
-</PrintablePages>
-  {{/demo.example}}
-
-  {{demo.snippet 'docs-demo-basic.hbs'}}
-{{/docs-demo}}
+        <chapter.page-footer as |footer|>
+          <div class="text-right text-sm">
+            Page {{footer.pageMeta.pageNumber}} of {{footer.pageMeta.total}}
+          </div>
+        </chapter.page-footer>
+      </document.chapter>
+    </PrintablePages>
+  </div>
+</div>

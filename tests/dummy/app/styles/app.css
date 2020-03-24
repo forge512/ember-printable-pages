@@ -2,37 +2,63 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+h1 {
+  @apply text-2xl;
+  @apply mb-4;
+  @apply font-medium;
+}
+h2 {
+  @apply text-xl;
+  @apply mb-4;
+}
+h3 {
+  @apply text-lg;
+  @apply mb-2;
+}
+h4 {
+  @apply font-bold;
+}
+p {
+  @apply mb-4;
+}
+a {
+  @apply text-blue-600 underline;
+}
+ul {
+  list-style-type: disc;
+  list-style-position: inside;
+}
+ol {
+  list-style-type: decimal;
+  list-style-position: inside;
+}
+ul ul,
+ol ul {
+  list-style-type: circle;
+  list-style-position: inside;
+  margin-left: 15px;
+}
+ol ol,
+ul ol {
+  list-style-type: lower-latin;
+  list-style-position: inside;
+  margin-left: 15px;
+}
+
 body.is-test {
   background-color: #d2e0e6 !important;
 }
 
 .PrintablePages {
   background-color: #263238;
-  margin: 0;
-  padding-top: 16px;
 }
 
 .PrintablePages-section {
-  column-fill: balance;
   column-gap: 24px;
   column-rule: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.TitlePage-hero {
-  background: #607d8b;
-  color: #fff;
-  text-align: center;
-  padding: 1in;
-}
-
 @media print {
-  .print-display-none {
-    display: none;
-  }
-  .PrintablePages {
-    padding-top: 0;
-  }
-  .docs-mt-1,
   body > .ember-view {
     margin-top: 0;
   }

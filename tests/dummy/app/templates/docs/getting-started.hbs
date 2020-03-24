@@ -1,0 +1,63 @@
+<h1>Quick Start</h1>
+
+<p>In its simplest form a Printable Page is a document containing chapters.</p>
+<p>Each chapter defines headers, footers, and one or more sections.</p>
+<p>
+  Printable Pages will layout your document so that page breaks
+  do not occur in the middle of a section.
+</p>
+
+{{#docs-demo as |demo|}}
+  {{#demo.example name='getting-started-1' class="hidden"}}
+    <PrintablePages as |document|>
+      <document.chapter as |chapter|>
+        <chapter.page-header>Header content</chapter.page-header>
+        <chapter.section>Some content here</chapter.section>
+        <chapter.section>Some other content here</chapter.section>
+        <chapter.page-footer>Footer content</chapter.page-footer>
+      </document.chapter>
+    </PrintablePages>
+  {{/demo.example}}
+
+  {{docs-snippet name="getting-started-1" language="hbs"}}
+{{/docs-demo}}
+
+<h2>Repeating Content</h2>
+<p>
+  Many documents have repeating content. The section component has the ability
+  to iterate over content by passing an array into @data.
+</p>
+
+{{#docs-demo as |demo|}}
+  {{#demo.example name='getting-started-2' class="hidden"}}
+    <PrintablePages as |document|>
+      <document.chapter as |chapter|>
+        <chapter.section @data={{range 1 10}} as |section|>
+          Item {{section.data}}
+        </chapter.section>
+      </document.chapter>
+    </PrintablePages>
+  {{/demo.example}}
+
+  {{docs-snippet name="getting-started-2" language="hbs"}}
+{{/docs-demo}}
+
+<h2>Multiple Columns</h2>
+<p>
+  To render sections over multiple columns use the @columnCount property
+  of a section.
+</p>
+
+{{#docs-demo as |demo|}}
+  {{#demo.example name='getting-started-3' class="hidden"}}
+    <PrintablePages as |document|>
+      <document.chapter as |chapter|>
+        <chapter.section @data={{range 1 10}} @columnCount={{3}} as |section|>
+          Item {{section.data}}
+        </chapter.section>
+      </document.chapter>
+    </PrintablePages>
+  {{/demo.example}}
+
+  {{docs-snippet name="getting-started-3" language="hbs"}}
+{{/docs-demo}}
