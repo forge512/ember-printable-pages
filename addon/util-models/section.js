@@ -1,4 +1,4 @@
-import EmberObject from '@ember/object';
+import EmberObject from "@ember/object";
 import { difference } from "ember-awesome-macros";
 
 export default EmberObject.extend({
@@ -31,6 +31,7 @@ export default EmberObject.extend({
       page.set("startIndex", startIndex);
     }
     this.incrementProperty("nextItemIndex");
+    this.set("isFullyRendered", this.nextItemIndex >= this.data.length);
   },
 
   addPage(pageIndex, startIndex) {
@@ -53,4 +54,3 @@ export default EmberObject.extend({
     }
   }
 });
-
