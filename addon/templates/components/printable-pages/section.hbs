@@ -17,10 +17,7 @@
           section=this.section
           renderedItem=this.renderedItem
         }}
-          {{yield (hash
-            data=item
-            index=index
-          )}}
+          {{yield item (add index page.startIndex) index}}
         {{/printable-pages/section-item}}
       {{/each}}
     {{/if}}

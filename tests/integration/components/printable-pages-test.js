@@ -27,26 +27,26 @@ module("Integration | Component | printable-pages", function(hooks) {
         [...Array(Number(context.sectionCount))].map((_, i) => i)
       );
       return render(hbs`
-      {{#printable-pages as |document|}}
-        {{#document.chapter as |chapter|}}
-          {{! template-lint-disable no-inline-styles}}
-          {{#chapter.page-header as |header|}}
-            <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.08);">
-            </div>
-          {{/chapter.page-header}}
+        {{#printable-pages as |document|}}
+          {{#document.chapter as |chapter|}}
+            {{! template-lint-disable no-inline-styles}}
+            {{#chapter.page-header as |header|}}
+              <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.08);">
+              </div>
+            {{/chapter.page-header}}
 
-          {{#chapter.section columnCount=this.columnCount data=this.sectionData}}
-            <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);"></div>
-          {{/chapter.section}}
+            {{#chapter.section columnCount=this.columnCount data=this.sectionData}}
+              <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);"></div>
+            {{/chapter.section}}
 
-          {{#chapter.page-footer as |footer|}}
-            <div style="height: 50px; background-color: rgba(0,0,0,0.08);">
-            </div>
-          {{/chapter.page-footer}}
-          {{! template-lint-enable no-inline-styles}}
-        {{/document.chapter}}
-      {{/printable-pages}}
-    `);
+            {{#chapter.page-footer as |footer|}}
+              <div style="height: 50px; background-color: rgba(0,0,0,0.08);">
+              </div>
+            {{/chapter.page-footer}}
+            {{! template-lint-enable no-inline-styles}}
+          {{/document.chapter}}
+        {{/printable-pages}}
+      `);
     };
 
     module("1 column", function(hooks) {
@@ -406,17 +406,17 @@ module("Integration | Component | printable-pages", function(hooks) {
             </div>
           {{/chapter.page-header}}
 
-          {{#chapter.section columnCount=this.columnCount data=this.sectionData as |section|}}
-            {{#if (eq (mod section.index 5) 0)}}
-              <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">{{section.index}}</div>
-            {{else if (eq (mod section.index 5) 1)}}
-              <div style="height: 100px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">{{section.index}}</div>
-            {{else if (eq (mod section.index 5) 2)}}
-              <div style="height: 150px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">{{section.index}}</div>
-            {{else if (eq (mod section.index 5) 3)}}
-              <div style="height: 200px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">{{section.index}}</div>
-            {{else if (eq (mod section.index 5) 4)}}
-              <div style="height: 250px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">{{section.index}}</div>
+          {{#chapter.section columnCount=this.columnCount data=this.sectionData as |section index|}}
+            {{#if (eq (mod index 5) 0)}}
+              <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">{{index}}</div>
+            {{else if (eq (mod index 5) 1)}}
+              <div style="height: 100px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">{{index}}</div>
+            {{else if (eq (mod index 5) 2)}}
+              <div style="height: 150px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">{{index}}</div>
+            {{else if (eq (mod index 5) 3)}}
+              <div style="height: 200px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">{{index}}</div>
+            {{else if (eq (mod index 5) 4)}}
+              <div style="height: 250px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">{{index}}</div>
             {{/if}}
           {{/chapter.section}}
 
@@ -641,12 +641,12 @@ module("Integration | Component | printable-pages", function(hooks) {
             {{/chapter.page-header}}
 
             {{#each this.sections as |s i|}}
-              {{#chapter.section data=this.sectionData as |section|}}
+              {{#chapter.section data=this.sectionData as |section index|}}
                 <div
                   style="height: 45px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);"
                   data-test-item-for-section={{i}}
                 >
-                  section {{i}}, item index {{section.index}}
+                  section {{i}}, item index {{index}}
                 </div>
               {{/chapter.section}}
             {{/each}}

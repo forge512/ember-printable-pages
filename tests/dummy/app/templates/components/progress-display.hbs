@@ -1,9 +1,6 @@
 {{#if this.isRunning}}
-  <div>
-    Report is rendering page {{this.currentPage}}
-    {{#if this.endPage}}of {{this.endPage}}{{/if}}
-  </div>
-{{/if}}
-{{#if (and (not this.isRunning) this.isComplete)}}
-  <p>Rendered {{this.endPage}} pages in <span data-test-render-time>{{this.renderTime}}</span>s</p>
+  Rendering page {{this.currentPage}}
+  {{#if this.endPage}}of {{this.endPage}}{{/if}}
+{{else if (and (not this.isRunning) this.isComplete)}}
+  Rendered {{this.endPage}} pages in <span data-test-render-time>{{this.renderTime}}</span>s
 {{/if}}

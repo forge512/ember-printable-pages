@@ -48,27 +48,6 @@ jobs:
           name: Lint HBS
           command: yarn run lint:hbs
 
-
-  test_lts_2_18:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: .
-      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
-      - run:
-          name: Run Tests
-          command: ember try:one ember-lts-2.18 --skip-cleanup=true
-
-  test_lts_3_0:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: .
-      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
-      - run:
-          name: Run Tests
-          command: ember try:one ember-lts-3.0 --skip-cleanup=true
-
   test_3_1:
     <<: *defaults
     steps:
@@ -78,26 +57,6 @@ jobs:
       - run:
           name: Run Tests
           command: ember try:one ember-3.1 --skip-cleanup=true
-
-  test_3_2:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: .
-      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
-      - run:
-          name: Run Tests
-          command: ember try:one ember-3.2 --skip-cleanup=true
-
-  test_3_3:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: .
-      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
-      - run:
-          name: Run Tests
-          command: ember try:one ember-3.3 --skip-cleanup=true
 
   test_lts_3_4:
     <<: *defaults
@@ -118,6 +77,54 @@ jobs:
       - run:
           name: Run Tests
           command: ember try:one ember-lts-3.8 --skip-cleanup=true
+
+  test_lts_3_12:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-lts-3.12 --skip-cleanup=true
+
+  test_3_13:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-3.13 --skip-cleanup=true
+  test_3_14:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-3.14 --skip-cleanup=true
+  test_3_15:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-3.15 --skip-cleanup=true
+
+  test_lts_3_16:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-lts-3.16 --skip-cleanup=true
 
   test_release:
     <<: *defaults
@@ -180,19 +187,7 @@ workflows:
       - lint:
           requires:
             - install_dependencies
-      #- test_lts_2_18:
-      #    requires:
-      #      - install_dependencies
-      #- test_lts_3_0:
-      #    requires:
-      #      - install_dependencies
       - test_3_1:
-          requires:
-            - install_dependencies
-      - test_3_2:
-          requires:
-            - install_dependencies
-      - test_3_3:
           requires:
             - install_dependencies
       - test_lts_3_4:
@@ -201,10 +196,24 @@ workflows:
       - test_lts_3_8:
           requires:
             - install_dependencies
-      - test_release:
+      - test_lts_3_12:
           requires:
             - install_dependencies
-      # Failing as of 2/25/20
+      #- test_3_13:
+      #    requires:
+      #      - install_dependencies
+      #- test_3_14:
+      #    requires:
+      #      - install_dependencies
+      #- test_3_15:
+      #    requires:
+      #      - install_dependencies
+      - test_lts_3_16:
+          requires:
+            - install_dependencies
+      #- test_release:
+      #    requires:
+      #      - install_dependencies
       #- test_beta:
       #    requires:
       #      - install_dependencies

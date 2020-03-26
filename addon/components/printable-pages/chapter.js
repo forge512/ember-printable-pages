@@ -1,7 +1,7 @@
 import Component from "@ember/component";
 import layout from "../../templates/components/printable-pages/chapter";
-import { add, difference } from "ember-awesome-macros";
 import { alias } from "@ember/object/computed";
+import { computed } from "@ember/object";
 
 export default Component.extend({
   layout,
@@ -18,7 +18,9 @@ export default Component.extend({
   pages: alias("chapter.pages"),
   startPage: alias("chapter.startPage"),
   endPage: alias("chapter.endPage"),
-  pageCount: add(1, difference("endPage", "startPage")),
+  pageCount: computed("endPage", "startPage", function() {
+    return 1 + this.endPage - this.startPage;
+  }),
   "data-test-chapter": alias("chapter.index"),
 
   actions: {

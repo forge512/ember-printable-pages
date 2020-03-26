@@ -1,12 +1,22 @@
-{{app-topbar}}
+<AppTopbar class="print:hidden" />
 
-{{#docs-viewer as |viewer|}}
-  {{#viewer.nav as |nav|}}
+<DocsViewer as |viewer|>
+  <viewer.nav as |nav|>
+    {{nav.section "Overview"}}
     {{nav.item "Introduction" "docs.index"}}
-    {{nav.item "Example" "docs.example"}}
-  {{/viewer.nav}}
+    {{nav.item "Installation" "docs.installation"}}
+    {{nav.item "Quick Start" "docs.getting-started"}}
+    {{nav.item "Limitations" "docs.limitations"}}
 
-  {{#viewer.main}}
+    {{nav.section "Cookbook"}}
+    {{nav.item "Rerendering" "docs.rerendering"}}
+    {{nav.item "Title Pages" "docs.title-pages"}}
+    {{nav.item "Page Numbers" "docs.page-numbers"}}
+    {{nav.item "Continued Sections" "docs.continued-sections"}}
+    {{nav.item "Tracking Render Progress" "docs.render-progress"}}
+  </viewer.nav>
+
+  <viewer.main>
     {{outlet}}
-  {{/viewer.main}}
-{{/docs-viewer}}
+  </viewer.main>
+</DocsViewer>

@@ -7,20 +7,27 @@ const Router = AddonDocsRouter.extend({
 });
 
 Router.map(function() {
+  this.route("demo");
+
   this.route("demos", function() {
-    // demo routes
-    this.route("default");
-    this.route("page-layout");
-    this.route("title-page");
     this.route("large");
   });
+
   docsRoute(this, function() {
-    // doc routes
-    this.route("example");
+    this.route("installation");
+    this.route("getting-started");
+    this.route("limitations");
+    this.route("rerendering");
+    this.route("title-pages");
+    this.route("page-numbers");
+    this.route("continued-sections");
+    this.route("render-progress");
   });
+
   this.route("test-routes", function() {
     this.route("configurable");
   });
+
   this.route("not-found", { path: "/*path" });
 });
 

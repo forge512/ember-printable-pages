@@ -1,3 +1,13 @@
+# Upcoming
+
+- Upgrade misc dependencies
+- Documentation!
+
+## Breaking Changes
+
+- `component:section` now yields 3 params `data`, `index`, and `indexInPage` this mirrors how `each` behaves. Previously it yielded a hash with `data` and `index` keys.
+
+
 # 0.3.0
 
 - Upgrade to Ember 3.12
