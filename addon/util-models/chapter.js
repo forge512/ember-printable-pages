@@ -1,4 +1,4 @@
-import EmberObject, { computed } from '@ember/object';
+import EmberObject, { computed } from "@ember/object";
 import { alias } from "@ember/object/computed";
 import { A } from "@ember/array";
 import { next } from "@ember/runloop";
@@ -32,10 +32,10 @@ export default EmberObject.extend({
     // If no section, then this chapter is done!
     if (this.isFinishedRendering) return;
 
-    if (!section.pages[pageIndex]) {
+    if (!section.pages.objectAt(pageIndex)) {
       section.addPage(pageIndex, 0);
     }
-    let page = section.pages[pageIndex];
+    let page = section.pages.objectAt(pageIndex);
 
     if (page.delayRender) return;
 
@@ -56,16 +56,13 @@ export default EmberObject.extend({
       section.incrementProperty("nextItemIndex");
     }
 
-    section.set(
-      "isFullyRendered",
-      section.nextItemIndex >= section.data.length
-    );
+    section.updateIsFullyRendered();
   },
 
   lastSectionInPage(pageIndex) {
     // Find sections with data in page at pageIndex
     let sectionsInPage = this.sections.filter(
-      section => !!section.pages[pageIndex]
+      section => !!section.pages.objectAt(pageIndex)
     );
     return sectionsInPage[sectionsInPage.length - 1];
   },
@@ -76,11 +73,11 @@ export default EmberObject.extend({
 
   removeItemFromPage(pageIndex) {
     let section = this.lastSectionInPage(pageIndex);
-    let pageInSection = section.pages[pageIndex];
+    let pageInSection = section.pages.objectAt(pageIndex);
 
     // Take an item away from the current page
     if (pageInSection.endIndex === 0) {
-      section.pages.set(pageIndex, null);
+      section.pages.removeAt(pageIndex);
     } else {
       pageInSection.decrementProperty("endIndex");
     }
@@ -104,7 +101,7 @@ export default EmberObject.extend({
         );
 
         if (!this.isFinishedRendering) {
-          this.renderNextPage(pageIndex + 1, addPage);
+          this.renderNextPage(pageIndex, addPage);
         }
         return;
       }
@@ -115,7 +112,7 @@ export default EmberObject.extend({
 
   renderNextPage(pageIndex, addPage) {
     next(() => {
-      let chapterPage = this.pages[pageIndex + 1];
+      let chapterPage = this.pages.objectAt(pageIndex + 1);
       if (!chapterPage) addPage(this.id);
 
       let lastSectionInPage = this.lastSectionInPage(pageIndex);

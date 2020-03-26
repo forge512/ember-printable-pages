@@ -1,6 +1,5 @@
 import Component from "@ember/component";
 import layout from "../../templates/components/printable-pages/section";
-import { getBy } from "ember-awesome-macros";
 import { htmlSafe } from "@ember/template";
 import { computed, get } from "@ember/object";
 import { empty } from "@ember/object/computed";
@@ -24,6 +23,7 @@ export default Component.extend({
       columnCount: this.columnCount
     });
     this.set("id", id);
+    this.set("section", this.sectionMap[id]);
   },
   didUpdateAttrs() {
     let columnCountChanged =
@@ -40,9 +40,11 @@ export default Component.extend({
 
   // COMPUTED PROPS
   hasOnlyBlock: empty("data"),
-  section: getBy("sectionMap", "id"),
-  page: getBy("section.pages", "pageIndexInChapter"),
-  items: computed("section.data[]", "page.{startIndex,endIndex}", function() {
+  page: computed("section.pages.[]", "pageIndexInChapter", function() {
+    if (!this.section) return;
+    return this.section.pages.objectAt(this.pageIndexInChapter);
+  }),
+  items: computed("section.data.[]", "page.{startIndex,endIndex}", function() {
     let { startIndex, endIndex } = this.page;
     return this.section.data.slice(startIndex, endIndex + 1);
   })
