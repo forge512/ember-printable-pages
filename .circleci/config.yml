@@ -48,7 +48,7 @@ jobs:
           name: Lint HBS
           command: yarn run lint:hbs
 
-  test_lts_3_1:
+  test_3_1:
     <<: *defaults
     steps:
       - attach_workspace:
@@ -56,7 +56,7 @@ jobs:
       - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
       - run:
           name: Run Tests
-          command: ember try:one ember-lts-3.1 --skip-cleanup=true
+          command: ember try:one ember-3.1 --skip-cleanup=true
 
   test_lts_3_4:
     <<: *defaults
@@ -187,7 +187,7 @@ workflows:
       - lint:
           requires:
             - install_dependencies
-      - test_lts_3_1:
+      - test_3_1:
           requires:
             - install_dependencies
       - test_lts_3_4:
