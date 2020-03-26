@@ -88,6 +88,34 @@ jobs:
           name: Run Tests
           command: ember try:one ember-lts-3.12 --skip-cleanup=true
 
+  test_3_13:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-3.13 --skip-cleanup=true
+  test_3_14:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-3.14 --skip-cleanup=true
+  test_3_15:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: ember try:one ember-3.15 --skip-cleanup=true
+
   test_lts_3_16:
     <<: *defaults
     steps:
@@ -159,33 +187,42 @@ workflows:
       - lint:
           requires:
             - install_dependencies
-      - test_lts_3_1:
-          requires:
-            - install_dependencies
-      - test_lts_3_4:
-          requires:
-            - install_dependencies
-      - test_lts_3_8:
-          requires:
-            - install_dependencies
+      #- test_lts_3_1:
+      #    requires:
+      #      - install_dependencies
+      #- test_lts_3_4:
+      #    requires:
+      #      - install_dependencies
+      #- test_lts_3_8:
+      #    requires:
+      #      - install_dependencies
       - test_lts_3_12:
+          requires:
+            - install_dependencies
+      - test_lts_3_13:
+          requires:
+            - install_dependencies
+      - test_lts_3_14:
+          requires:
+            - install_dependencies
+      - test_lts_3_15:
           requires:
             - install_dependencies
       - test_lts_3_16:
           requires:
             - install_dependencies
-      - test_release:
-          requires:
-            - install_dependencies
-      - test_beta:
-          requires:
-            - install_dependencies
-      - test_canary:
-          requires:
-            - install_dependencies
-      - test_default:
-          requires:
-            - install_dependencies
-      - test_default_with_jquery:
-          requires:
-            - install_dependencies
+      #- test_release:
+      #    requires:
+      #      - install_dependencies
+      #- test_beta:
+      #    requires:
+      #      - install_dependencies
+      #- test_canary:
+      #    requires:
+      #      - install_dependencies
+      #- test_default:
+      #    requires:
+      #      - install_dependencies
+      #- test_default_with_jquery:
+      #    requires:
+      #      - install_dependencies
