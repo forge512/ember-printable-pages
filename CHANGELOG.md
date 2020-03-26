@@ -1,5 +1,13 @@
 # Upcoming
 
+- ...
+
+## Breaking Changes
+
+- ...
+
+# 0.4.0
+
 - Upgrade misc dependencies
 - Documentation!
 
