@@ -7,52 +7,6 @@ module.exports = async function() {
     useYarn: true,
     scenarios: [
       {
-        name: "ember-lts-2.18",
-        env: {
-          EMBER_OPTIONAL_FEATURES: JSON.stringify({
-            "jquery-integration": true
-          })
-        },
-        npm: {
-          devDependencies: {
-            "@ember/jquery": "^0.5.1",
-            "ember-source": "~2.18.0"
-          }
-        }
-      },
-      {
-        name: "ember-lts-3.0",
-        npm: {
-          devDependencies: {
-            "ember-source": "~3.0.0"
-          }
-        }
-      },
-      {
-        name: "ember-3.1",
-        npm: {
-          devDependencies: {
-            "ember-source": "~3.1.4"
-          }
-        }
-      },
-      {
-        name: "ember-3.2",
-        npm: {
-          devDependencies: {
-            "ember-source": "~3.2.2"
-          }
-        }
-      },
-      {
-        name: "ember-3.3",
-        npm: {
-          devDependencies: {
-            "ember-source": "~3.3.2"
-          }
-        }
-      },
-      {
         name: "ember-lts-3.4",
         npm: {
           devDependencies: {
@@ -65,6 +19,22 @@ module.exports = async function() {
         npm: {
           devDependencies: {
             "ember-source": "~3.8.0"
+          }
+        }
+      },
+      {
+        name: "ember-lts-3.12",
+        npm: {
+          devDependencies: {
+            "ember-source": "~3.12.0"
+          }
+        }
+      },
+      {
+        name: "ember-lts-3.16",
+        npm: {
+          devDependencies: {
+            "ember-source": "~3.16.0"
           }
         }
       },
