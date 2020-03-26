@@ -1,6 +1,5 @@
-import EmberObject from "@ember/object";
+import EmberObject, { computed } from "@ember/object";
 import { alias } from "@ember/object/computed";
-import { array, raw } from "ember-awesome-macros";
 import { A } from "@ember/array";
 
 export default EmberObject.extend({
@@ -14,9 +13,10 @@ export default EmberObject.extend({
   chapters: null,
   chapterCount: alias("chapters.length"),
   lastPage: alias("chapters.lastObject.endPage"),
-  isFinishedRendering: array.isEvery(
-    "chapters",
-    raw("isFinishedRendering"),
-    raw(true)
+  isFinishedRendering: computed(
+    "chapters.@each.isFinishedRendering",
+    function() {
+      return this.chapters.isEvery("isFinishedRendering");
+    }
   )
 });

@@ -1,6 +1,5 @@
-import EmberObject from "@ember/object";
+import EmberObject, { computed } from '@ember/object';
 import { alias } from "@ember/object/computed";
-import { array, raw } from "ember-awesome-macros";
 import { A } from "@ember/array";
 import { next } from "@ember/runloop";
 import Page from "./page";
@@ -23,11 +22,9 @@ export default EmberObject.extend({
   sectionCount: alias("sections.length"),
 
   // COMPUTED PROPS
-  isFinishedRendering: array.isEvery(
-    "sections",
-    raw("isFullyRendered"),
-    raw(true)
-  ),
+  isFinishedRendering: computed("sections.@each.isFullyRendered", function() {
+    return this.sections.isEvery("isFullyRendered");
+  }),
 
   renderNextItem(pageIndex, remainingHeight) {
     let section = this.sections.findBy("isFullyRendered", false);
