@@ -123,8 +123,11 @@ export default EmberObject.extend({
       } else if (!lastSectionInPage.isFullyRendered) {
         lastSectionInPage.reconcilePageStartIndex(pageIndex + 1);
       } else {
+        //Ensure there are any other sections left.
         let nextSection = this.sections[lastSectionInPage.index + 1];
-        nextSection.addItemToPage(pageIndex + 1);
+        if(nextSection) {
+          nextSection.addItemToPage(pageIndex + 1);
+        }
       }
     });
   }
