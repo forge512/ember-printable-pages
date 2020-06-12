@@ -10,6 +10,7 @@ Router.map(function() {
   this.route("demo");
 
   this.route("demos", function() {
+    // acceptance test
     this.route("large");
   });
 
