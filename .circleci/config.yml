@@ -22,14 +22,14 @@ jobs:
           at: .
       - restore_cache:
           keys:
-            - v1-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v1-deps-{{ .Branch }}-
-            - v1-deps-
+            - v2-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v2-deps-{{ .Branch }}-
+            - v2-deps-
       - run:
           name: Yarn Install
           command: yarn install --non-interactive
       - save_cache:
-          key: v1-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: v2-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
       - persist_to_workspace:
