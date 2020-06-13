@@ -55,6 +55,7 @@ export default Service.extend({
   },
 
   addPage(reportId, chapterId) {
+    // console.log(`<service:document-data> addPage(${reportId}, ${chapterId})`);
     let report = this.reports[reportId];
     let chapter = report.chapterMap[chapterId];
     let chapterIndex = report.chapters.indexOf(chapter);
