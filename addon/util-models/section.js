@@ -18,6 +18,13 @@ export default EmberObject.extend({
   itemHeightDiff: computed("maxItemHeight", "minItemHeight", function() {
     return this.maxItemHeight - this.minItemHeight;
   }),
+
+  toString() {
+    return `<section:${this.id}> ${this.data.length} items, nextItemIndex ${
+      this.nextItemIndex
+    }, isFullyRendered ${this.isFullyRendered}`;
+  },
+
   itemCountForPage(pageIndex) {
     let page = this.pages.objectAt(pageIndex);
     if (!page) return 0;
@@ -52,6 +59,7 @@ export default EmberObject.extend({
     } else {
       this.pages.pushObject(page);
     }
+    // this.updateIsFullyRendered();
   },
 
   addItemToPage(pageIndex) {
@@ -61,6 +69,7 @@ export default EmberObject.extend({
     } else {
       page.incrementProperty("endIndex");
       this.incrementProperty("nextItemIndex");
+      // this.updateIsFullyRendered();
     }
   }
 });

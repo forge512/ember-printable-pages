@@ -720,4 +720,230 @@ module("Integration | Component | printable-pages", function(hooks) {
         .exists({ count: 9 });
     });
   });
+
+  module("page sized section items (not using the iterator)", function() {
+    let renderTemplate = function(context) {
+      context.set("sectionCount", context.sectionCount);
+
+      return render(hbs`
+        {{#printable-pages as |document|}}
+          {{#document.chapter as |chapter|}}
+            {{! template-lint-disable no-inline-styles}}
+            {{#chapter.page-header as |header|}}
+              <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.08);">
+              </div>
+            {{/chapter.page-header}}
+
+            {{#chapter.section}}
+              <div style="height: 750px; background-color: rgba(0,0,0,0.12);">item 1</div>
+            {{/chapter.section}}
+
+            {{#if (gt this.sectionCount 1)}}
+              {{#chapter.section}}
+                <div style="height: 750px; background-color: rgba(0,0,0,0.12);">item 2</div>
+              {{/chapter.section}}
+            {{/if}}
+
+            {{#if (gt this.sectionCount 2)}}
+              {{#chapter.section}}
+                <div style="height: 750px; background-color: rgba(0,0,0,0.12);">item 3</div>
+              {{/chapter.section}}
+            {{/if}}
+
+            {{#if (gt this.sectionCount 3)}}
+              {{#chapter.section}}
+                <div style="height: 750px; background-color: rgba(0,0,0,0.12);">item 4</div>
+              {{/chapter.section}}
+            {{/if}}
+
+            {{#if (gt this.sectionCount 4)}}
+              {{#chapter.section}}
+                <div style="height: 750px; background-color: rgba(0,0,0,0.12);">item 5</div>
+              {{/chapter.section}}
+            {{/if}}
+
+            {{#chapter.page-footer as |footer|}}
+              <div style="height: 50px; background-color: rgba(0,0,0,0.08);">
+              </div>
+            {{/chapter.page-footer}}
+            {{! template-lint-enable no-inline-styles}}
+          {{/document.chapter}}
+        {{/printable-pages}}
+      `);
+    };
+
+    test("1 item", async function(assert) {
+      this.set("sectionCount", 1);
+
+      await renderTemplate(this);
+
+      assert.dom("[data-test-page]").exists({ count: 1 });
+      assert
+        .dom("[data-test-page='1'] [data-test-section]")
+        .exists({ count: this.sectionCount });
+      assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
+      assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
+    });
+
+    test("2 items", async function(assert) {
+      this.set("sectionCount", 2);
+
+      await renderTemplate(this);
+
+      assert.dom("[data-test-page]").exists({ count: 2 });
+      assert
+        .dom("[data-test-page='1'] [data-test-section]")
+        .exists({ count: 1 });
+      assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
+      assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
+
+      assert
+        .dom("[data-test-page='2'] [data-test-section]")
+        .exists({ count: 1 });
+      assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
+      assert.dom("[data-test-page='2'] [data-test-page-footer]").exists();
+    });
+
+    test("3 items", async function(assert) {
+      this.set("sectionCount", 3);
+
+      await renderTemplate(this);
+
+      assert.dom("[data-test-page]").exists({ count: 3 });
+      assert
+        .dom("[data-test-page='1'] [data-test-section]")
+        .exists({ count: 1 });
+      assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
+      assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
+
+      assert
+        .dom("[data-test-page='2'] [data-test-section]")
+        .exists({ count: 1 });
+      assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
+      assert.dom("[data-test-page='2'] [data-test-page-footer]").exists();
+
+      assert
+        .dom("[data-test-page='3'] [data-test-section]")
+        .exists({ count: 1 });
+      assert.dom("[data-test-page='3'] [data-test-page-header]").exists();
+      assert.dom("[data-test-page='3'] [data-test-page-footer]").exists();
+    });
+
+    test("5 items", async function(assert) {
+      this.set("sectionCount", 5);
+
+      await renderTemplate(this);
+
+      assert.dom("[data-test-page]").exists({ count: 5 });
+      [...Array(Number(this.sectionCount))]
+        .map((_, i) => i + 1)
+        .forEach(i =>
+          assert
+            .dom(`[data-test-page='${i}'] [data-test-section]`)
+            .exists({ count: 1 })
+        );
+    });
+  });
+
+  module("page sized section items (using the iterator)", function() {
+    let renderTemplate = function(context) {
+      context.set(
+        "sectionData",
+        [...Array(Number(context.sectionCount))].map((_, i) => i)
+      );
+      return render(hbs`
+        {{#printable-pages as |document|}}
+          {{#document.chapter as |chapter|}}
+            {{! template-lint-disable no-inline-styles}}
+            {{#chapter.page-header as |header|}}
+              <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.08);">
+              </div>
+            {{/chapter.page-header}}
+
+            {{#chapter.section data=this.sectionData as |section|}}
+              <div style="height: 750px; background-color: rgba(0,0,0,0.12);">item {{section}}</div>
+            {{/chapter.section}}
+
+            {{#chapter.page-footer as |footer|}}
+              <div style="height: 50px; background-color: rgba(0,0,0,0.08);">
+              </div>
+            {{/chapter.page-footer}}
+            {{! template-lint-enable no-inline-styles}}
+          {{/document.chapter}}
+        {{/printable-pages}}
+      `);
+    };
+
+    test("1 item", async function(assert) {
+      this.set("sectionCount", 1);
+
+      await renderTemplate(this);
+
+      assert.dom("[data-test-page]").exists({ count: 1 });
+      assert
+        .dom("[data-test-page='1'] [data-test-section-item]")
+        .exists({ count: this.sectionCount });
+      assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
+      assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
+    });
+
+    test("2 items", async function(assert) {
+      this.set("sectionCount", 2);
+
+      await renderTemplate(this);
+
+      assert.dom("[data-test-page]").exists({ count: 2 });
+      assert
+        .dom("[data-test-page='1'] [data-test-section-item]")
+        .exists({ count: 1 });
+      assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
+      assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
+
+      assert
+        .dom("[data-test-page='2'] [data-test-section-item]")
+        .exists({ count: 1 });
+      assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
+      assert.dom("[data-test-page='2'] [data-test-page-footer]").exists();
+    });
+
+    test("3 items", async function(assert) {
+      this.set("sectionCount", 3);
+
+      await renderTemplate(this);
+
+      assert.dom("[data-test-page]").exists({ count: 3 });
+      assert
+        .dom("[data-test-page='1'] [data-test-section-item]")
+        .exists({ count: 1 });
+      assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
+      assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
+
+      assert
+        .dom("[data-test-page='2'] [data-test-section-item]")
+        .exists({ count: 1 });
+      assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
+      assert.dom("[data-test-page='2'] [data-test-page-footer]").exists();
+
+      assert
+        .dom("[data-test-page='3'] [data-test-section-item]")
+        .exists({ count: 1 });
+      assert.dom("[data-test-page='3'] [data-test-page-header]").exists();
+      assert.dom("[data-test-page='3'] [data-test-page-footer]").exists();
+    });
+
+    test("8 items", async function(assert) {
+      this.set("sectionCount", 8);
+
+      await renderTemplate(this);
+
+      assert.dom("[data-test-page]").exists({ count: 8 });
+      [...Array(Number(this.sectionCount))]
+        .map((_, i) => i + 1)
+        .forEach(i =>
+          assert
+            .dom(`[data-test-page='${i}'] [data-test-section-item]`)
+            .exists({ count: 1 })
+        );
+    });
+  });
 });

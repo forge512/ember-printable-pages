@@ -26,7 +26,15 @@ export default EmberObject.extend({
     return this.sections.isEvery("isFullyRendered");
   }),
 
+  instrument() {
+    // eslint-disable-next-line no-console
+    this.sections.map(s => console.log(s.toString(), s.pages.toArray()));
+  },
+
   renderNextItem(pageIndex, remainingHeight) {
+    // console.log(`Chapter#renderNextItem(${pageIndex}, ${remainingHeight})`);
+    // this.instrument();
+
     let section = this.sections.findBy("isFullyRendered", false);
 
     // If no section, then this chapter is done!
@@ -57,6 +65,9 @@ export default EmberObject.extend({
     }
 
     section.updateIsFullyRendered();
+    // console.log(`-------`);
+    // this.instrument();
+    // console.log(`</> Chapter#renderNextItem(${pageIndex}, ${remainingHeight})`);
   },
 
   lastSectionInPage(pageIndex) {
@@ -72,22 +83,33 @@ export default EmberObject.extend({
   },
 
   removeItemFromPage(pageIndex) {
+    // console.log(`Chapter#removeItemFromPage(${pageIndex})`);
+    // this.instrument();
+
     let section = this.lastSectionInPage(pageIndex);
     let pageInSection = section.pages.objectAt(pageIndex);
 
     // Take an item away from the current page
     if (pageInSection.endIndex === 0) {
       section.pages.removeAt(pageIndex);
+      section.pages.insertAt(pageIndex, null);
     } else {
       pageInSection.decrementProperty("endIndex");
     }
     section.decrementProperty("nextItemIndex");
     section.set("isFullyRendered", false);
+
+    // console.log("------");
+    // this.instrument();
+    // console.log(`</> Chapter#removeItemFromPage(${pageIndex})`);
   },
 
   // Rename to 'removeLastItem'
   moveLastItemToNextPage(pageIndex, addPage) {
     next(() => {
+      // console.log(`Chapter#moveLastItemToNextPage(${pageIndex}, fn)`);
+      // this.instrument();
+
       let itemCountForPage = this.itemCountForPage(pageIndex);
 
       // If there is only one item on the page, don't remove it
@@ -112,6 +134,8 @@ export default EmberObject.extend({
 
   renderNextPage(pageIndex, addPage) {
     next(() => {
+      // console.log(`Chapter#renderNextPage(${pageIndex}, fn)`);
+      // this.instrument();
       let chapterPage = this.pages.objectAt(pageIndex + 1);
       if (!chapterPage) addPage(this.id);
 
@@ -123,9 +147,17 @@ export default EmberObject.extend({
       } else if (!lastSectionInPage.isFullyRendered) {
         lastSectionInPage.reconcilePageStartIndex(pageIndex + 1);
       } else {
+        //Ensure there are any other sections left.
         let nextSection = this.sections[lastSectionInPage.index + 1];
-        nextSection.addItemToPage(pageIndex + 1);
+        if (nextSection) {
+          nextSection.addItemToPage(pageIndex + 1);
+          nextSection.updateIsFullyRendered();
+        }
       }
+
+      // console.log("----");
+      // this.instrument();
+      // console.log(`</> Chapter#renderNextPage(${pageIndex}, fn)`);
     });
   }
 });
