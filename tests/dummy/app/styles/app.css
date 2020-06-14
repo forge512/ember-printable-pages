@@ -62,5 +62,10 @@ body.is-test {
   body > .ember-view > div.h-screen > div.flex {
     display: block;
   }
+
+  /* Safari scales page down so width of 100vw fits on the page */
+  .print\:w-screen {
+    width: auto !important;
+  }
 }
 /* purgecss end ignore */
