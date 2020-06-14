@@ -48,8 +48,19 @@ body.is-test {
   body > .ember-view {
     margin-top: 0;
   }
+  body > div.ember-view > div.h-screen {
+    height: auto;
+  }
   body > div.ember-view > div.h-screen > header {
     display: none;
+  }
+
+  /* Firefox only prints 1st page when tree has display: flex */
+  html,
+  body,
+  body > .ember-view,
+  body > .ember-view > div.h-screen > div.flex {
+    display: block;
   }
 }
 /* purgecss end ignore */
