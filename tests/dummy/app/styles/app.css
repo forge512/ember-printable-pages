@@ -34,6 +34,7 @@ body.is-test {
   background-color: #d2e0e6 !important;
 }
 
+/* purgecss start ignore */
 .PrintablePages {
   background-color: #263238;
 }
@@ -48,3 +49,4 @@ body.is-test {
     margin-top: 0;
   }
 }
+/* purgecss end ignore */
