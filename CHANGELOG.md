@@ -1,4 +1,4 @@
-# Upcoming
+# 0.5.0
 
 - Bug: Resolves Issue [#159](https://github.com/forge512/ember-printable-pages/issues/159) which caused the first page of Firefox to overflow in the demo app
 - Bug: Fixes a bug causing Safari to scale the page down based on the width of your viewport when printing
