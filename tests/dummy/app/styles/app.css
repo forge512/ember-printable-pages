@@ -48,5 +48,8 @@ body.is-test {
   body > .ember-view {
     margin-top: 0;
   }
+  body > div.ember-view > div.h-screen > header {
+    display: none;
+  }
 }
 /* purgecss end ignore */
