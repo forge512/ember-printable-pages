@@ -4,6 +4,7 @@
 - Bug: Fixes a bug causing Safari to scale the page down based on the width of your viewport when printing
 - Documentation: Add notes about open browser compatibility issues and notes about how to set print menu settings for best results.
 - Documentation: Add instructions for how to tell PrintablePages to rerender
+- Bug: Fixed a bug causing PrintablePages to hang or skip rendering some sections when rendering full page sections [PR #193](https://github.com/forge512/ember-printable-pages/pull/193)
 
 ## Breaking Changes
 
