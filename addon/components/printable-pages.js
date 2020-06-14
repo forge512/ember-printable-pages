@@ -53,12 +53,14 @@ export default Component.extend({
         this.set("rerendering", true);
 
         // Re-render after next render
-        scheduleOnce("afterRender", this, () => {
+        let rerender = () => {
           if (this.isDestroyed) return;
 
           this.get("renderTask").perform();
           resolve();
-        });
+        };
+
+        scheduleOnce("afterRender", this, rerender);
       });
     });
   }).drop(),
