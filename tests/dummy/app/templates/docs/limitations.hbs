@@ -1,14 +1,75 @@
 <h1>Limitations</h1>
 
-<h2>Browser Print Menus</h2>
+<h2>Browser Print Styles</h2>
 <p>
   Browsers do not consistently support many css features when printing.
   This addon provides some sensible defaults which work well in
   most cases for modern browsers.
+  <br>
+  There are a few important styling caveats that developers should take
+  into account.
 </p>
+
+<h3>Firefox and display: flex</h3>
 <p>
-  <em><b>It is important that the user set margins and scale 'default' in the print menu</b></em>.
-  This is not controllable via js or css.
+  If the dom parents of the PrintablePages component use `display: flex`,
+  then Firefox will only print the 1st page. To workaround this set
+  `display: block` in a print media style.
+</p>
+
+<h3>Safari</h3>
+<p>
+  Safari has a number of open issues. Please see <a href="https://github.com/forge512/ember-printable-pages/issues">gitub issues</a>.
+</p>
+
+<h2>Browser Print Menus</h2>
+<p>
+  Unfortunately many of the settings in the browser print menus are not
+  configurable via js or css. In these cases, encourage your users to
+  follow the recommendations below.
+</p>
+
+<h3>Chrome</h3>
+<p>
+  <ul class="styled-list">
+    <li>
+      <b>Important:</b> Set margins 'default'.
+      Other values will cause the pages to be off centered or overflow.
+    </li>
+    <li>
+      <b>Important:</b> Set scale to 'default'.
+      Other values will cause the pages to be off centered or overflow.
+    </li>
+    <li>
+      <b>Optional:</b> Disable (uncheck) 'Headers and footers'.
+      You've taken the time to create a nicely styled report with page headers
+      and footers. Don't have the browser clutter your design.
+    </li>
+    <li>
+      <b>Optional:</b> Enable (check) 'Background graphics'.
+      This settings will remove any background graphics or colors. If
+      you've been intentional about background image and color design
+      encourage your users to enable them.
+    </li>
+  </ul>
+</p>
+
+<h3>Firefox</h3>
+
+<p>
+  <ul class="styled-list">
+    <li>
+      <b>Important:</b> Disable (uncheck) 'Ignore Scaling and Shrink To Fit Page Width.
+      Other values will cause the pages to be off centered or overflow.
+    </li>
+    <li>
+      <b>Optional:</b> Set 'Page Headers' and 'Page Footers' to '-- blank --'.
+    </li>
+    <li>
+      <b>Optional:</b> Enable (check) 'Print Background Colors' and 'Print Background Images'.
+      Disabling these settings will remove any background graphics or colors.
+    </li>
+  </ul>
 </p>
 
 <h2>Sections with lots of text</h2>
