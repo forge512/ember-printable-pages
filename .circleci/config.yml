@@ -187,39 +187,24 @@ workflows:
       - lint:
           requires:
             - install_dependencies
-      - test_3_1:
-          requires:
-            - install_dependencies
-      - test_lts_3_4:
-          requires:
-            - install_dependencies
       - test_lts_3_8:
           requires:
             - install_dependencies
       - test_lts_3_12:
           requires:
             - install_dependencies
-      #- test_3_13:
-      #    requires:
-      #      - install_dependencies
-      #- test_3_14:
-      #    requires:
-      #      - install_dependencies
-      #- test_3_15:
-      #    requires:
-      #      - install_dependencies
       - test_lts_3_16:
           requires:
             - install_dependencies
-      #- test_release:
-      #    requires:
-      #      - install_dependencies
-      #- test_beta:
-      #    requires:
-      #      - install_dependencies
-      #- test_canary:
-      #    requires:
-      #      - install_dependencies
+      - test_release:
+          requires:
+            - install_dependencies
+      - test_beta:
+          requires:
+            - install_dependencies
+      - test_canary:
+          requires:
+            - install_dependencies
       - test_default:
           requires:
             - install_dependencies
