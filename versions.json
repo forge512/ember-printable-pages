@@ -16,11 +16,5 @@
     "name": "v0.4.0",
     "sha": "555998a0a2e42940dc59a2d6c3a84eea3324df4c",
     "tag": "v0.4.0"
-  },
-  "ember-3.16": {
-    "path": "versions/ember-3.16",
-    "name": "ember-3.16",
-    "sha": "ce9818161db1c5540f6f1f892a9dc6b017479a19",
-    "tag": null
   }
 }
