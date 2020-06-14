@@ -45,6 +45,10 @@ body.is-test {
 }
 
 @media print {
+  .PrintablePages {
+    background-color: #fff;
+  }
+
   body > .ember-view {
     margin-top: 0;
   }
