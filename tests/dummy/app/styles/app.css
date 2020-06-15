@@ -52,10 +52,16 @@ body.is-test {
   body > .ember-view {
     margin-top: 0;
   }
+  /* docs demo page */
   body > div.ember-view > div.h-screen {
     height: auto;
   }
+  /* docs demo page */
   body > div.ember-view > div.h-screen > header {
+    display: none;
+  }
+  /* docs home page */
+  body > div.ember-view > header {
     display: none;
   }
 
