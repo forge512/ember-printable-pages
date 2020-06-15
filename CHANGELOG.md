@@ -1,3 +1,7 @@
+# 0.5.2
+
+- Bug: Fix typo in demo app [#213](https://github.com/forge512/ember-printable-pages/issues/213)
+
 # 0.5.1
 
 - Bug: Hide header when printing the home page of the docs [#212](https://github.com/forge512/ember-printable-pages/pull/212)
