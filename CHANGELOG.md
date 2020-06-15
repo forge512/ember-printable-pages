@@ -1,3 +1,9 @@
+# 0.5.1
+
+- Bug: Hide header when printing the home page of the docs [#212](https://github.com/forge512/ember-printable-pages/pull/212)
+- Upgrade ember-test-selectors [#211](https://github.com/forge512/ember-printable-pages/pull/211)
+
+
 # 0.5.0
 
 - Bug: Resolves Issue [#159](https://github.com/forge512/ember-printable-pages/issues/159) which caused the first page of Firefox to overflow in the demo app
