@@ -13,12 +13,18 @@ export default Component.extend({
     this.set(
       "pageStyles",
       htmlSafe(
-        `height:${this.pageLayout.height};` + `width:${this.pageLayout.width};`
+        `height:${this.pageLayout.innerHeight};` +
+          `width:${this.pageLayout.innerWidth};`
       )
-      // TODO margins need to be controlled in css so that we can
-      // have margins in the dom to make it look like a printed page,
-      // then use @page to control print margins in '@media print'
-      // `padding:${this.pageLayout.margins};`
+    );
+    this.set(
+      "containerStyles",
+      htmlSafe(
+        `padding-top:${this.pageLayout.top};` +
+          `padding-right:${this.pageLayout.right};` +
+          `padding-bottom:${this.pageLayout.bottom};` +
+          `padding-left:${this.pageLayout.left};`
+      )
     );
   }
 });
