@@ -85,10 +85,15 @@
     margin: 0;
   }
 
+  div.PrintablePages-pageContainer[style] {
+    padding-top: 0 !important;
+    padding-right: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 0 !important;
+  }
+
   section.PrintablePages-page[style] {
-    margin-top: 0 !important;
     margin-right: auto !important;
-    margin-bottom: 0 !important;
     margin-left: auto !important;
   }
 
