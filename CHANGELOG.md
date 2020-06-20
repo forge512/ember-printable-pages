@@ -1,3 +1,12 @@
+# 0.6.0
+
+- Feature: Add layout customizations
+
+## Breaking Changes
+
+- Bug: Fix bug in tests which caused the inner (printable) page height to be too large. This was caused by math issues due to the ember test environment scaling the test window. This will change how many items fit in a page during test which can break existing tests.
+
+
 # 0.5.2
 
 - Bug: Fix typo in demo app [#213](https://github.com/forge512/ember-printable-pages/issues/213)
