@@ -18,6 +18,7 @@ Router.map(function() {
     this.route("installation");
     this.route("getting-started");
     this.route("limitations");
+    this.route("layout-customization");
     this.route("rerendering");
     this.route("title-pages");
     this.route("page-numbers");

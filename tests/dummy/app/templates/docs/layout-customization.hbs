@@ -1,0 +1,45 @@
+<h1>Layout Customization</h1>
+
+<p>
+  Printable Pages accepts optional properties to control the layout of
+  your document. The default values should work with most printers.
+  <br><br>
+  Default values are:
+  <ul class="styled-list">
+    <li>dimensions.width: 8.5</li>
+    <li>dimensions.height: 8.5</li>
+    <li>margins.top: 0.5</li>
+    <li>margins.right: 0.5</li>
+    <li>margins.bottom: 0.5</li>
+    <li>margins.left: 0.5</li>
+    <li>units: 'in'</li>
+  </ul>
+</p>
+
+{{#docs-demo as |demo|}}
+  {{#demo.example name="getting-started-1" class="hidden"}}
+    <PrintablePages
+      @dimensions={{hash
+        width=this.settings.width
+        height=this.settings.height
+      }}
+      @margins={{hash
+        top=this.settings.top
+        right=this.settings.right
+        bottom=this.settings.bottom
+        left=this.settings.left
+      }}
+      @units={{this.settings.units}}
+
+      as |document|
+    >
+      <document.chapter as |chapter|>
+        <chapter.page-header>Header content</chapter.page-header>
+        <chapter.section>Some content here</chapter.section>
+        <chapter.page-footer>Footer content</chapter.page-footer>
+      </document.chapter>
+    </PrintablePages>
+  {{/demo.example}}
+
+  {{docs-snippet name="getting-started-1" language="hbs"}}
+{{/docs-demo}}
