@@ -12,25 +12,13 @@
 }
 .PrintablePages-pageContainer {
   background-color: #fff;
-  padding: 0.5in;
+  /* this provides separation between pages for screen */
   margin-bottom: 16px;
 }
+
 @media print {
-  .PrintablePages-pageLayout {
-    display: block !important;
-  }
-  .PrintablePages-pageContainer {
-    padding: 0;
-    margin-bottom: 0;
-  }
-  @page {
-    margin: 0.6in;
-  }
 }
-.PrintablePages-page {
-}
-.PrintablePages-pageHeader {
-}
+
 .PrintablePages-pageBody {
   overflow: hidden;
 }
@@ -80,15 +68,33 @@
     padding: 0;
     margin: 0;
   }
+
+  .PrintablePages-pageLayout {
+    display: block !important;
+  }
+
+  .PrintablePages-pageContainer {
+    padding: 0;
+    /* remove the visual separation between pages when printing */
+    margin-bottom: 0;
+  }
+
   .PrintablePages-page {
     background: transparent;
     padding: 0;
     margin: 0;
-    /*
-     * add 0.25in bonus height when printing to ensure the
-     * slight size changes made in print doesn't cause loss of data
-     * NOTE Not sure why we need this
-    /* height: 10in; */
+  }
+
+  div.PrintablePages-pageContainer[style] {
+    padding-top: 0 !important;
+    padding-right: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 0 !important;
+  }
+
+  section.PrintablePages-page[style] {
+    margin-right: auto !important;
+    margin-left: auto !important;
   }
 
   .no-print {

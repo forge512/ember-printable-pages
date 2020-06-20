@@ -81,7 +81,7 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("1 page, full page", async function(assert) {
-        this.set("sectionCount", 16);
+        this.set("sectionCount", 15);
 
         await renderTemplate(this);
 
@@ -94,14 +94,14 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("2 pages, 2nd page has one item", async function(assert) {
-        this.set("sectionCount", 17);
+        this.set("sectionCount", 16);
 
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 2 });
         assert
           .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 16 });
+          .exists({ count: 15 });
         assert
           .dom("[data-test-page='2'] [data-test-section-item]")
           .exists({ count: 1 });
@@ -112,17 +112,17 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("2 pages, 2nd page is full", async function(assert) {
-        this.set("sectionCount", 32);
+        this.set("sectionCount", 30);
 
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 2 });
         assert
           .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 16 });
+          .exists({ count: 15 });
         assert
           .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 16 });
+          .exists({ count: 15 });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
         assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
@@ -130,7 +130,7 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("3 pages, 3rd page has 1 item", async function(assert) {
-        this.set("sectionCount", 33);
+        this.set("sectionCount", 31);
 
         await renderTemplate(this);
 
@@ -138,10 +138,10 @@ module("Integration | Component | printable-pages", function(hooks) {
 
         assert
           .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 16 });
+          .exists({ count: 15 });
         assert
           .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 16 });
+          .exists({ count: 15 });
         assert
           .dom("[data-test-page='3'] [data-test-section-item]")
           .exists({ count: 1 });
@@ -155,7 +155,7 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("3 pages, 3rd page has 5 items", async function(assert) {
-        this.set("sectionCount", 37);
+        this.set("sectionCount", 35);
 
         await renderTemplate(this);
 
@@ -163,10 +163,10 @@ module("Integration | Component | printable-pages", function(hooks) {
 
         assert
           .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 16 });
+          .exists({ count: 15 });
         assert
           .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 16 });
+          .exists({ count: 15 });
         assert
           .dom("[data-test-page='3'] [data-test-section-item]")
           .exists({ count: 5 });
@@ -186,7 +186,7 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("1 page, full page", async function(assert) {
-        this.set("sectionCount", 32);
+        this.set("sectionCount", 30);
 
         await renderTemplate(this);
 
@@ -199,14 +199,14 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("2 pages, 2nd page has one item", async function(assert) {
-        this.set("sectionCount", 33);
+        this.set("sectionCount", 31);
 
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 2 });
         assert
           .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 32 });
+          .exists({ count: 30 });
         assert
           .dom("[data-test-page='2'] [data-test-section-item]")
           .exists({ count: 1 });
@@ -217,17 +217,17 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("2 pages, 2nd page is full", async function(assert) {
-        this.set("sectionCount", 64);
+        this.set("sectionCount", 60);
 
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 2 });
         assert
           .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 32 });
+          .exists({ count: 30 });
         assert
           .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 32 });
+          .exists({ count: 30 });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
         assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
@@ -235,7 +235,7 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("3 pages, 3rd page has 1 item", async function(assert) {
-        this.set("sectionCount", 65);
+        this.set("sectionCount", 61);
 
         await renderTemplate(this);
 
@@ -243,10 +243,10 @@ module("Integration | Component | printable-pages", function(hooks) {
 
         assert
           .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 32 });
+          .exists({ count: 30 });
         assert
           .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 32 });
+          .exists({ count: 30 });
         assert
           .dom("[data-test-page='3'] [data-test-section-item]")
           .exists({ count: 1 });
@@ -260,7 +260,7 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("3 pages, 3rd page has 5 items", async function(assert) {
-        this.set("sectionCount", 69);
+        this.set("sectionCount", 65);
 
         await renderTemplate(this);
 
@@ -268,10 +268,10 @@ module("Integration | Component | printable-pages", function(hooks) {
 
         assert
           .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 32 });
+          .exists({ count: 30 });
         assert
           .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 32 });
+          .exists({ count: 30 });
         assert
           .dom("[data-test-page='3'] [data-test-section-item]")
           .exists({ count: 5 });
@@ -291,7 +291,7 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("1 page, full page", async function(assert) {
-        this.set("sectionCount", 48);
+        this.set("sectionCount", 45);
 
         await renderTemplate(this);
 
@@ -304,14 +304,14 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("2 pages, 2nd page has one item", async function(assert) {
-        this.set("sectionCount", 49);
+        this.set("sectionCount", 46);
 
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 2 });
         assert
           .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 48 });
+          .exists({ count: 45 });
         assert
           .dom("[data-test-page='2'] [data-test-section-item]")
           .exists({ count: 1 });
@@ -322,17 +322,17 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("2 pages, 2nd page is full", async function(assert) {
-        this.set("sectionCount", 96);
+        this.set("sectionCount", 90);
 
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 2 });
         assert
           .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 48 });
+          .exists({ count: 45 });
         assert
           .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 48 });
+          .exists({ count: 45 });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
         assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
@@ -340,7 +340,7 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("3 pages, 3rd page has 1 item", async function(assert) {
-        this.set("sectionCount", 97);
+        this.set("sectionCount", 91);
 
         await renderTemplate(this);
 
@@ -348,10 +348,10 @@ module("Integration | Component | printable-pages", function(hooks) {
 
         assert
           .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 48 });
+          .exists({ count: 45 });
         assert
           .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 48 });
+          .exists({ count: 45 });
         assert
           .dom("[data-test-page='3'] [data-test-section-item]")
           .exists({ count: 1 });
@@ -365,7 +365,7 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("3 pages, 3rd page has 5 items", async function(assert) {
-        this.set("sectionCount", 101);
+        this.set("sectionCount", 95);
 
         await renderTemplate(this);
 
@@ -373,10 +373,10 @@ module("Integration | Component | printable-pages", function(hooks) {
 
         assert
           .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 48 });
+          .exists({ count: 45 });
         assert
           .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 48 });
+          .exists({ count: 45 });
         assert
           .dom("[data-test-page='3'] [data-test-section-item]")
           .exists({ count: 5 });
@@ -493,7 +493,7 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("2 pages, 2nd page is full", async function(assert) {
-        this.set("sectionCount", 12);
+        this.set("sectionCount", 11);
 
         await renderTemplate(this);
 
@@ -503,7 +503,7 @@ module("Integration | Component | printable-pages", function(hooks) {
           .exists({ count: 6 });
         assert
           .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 6 });
+          .exists({ count: 5 });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
         assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
@@ -511,7 +511,7 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("3 pages, 3rd page has 1 item", async function(assert) {
-        this.set("sectionCount", 13);
+        this.set("sectionCount", 12);
 
         await renderTemplate(this);
 
@@ -522,7 +522,7 @@ module("Integration | Component | printable-pages", function(hooks) {
           .exists({ count: 6 });
         assert
           .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 6 });
+          .exists({ count: 5 });
         assert
           .dom("[data-test-page='3'] [data-test-section-item]")
           .exists({ count: 1 });
@@ -536,7 +536,7 @@ module("Integration | Component | printable-pages", function(hooks) {
       });
 
       test("3 pages, 3rd page has 3 items", async function(assert) {
-        this.set("sectionCount", 15);
+        this.set("sectionCount", 14);
 
         await renderTemplate(this);
 
@@ -547,7 +547,7 @@ module("Integration | Component | printable-pages", function(hooks) {
           .exists({ count: 6 });
         assert
           .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 6 });
+          .exists({ count: 5 });
         assert
           .dom("[data-test-page='3'] [data-test-section-item]")
           .exists({ count: 3 });
@@ -597,14 +597,14 @@ module("Integration | Component | printable-pages", function(hooks) {
     test("1 page, 16 items", async function(assert) {
       this.set("displayExpandedItems", false);
       this.set("columnCount", 1);
-      this.set("sectionCount", 16);
+      this.set("sectionCount", 15);
 
       await renderTemplate(this);
 
       assert.dom("[data-test-page]").exists({ count: 1 });
       assert
         .dom("[data-test-page='1'] [data-test-section-item]")
-        .exists({ count: 16 });
+        .exists({ count: 15 });
       assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
       assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
 
@@ -617,7 +617,7 @@ module("Integration | Component | printable-pages", function(hooks) {
         .exists({ count: 8 });
       assert
         .dom("[data-test-page='2'] [data-test-section-item]")
-        .exists({ count: 8 });
+        .exists({ count: 7 });
     });
   });
 
@@ -944,6 +944,112 @@ module("Integration | Component | printable-pages", function(hooks) {
             .dom(`[data-test-page='${i}'] [data-test-section-item]`)
             .exists({ count: 1 })
         );
+    });
+  });
+
+  module("layout customization", function() {
+    let renderTemplate = function(context) {
+      context.set(
+        "sectionData",
+        [...Array(Number(context.sectionCount))].map((_, i) => i)
+      );
+      return render(hbs`
+        {{#printable-pages
+          dimensions=(hash
+            width=this.width
+            height=this.height
+          )
+          margins=(hash
+            top=this.top
+            right=this.right
+            bottom=this.bottom
+            left=this.left
+          )
+          orientation=this.orientation
+          units=this.units
+          as |document|
+        }}
+          {{#document.chapter as |chapter|}}
+            {{! template-lint-disable no-inline-styles}}
+            {{#chapter.page-header as |header|}}
+              <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.08);">
+              </div>
+            {{/chapter.page-header}}
+
+            {{#chapter.section columnCount=this.columnCount data=this.sectionData}}
+              <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);"></div>
+            {{/chapter.section}}
+
+            {{#chapter.page-footer as |footer|}}
+              <div style="height: 50px; background-color: rgba(0,0,0,0.08);">
+              </div>
+            {{/chapter.page-footer}}
+            {{! template-lint-enable no-inline-styles}}
+          {{/document.chapter}}
+        {{/printable-pages}}
+      `);
+    };
+
+    module("with undefined values", function(hooks) {
+      hooks.beforeEach(function() {
+        this.set("columnCount", 1);
+      });
+
+      test("1 page, 15 items", async function(assert) {
+        this.set("sectionCount", 15);
+
+        await renderTemplate(this);
+
+        assert.dom("[data-test-page]").exists({ count: 1 });
+        assert
+          .dom("[data-test-section-item]")
+          .exists({ count: this.sectionCount });
+        assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
+        assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
+      });
+    });
+
+    module("with large margins values", function(hooks) {
+      hooks.beforeEach(function() {
+        this.set("columnCount", 1);
+        this.set("top", 2);
+        this.set("right", 2);
+        this.set("bottom", 2);
+        this.set("left", 2);
+      });
+
+      test("15 items", async function(assert) {
+        this.set("sectionCount", 15);
+
+        await renderTemplate(this);
+
+        assert.dom("[data-test-page]").exists({ count: 2 });
+        assert
+          .dom("[data-test-page='1'] [data-test-section-item]")
+          .exists({ count: 10 });
+        assert
+          .dom("[data-test-page='2'] [data-test-section-item]")
+          .exists({ count: 5 });
+      });
+    });
+
+    module("with a larger page", function(hooks) {
+      hooks.beforeEach(function() {
+        this.set("columnCount", 1);
+        this.set("width", 12);
+        this.set("height", 14);
+      });
+
+      test("15 items", async function(assert) {
+        this.set("sectionCount", 15);
+
+        await renderTemplate(this);
+
+        assert.dom("[data-test-page]").exists({ count: 1 });
+        assert
+          .dom("[data-test-page='1'] [data-test-section-item]")
+          .exists({ count: 15 });
+      });
     });
   });
 });

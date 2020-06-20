@@ -5,19 +5,38 @@ import { alias } from "@ember/object/computed";
 import { next, scheduleOnce } from "@ember/runloop";
 import { task } from "ember-concurrency";
 import { Promise } from "rsvp";
-import { get } from "@ember/object";
+import EmberObject, { computed, get } from "@ember/object";
 import { registerWaiter } from "@ember/test";
 import Ember from "ember";
+import { isBlank } from "@ember/utils";
+
+const DEFAULT_DIMENSIONS = {
+  units: "in",
+  dimensions: {
+    width: 8.5,
+    height: 11
+  },
+  margins: {
+    top: 0.5,
+    right: 0.5,
+    bottom: 0.5,
+    left: 0.5
+  }
+};
+
+let getOrDefault = (context, namespace, key) => {
+  let value = get(context, `${namespace}.${key}`);
+  if (isBlank(value)) {
+    return DEFAULT_DIMENSIONS[namespace][key];
+  } else {
+    return value;
+  }
+};
 
 export default Component.extend({
   layout,
   documentData: service(),
   classNames: ["PrintablePages"],
-  pageLayout: Object.freeze({
-    height: "9.8in",
-    width: "7.3in",
-    margins: "0.6in"
-  }),
   _isRendering: false,
 
   // LIFECYCLE HOOKS
@@ -31,7 +50,36 @@ export default Component.extend({
     this.get("rerenderTask").perform();
   },
 
+  // COMPUTED PROPS
   chapters: alias("reportObject.chapters"),
+
+  pageLayout: computed(
+    "dimensions.{width,height}",
+    "margins.{top,right,left,bottom}",
+    "orientation",
+    "units",
+    function() {
+      let units = isBlank(this.units) ? DEFAULT_DIMENSIONS.units : this.units;
+      let width = getOrDefault(this, "dimensions", "width");
+      let height = getOrDefault(this, "dimensions", "height");
+      let top = getOrDefault(this, "margins", "top");
+      let right = getOrDefault(this, "margins", "right");
+      let bottom = getOrDefault(this, "margins", "bottom");
+      let left = getOrDefault(this, "margins", "left");
+
+      let innerWidth = width - right - left;
+      let innerHeight = height - top - bottom;
+
+      return EmberObject.create({
+        innerWidth: `${innerWidth}${units}`,
+        innerHeight: `${innerHeight}${units}`,
+        top: `${top}${units}`,
+        right: `${right}${units}`,
+        bottom: `${bottom}${units}`,
+        left: `${left}${units}`
+      });
+    }
+  ),
 
   // TASKS
   // eslint-disable-next-line require-yield

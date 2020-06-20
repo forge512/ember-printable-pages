@@ -72,7 +72,7 @@ module("Integration | Component | printable-pages/chapter", function(hooks) {
 
     test("2 pages each, 2nd page in each chapter has 1 item", async function(assert) {
       this.set("columnCount", 1);
-      this.set("sectionCount", 17);
+      this.set("sectionCount", 16);
 
       await renderTemplate(this);
 
@@ -90,7 +90,7 @@ module("Integration | Component | printable-pages/chapter", function(hooks) {
         .dom(
           "[data-test-chapter='0'] [data-test-page='1'] [data-test-section-item]"
         )
-        .exists({ count: 16 });
+        .exists({ count: 15 });
       assert
         .dom(
           "[data-test-chapter='0'] [data-test-page='2'] [data-test-section-item]"
@@ -101,7 +101,7 @@ module("Integration | Component | printable-pages/chapter", function(hooks) {
         .dom(
           "[data-test-chapter='1'] [data-test-page='3'] [data-test-section-item]"
         )
-        .exists({ count: 16 });
+        .exists({ count: 15 });
       assert
         .dom(
           "[data-test-chapter='1'] [data-test-page='4'] [data-test-section-item]"

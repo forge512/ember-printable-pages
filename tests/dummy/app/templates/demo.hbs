@@ -6,6 +6,20 @@
       @onRenderStart={{action "start"}}
       @onRenderProgress={{action "updateProgress"}}
       @onRenderComplete={{action "complete"}}
+
+      @dimensions={{hash
+        width=this.settings.width
+        height=this.settings.height
+      }}
+      @margins={{hash
+        top=this.settings.top
+        right=this.settings.right
+        bottom=this.settings.bottom
+        left=this.settings.left
+      }}
+      @orientation={{this.settings.orientation}}
+      @units={{this.settings.units}}
+
       class="
         h-full print:h-auto
         w-4/5 print:w-screen
@@ -98,7 +112,7 @@
       </document.chapter>
     </PrintablePages>
 
-    <div class="w-1/5 print:hidden p-4">
+    <div class="w-1/5 print:hidden p-4 overflow-y-auto">
       <ProgressDisplay
         @isRunning={{this.isRunning}}
         @currentPage={{this.currentPage}}
@@ -117,6 +131,7 @@
           class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
         }}
       </div>
+
       <div class="py-2">
         <label>Column Count</label>
         {{input
@@ -129,6 +144,10 @@
           class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
         }}
       </div>
+
+      <hr class="my-8">
+
+      <PrintSettings />
     </div>
   </div>
 </div>

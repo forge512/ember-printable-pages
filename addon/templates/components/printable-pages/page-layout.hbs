@@ -1,6 +1,7 @@
 {{! template-lint-disable no-inline-styles no-triple-curlies}}
 <div
   class="PrintablePages-pageContainer"
+  style={{{this.containerStyles}}}
   data-test-page={{pageNumber}}
 >
   <section class="PrintablePages-page" style={{{pageStyles}}}>

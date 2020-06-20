@@ -4,6 +4,7 @@ import { htmlSafe } from "@ember/template";
 import { next } from "@ember/runloop";
 import { inject as service } from "@ember/service";
 import { isPresent } from "@ember/utils";
+import { getOwner } from "@ember/application";
 
 export default Component.extend({
   layout,
@@ -17,6 +18,10 @@ export default Component.extend({
       .getBoundingClientRect().top;
     let topOfElement = this.element.getBoundingClientRect().top;
     let wrapperHeight = topOfBreakAfter - topOfElement;
+
+    // The ember test environment scales the page down by 50%
+    let config = getOwner(this).resolveRegistration("config:environment");
+    if (config.environment === "test") wrapperHeight = wrapperHeight * 2;
 
     // set the page body height
     this._setPageBodyHeight(wrapperHeight);
@@ -103,9 +108,7 @@ export default Component.extend({
   // HELPER FUNCTIONS
   _setPageBodyHeight(wrapperHeight) {
     wrapperHeight = Math.ceil(wrapperHeight);
-    // Use height based on parent (100%) so that parent owns the overall page
-    // height. This allows adding an extra 0.25in of height in print css to
-    // ensure column wrapping doesn't hide data
+    // Use height based on parent (100%) so that parent owns the overall page height
     this.set(
       "bodyStyles",
       htmlSafe(`height: calc(100% - ${wrapperHeight}px);`)

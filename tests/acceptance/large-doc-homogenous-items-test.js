@@ -6,7 +6,7 @@ module("Acceptance | large doc homogenous items", function(hooks) {
   setupApplicationTest(hooks);
 
   test("3-column mode, single page, with header and footer", async function(assert) {
-    await visit("/test-routes/configurable?columnCount=3&sectionCount=48");
+    await visit("/test-routes/configurable?columnCount=3&sectionCount=45");
     assert.dom("[data-test-page]").exists({ count: 1 });
     assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
     assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
