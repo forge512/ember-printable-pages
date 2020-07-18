@@ -160,8 +160,8 @@ export default Component.extend({
 
   // ACTIONS
   actions: {
-    registerChapter(id) {
-      return this.documentData.registerChapter(this.elementId, id);
+    registerChapter(id, opts) {
+      return this.documentData.registerChapter(this.elementId, id, opts);
     },
 
     registerSection() {

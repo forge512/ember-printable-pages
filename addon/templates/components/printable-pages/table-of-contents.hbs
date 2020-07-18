@@ -1,0 +1,19 @@
+<div>TOC</div>
+
+{{yield (hash
+  layout=(component "printable-pages/chapter"
+    isToc=true
+    chapters=@chapters
+    lastReportPage=@lastReportPage
+    pageLayout=@pageLayout
+    register=@register
+    registerSection=@registerSection
+    addPage=@addPage
+    checkIfComplete=@checkIfComplete
+    triggerRerender=@triggerRerender
+  )
+  meta=(hash
+    chapters=this.chapterMetaWithoutToc
+    chaptersIncludingTableOfContents=this.chapterMeta
+  )
+)}}
