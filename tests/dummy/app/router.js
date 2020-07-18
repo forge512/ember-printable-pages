@@ -22,6 +22,7 @@ Router.map(function() {
     this.route("rerendering");
     this.route("title-pages");
     this.route("page-numbers");
+    this.route("table-of-contents");
     this.route("continued-sections");
     this.route("render-progress");
   });

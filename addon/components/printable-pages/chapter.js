@@ -10,7 +10,10 @@ export default Component.extend({
   // LIFECYCLE HOOKS
   didInsertElement() {
     this._super(...arguments);
-    let chapter = this.register(this.elementId);
+    let chapter = this.register(this.elementId, {
+      name: this.name,
+      isToc: !!this.isToc
+    });
     this.set("chapter", chapter);
   },
 

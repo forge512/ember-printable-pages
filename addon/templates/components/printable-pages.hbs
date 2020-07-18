@@ -14,5 +14,15 @@
       checkIfComplete=(perform this.reportIfCompleteTask)
       triggerRerender=(perform this.rerenderTask)
     )
+    table-of-contents=(component "printable-pages/table-of-contents"
+      chapters=this.chapters
+      lastReportPage=this.reportObject.lastPage
+      pageLayout=this.pageLayout
+      register=(action "registerChapter")
+      registerSection=(action "registerSection" this.elementId)
+      addPage=(action "addPage")
+      checkIfComplete=(perform this.reportIfCompleteTask)
+      triggerRerender=(perform this.rerenderTask)
+    )
   )}}
 {{/unless}}

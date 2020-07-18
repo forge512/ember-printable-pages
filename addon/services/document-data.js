@@ -22,14 +22,16 @@ export default Service.extend({
     this.reports.set(id, null);
   },
 
-  registerChapter(reportId, chapterId) {
+  registerChapter(reportId, chapterId, opts = {}) {
     let report = this.reports[reportId];
 
     let chapter = Chapter.create({
       id: chapterId,
       index: report.chapterCount,
       startPage: report.chapterCount + 1,
-      endPage: report.chapterCount + 1
+      endPage: report.chapterCount + 1,
+      name: opts.name,
+      isToc: opts.isToc
     });
 
     report.chapterMap.set(chapterId, chapter);

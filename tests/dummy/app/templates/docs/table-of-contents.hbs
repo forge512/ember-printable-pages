@@ -1,0 +1,44 @@
+<h1>Table of Contents</h1>
+
+
+{{#docs-demo as |demo|}}
+  {{#demo.example name="toc-1" class="hidden"}}
+    <PrintablePages as |document|>
+      {{!
+        <document.table-of-contents> yields an object with 2 properties.
+
+        'layout' creates a new page (or pages) in your
+        document to hold your table of contents. Use page-header, page-footer,
+        and section components as you would with a chapter to layout your
+        table of contents.
+
+        'meta' provides chapter meta information.
+      }}
+      <document.table-of-contents as |toc|>
+        <toc.layout as |toc-layout|>
+          <toc-layout.page-header>Table of Contents Header</toc-layout.page-header>
+
+          {{#each toc.meta.chapters as |chapter|}}
+            {{!
+              Placing each entry in your TOC in a new section allows
+              Printable Pages to create a multi-page TOC for you if needed.
+            }}
+            <toc-layout.section>
+              {{chapter.name}}... {{chapter.startPage}} to {{chapter.endPage}}
+            </toc-layout.section>
+          {{/each}}
+
+          <toc-layout.page-footer>Table of Contents Footer</toc-layout.page-footer>
+        </toc.layout>
+      </document.table-of-contents>
+
+      <document.chapter @name="My chapter title" as |chapter|>
+        <chapter.page-header>Header content</chapter.page-header>
+        <chapter.section>Section content</chapter.section>
+        <chapter.page-footer>Footer content</chapter.page-footer>
+      </document.chapter>
+    </PrintablePages>
+  {{/demo.example}}
+
+  {{docs-snippet name="toc-1" language="hbs"}}
+{{/docs-demo}}
