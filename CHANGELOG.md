@@ -1,3 +1,7 @@
+# 0.7.1
+
+- Bug: Remove stray debug div that was added to the table of contents component in v0.7.0
+
 # 0.7.0
 
 - Feature: Add table of contents component [#226](https://github.com/forge512/ember-printable-pages/pull/226)
