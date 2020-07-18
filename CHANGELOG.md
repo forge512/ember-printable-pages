@@ -1,3 +1,11 @@
+# 0.7.0
+
+- Feature: Add table of contents component [#226](https://github.com/forge512/ember-printable-pages/pull/226)
+
+## Breaking Changes
+
+- None!
+
 # 0.6.0
 
 - Feature: Add layout customizations
