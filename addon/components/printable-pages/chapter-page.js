@@ -3,7 +3,7 @@ import layout from "../../templates/components/printable-pages/chapter-page";
 import { htmlSafe } from "@ember/template";
 import { next } from "@ember/runloop";
 import { inject as service } from "@ember/service";
-import { isPresent } from "@ember/utils";
+import { isBlank, isPresent } from "@ember/utils";
 import { getOwner } from "@ember/application";
 
 export default Component.extend({
@@ -32,11 +32,10 @@ export default Component.extend({
 
     // The first render is used to measure the header and footer height
     // and set the page body to fixed height (in this component's
-    // didInsertElement hook). Don't ask to render more items
-    if (this.firstRender) {
-      this.set("firstRender", false);
-      return;
-    }
+    // didInsertElement hook). If the bodyElement hasn't been set
+    // to a fixed height yet then wait before checking for overflow.
+    let bodyElement = this.element.querySelector(".js-page-body");
+    if (isBlank(bodyElement.style.height)) return;
 
     // This component determines whether it needs more items,
     // or fewer based upon where the `.js-visibility-tail` is
@@ -103,7 +102,6 @@ export default Component.extend({
 
   // INTERNAL STATE
   sectionRegistrationIndex: 0,
-  firstRender: true,
 
   // HELPER FUNCTIONS
   _setPageBodyHeight(wrapperHeight) {
@@ -131,6 +129,6 @@ export default Component.extend({
     },
     renderedItem(elementId) {
       this.lastRenderedItemId = elementId;
-    }
-  }
+    },
+  },
 });
