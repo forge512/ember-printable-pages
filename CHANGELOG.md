@@ -1,3 +1,7 @@
+# 0.7.2
+
+- Bug: In some rare cases component:chapter-page would check for overflow before the page body element was given a fixed height. This could cause blank pages or the rendering of an infinite number of pages in some cases."
+
 # 0.7.1
 
 - Bug: Remove stray debug div that was added to the table of contents component in v0.7.0
