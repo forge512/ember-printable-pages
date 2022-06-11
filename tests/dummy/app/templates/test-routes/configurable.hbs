@@ -1,54 +1,32 @@
 <div class="print:hidden">
 
-  {{progress-display
-    isRunning=this.isRunning
-    currentPage=this.currentPage
-    isComplete=this.isComplete
-    renderTime=this.renderTime
-  }}
+  <ProgressDisplay @isRunning={{this.isRunning}} @currentPage={{this.currentPage}} @isComplete={{this.isComplete}} @renderTime={{this.renderTime}} />
 
   <label>Section Count</label>
-  {{input
-    type="number"
-    value=this.sectionCount
-    min=1
-    max=10000
-    data-test-input-section-count=true
-  }}
+  <Input @type="number" @value={{this.sectionCount}} @min={{1}} @max={{10000}} data-test-input-section-count={{true}} />
   <label>Column Count</label>
-  {{input
-    type="number"
-    value=this.columnCount
-    min=1
-    max=3
-    data-test-column-count=true
-  }}
+  <Input @type="number" @value={{this.columnCount}} @min={{1}} @max={{3}} data-test-column-count={{true}} />
 </div>
 
-{{#printable-pages
-  onRenderStart=(action "start")
-  onRenderProgress=(action "updateProgress")
-  onRenderComplete=(action "complete")
-  as |document|
-}}
-  {{#document.chapter as |chapter|}}
+<PrintablePages @onRenderStart={{action "start"}} @onRenderProgress={{action "updateProgress"}} @onRenderComplete={{action "complete"}} as |document|>
+  <document.chapter as |chapter|>
     {{! template-lint-disable no-inline-styles}}
-    {{#chapter.page-header as |header|}}
+    <chapter.page-header as |header|>
       <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">
         <div>Chapter {{header.pageMeta.chapterNumber}}</div>
         <div>page {{header.pageMeta.current}} of {{header.pageMeta.total}}</div>
       </div>
-    {{/chapter.page-header}}
+    </chapter.page-header>
 
-    {{#chapter.section columnCount=this.columnCount data=this.sectionData}}
+    <chapter.section @columnCount={{this.columnCount}} @data={{this.sectionData}}>
       <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.12);"></div>
-    {{/chapter.section}}
+    </chapter.section>
 
-    {{#chapter.page-footer as |footer|}}
+    <chapter.page-footer as |footer|>
       <div style="height: 50px; background-color: rgba(0,0,0,0.12);">
         Footer page {{footer.pageMeta.current}} of {{footer.pageMeta.total}}
       </div>
-    {{/chapter.page-footer}}
+    </chapter.page-footer>
     {{! template-lint-enable no-inline-styles}}
-  {{/document.chapter}}
-{{/printable-pages}}
+  </document.chapter>
+</PrintablePages>

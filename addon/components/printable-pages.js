@@ -42,12 +42,12 @@ export default Component.extend({
   // LIFECYCLE HOOKS
   init() {
     this._super(...arguments);
-    this.get("renderTask").perform();
+    this.renderTask.perform();
   },
 
   didUpdateAttrs() {
     this._super(...arguments);
-    this.get("rerenderTask").perform();
+    this.rerenderTask.perform();
   },
 
   // COMPUTED PROPS
@@ -104,7 +104,7 @@ export default Component.extend({
         let rerender = () => {
           if (this.isDestroyed) return;
 
-          this.get("renderTask").perform();
+          this.renderTask.perform();
           resolve();
         };
 

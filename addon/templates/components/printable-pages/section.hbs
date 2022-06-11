@@ -12,13 +12,9 @@
       )}}
     {{else}}
       {{#each this.items as |item index|}}
-        {{#printable-pages/section-item
-          class=this.itemClass
-          section=this.section
-          renderedItem=this.renderedItem
-        }}
+        <PrintablePages::SectionItem @class={{this.itemClass}} @section={{this.section}} @renderedItem={{this.renderedItem}}>
           {{yield item (add index page.startIndex) index}}
-        {{/printable-pages/section-item}}
+        </PrintablePages::SectionItem>
       {{/each}}
     {{/if}}
   </div>
