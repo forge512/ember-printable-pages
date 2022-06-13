@@ -1,9 +1,17 @@
-{{!-- <div {{did-update this.onUpdate this @data @item @index this.columnCount}}> --}}
-
 {{#if (and this.shouldRender this.page)}}
   {{! template-lint-disable no-inline-styles no-triple-curlies}}
   <div
-    {{did-update this.onUpdate this @data @item @index this.columnCount}}
+    {{did-update
+      this.onUpdate
+      this
+      @data
+      @item
+      @index
+      this.columnCount
+      this.page
+      this.hasOnlyBlock
+      this.shouldRender
+    }}
     class={{concat "PrintablePages-section " @sectionClass}}
     data-test-section
     {{style columnCount=(concat "" this.columnCount)}}
@@ -24,4 +32,3 @@
   </div>
   {{! template-lint-enable no-inline-styles }}
 {{/if}}
-{{! </div> }}

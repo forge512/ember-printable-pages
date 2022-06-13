@@ -26,46 +26,43 @@
           @renderNextItem={{fn this.renderNextItem pageIndexInChapter}}
           @onPageOverflow={{fn this.onPageOverflow pageIndexInChapter}}
           @renderNextPage={{fn this.renderNextPage pageIndexInChapter}}
-          as |pageComponent|
         >
-          {{#if (eq pageComponent.block "header")}}
+          <:header as |header|>
             {{yield
               (hash
                 page-header=(component
-                  "printable-pages/page-header" pageMeta=pageComponent.meta
+                  "printable-pages/page-header" pageMeta=header.meta
                 )
               )
             }}
-          {{/if}}
-
-          {{#if (eq pageComponent.block "body")}}
+          </:header>
+          <:body as |body|>
             {{yield
               (hash
-                number=pageComponent.meta
+                number=body.meta
                 section=(component
                   "printable-pages/section"
                   sectionMap=this.chapter.sectionMap
                   pageIndexInChapter=pageIndexInChapter
-                  pageElement=pageComponent.element
-                  register=pageComponent.registerSection
-                  registerSection=pageComponent.registerSection
-                  onSectionOverflow=pageComponent.onSectionOverflow
+                  pageElement=body.element
+                  register=body.registerSection
+                  registerSection=body.registerSection
+                  onSectionOverflow=body.onSectionOverflow
                   triggerRerender=@triggerRerender
-                  setLastRenderedItem=pageComponent.setLastRenderedItem
+                  setLastRenderedItem=body.setLastRenderedItem
                 )
               )
             }}
-          {{/if}}
-
-          {{#if (eq pageComponent.block "footer")}}
+          </:body>
+          <:footer as |footer|>
             {{yield
               (hash
                 page-footer=(component
-                  "printable-pages/page-footer" pageMeta=pageComponent.meta
+                  "printable-pages/page-footer" pageMeta=footer.meta
                 )
               )
             }}
-          {{/if}}
+          </:footer>
         </PrintablePages::ChapterPage>
       </PrintablePages::PageLayout>
     {{/let}}

@@ -1,12 +1,10 @@
 import Component from "@glimmer/component";
-import { htmlSafe } from "@ember/template";
 import { isEmpty } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 
 export default class Section extends Component {
   @tracked shouldRender = true;
-  @tracked columnCount = 1;
   @tracked id;
 
   constructor() {
@@ -15,7 +13,7 @@ export default class Section extends Component {
 
     this.id = this.args.registerSection({
       data: this.args.data || [],
-      columnCount: this.columnCount,
+      columnCount: this.args.columnCount || 1,
     });
   }
 
@@ -39,7 +37,7 @@ export default class Section extends Component {
 
   @action
   onUpdate() {
-    let columnCountChanged = this.section?.columnCount != this.columnCount;
+    let columnCountChanged = this.section?.columnCount != this.args.columnCount;
     let dataLengthChanged =
       this.section?.data?.length != this.args.data?.length;
 

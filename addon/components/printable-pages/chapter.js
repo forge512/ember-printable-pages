@@ -8,15 +8,15 @@ export default class Chapter extends Component {
   @tracked chapter;
 
   get pages() {
-    return this.chapter?.pages || [];
+    return this.chapter?.pages;
   }
 
   get startPage() {
-    return this.chapter?.startPage || 0;
+    return this.chapter?.startPage;
   }
 
   get endPage() {
-    return this.chapter?.endPage || 0;
+    return this.chapter?.endPage;
   }
 
   get pageCount() {
@@ -25,14 +25,10 @@ export default class Chapter extends Component {
 
   @action
   onInsert(element) {
-    this.element = element;
-
-    let chapter = this.args.registerChapter(this.elementId, {
-      name: this.name,
-      isToc: !!this.isToc,
+    this.chapter = this.args.registerChapter(this.elementId, {
+      name: this.args.name,
+      isToc: !!this.args.isToc,
     });
-
-    this.chapter = chapter;
   }
 
   @action

@@ -3,18 +3,33 @@ import { task, timeout, waitForProperty } from "ember-concurrency";
 import { tracked } from "@glimmer/tracking";
 import { isBlank, isPresent } from "@ember/utils";
 import { later, next, schedule } from "@ember/runloop";
+import { getOwner } from "@ember/application";
 
 export default class PageRenderer extends Modifier {
-  get lastRenderedItemId() {
-    return this.args.named?.lastRenderedItemId;
-  }
+  @tracked namedArgs = null;
+  @tracked element = null;
 
-  didReceiveArguments() {
+  modify(element, positionalArgs, namedArgs) {
+    this.element = element;
+    this.namedArgs = namedArgs;
+    this.setBodyHeight.perform();
     this.renderNext.perform();
   }
 
-  didInstall() {
-    this.setBodyHeight.perform();
+  get pageElement() {
+    return this.element;
+  }
+
+  get pageBodyElement() {
+    return this.element.querySelector(".js-page-body");
+  }
+
+  get visibilityTailElement() {
+    return this.element.querySelector(".js-visibility-tail");
+  }
+
+  get pageBreakElement() {
+    return this.element.querySelector(".js-page-break-after");
   }
 
   @task
@@ -24,10 +39,8 @@ export default class PageRenderer extends Modifier {
     // onInsert hook). If the bodyElement hasn't been set
     // to a fixed height yet then wait before checking for overflow.
 
-    let topOfBreakAfter = this.element
-      .querySelector(".js-page-break-after")
-      .getBoundingClientRect().top;
-    let topOfElement = this.element.getBoundingClientRect().top;
+    let topOfBreakAfter = this.pageBreakElement.getBoundingClientRect().top;
+    let topOfElement = this.pageElement.getBoundingClientRect().top;
     let wrapperHeight = topOfBreakAfter - topOfElement;
     // The ember test environment scales the page down by 50%
     let config = getOwner(this).resolveRegistration("config:environment");
@@ -37,26 +50,32 @@ export default class PageRenderer extends Modifier {
     // Use height based on parent (100%) so that parent owns the overall page height
 
     // Set the body to a fixed height
-    this.element.style.setProperty("height", `calc(100% - ${wrapperHeight}px)`);
+    this.pageBodyElement.style.height = `calc(100% - ${wrapperHeight}px)`;
+  }
+
+  @task
+  *waitForFixedBody() {
+    while (!this.pageBodyElement.style.height) {
+      yield timeout(100);
+    }
   }
 
   @task
   *renderNext() {
+    yield this.waitForFixedBody.perform();
+
     // This component determines whether it needs more items,
     // or fewer based upon where the `.js-visibility-tail` is
     // located in the dom relative to the `.js-page-body` element.
 
-    yield waitForProperty(this.element.style, "height", (h) => !!h);
-
-    let tailElement = this.element.querySelector(".js-visibility-tail");
-    let tailBounding = tailElement.getBoundingClientRect();
+    let tailBounding = this.visibilityTailElement.getBoundingClientRect();
     // Grab the bounding rect for the `.js-page-body` element
-    let pageBounding = this.element
-      .querySelector(".js-page-body")
-      .getBoundingClientRect();
+    let pageBounding = this.pageBodyElement.getBoundingClientRect();
 
     let tailPosition =
       Math.floor(pageBounding.bottom) - Math.ceil(tailBounding.bottom);
+
+    console.log(`tailPosition: ${tailPosition}`);
 
     // If the tail hasn't moved, then do nothing.
     // This can happen if the page count increments in a
@@ -68,7 +87,7 @@ export default class PageRenderer extends Modifier {
       let tailMovement = Math.abs(this.previousTailPosition - tailPosition);
       if (
         tailMovement <= 2 &&
-        this.previousLastRenderedItemId === this.lastRenderedItemId
+        this.previousLastRenderedItemId === this.namedArgs?.lastRenderedItemId
       ) {
         return;
       }
@@ -87,13 +106,13 @@ export default class PageRenderer extends Modifier {
       // If the page overflowed...
       // call onPageOverflow so the parent context can remove an item
       this.overflowed = true;
-      this.args.onPageOverflow();
+      this.namedArgs?.onPageOverflow();
     } else if (!this.overflowed) {
       // If the page did not overflow this time AND it has never overflowed...
       // tell the context this page can handle more item(s)
       next(() => {
         if (this.isDestroyed) return;
-        this.args.renderNextItem(tailPosition);
+        this.namedArgs?.renderNextItem(tailPosition);
       });
     } else if (!this.isSettled) {
       // did not overflow this time, but did in the past...
@@ -101,12 +120,10 @@ export default class PageRenderer extends Modifier {
       // it can render the next page if it wants
 
       this.isSettled = true;
-      this.args.renderNextPage();
+      this.namedArgs?.renderNextPage();
     }
 
     this.previousTailPosition = tailPosition;
-    this.previousLastRenderedItemId = this.lastRenderedItemId;
+    this.previousLastRenderedItemId = this.namedArgs?.lastRenderedItemId;
   }
-
-  didUpdateArguments() {}
 }

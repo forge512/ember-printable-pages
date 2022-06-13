@@ -49,12 +49,14 @@ export default class Chapter {
   @action
   renderNextItem(pageIndex, remainingHeight) {
     console.log(`Chapter#renderNextItem(${pageIndex}, ${remainingHeight})`);
-    // this.instrument();
+    this.instrument();
 
     let section = this.sections.find((s) => s.isFullyRendered == false);
 
     // If no section, then this chapter is done!
-    if (this.isFinishedRendering) return;
+    if (this.isFinishedRendering) {
+      return;
+    }
     if (!section.pages.at(pageIndex)) {
       section.addPage(pageIndex, 0);
     }
@@ -80,8 +82,8 @@ export default class Chapter {
     }
     section.updateIsFullyRendered();
 
-    // console.log(`-------`);
-    // this.instrument();
+    console.log(`-------`);
+    this.instrument();
     console.log(`</> Chapter#renderNextItem(${pageIndex}, ${remainingHeight})`);
   }
 
