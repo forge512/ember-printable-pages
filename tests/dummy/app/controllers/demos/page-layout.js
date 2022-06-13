@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
-import { computed } from '@ember/object';
-import { run } from '@ember/runloop';
+import { later } from '@ember/runloop';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 
 const PAGE_LAYOUTS = {
   'us-letter-portrait': {
@@ -29,32 +30,35 @@ const PAGE_LAYOUTS = {
   },
 };
 
-export default Controller.extend({
-  pageHeight: '11in',
-  pageWidth: '8.5in',
+export default class extends Controller {
+  @tracked pageHeight = '11in';
+  @tracked pageWidth = '8.5in';
+  @tracked pageSize = 'us-letter-portrait';
+  @tracked marginSize = 0.5;
+  @tracked hidePages = false;
 
-  pageSize: 'us-letter-portrait',
-  pageLayoutOpts: computed(function() {
+  get pageLayoutOpts() {
     return Object.keys(PAGE_LAYOUTS);
-  }),
-
-  marginSize: 0.5,
-  pageMargins: computed('marginSize', function() {
-    return `${this.marginSize}in`;
-  }),
-
-  actions: {
-    updatePageLayout(_event) {
-      _event.preventDefault();
-      let pageLayout = PAGE_LAYOUTS[this.pageSize];
-      this.setProperties({
-        pageHeight: pageLayout.height,
-        pageWidth: pageLayout.width,
-        hidePages: true,
-      });
-      run.later(this, () => {
-        this.set('hidePages', false);
-      }, 10);
-    }
   }
-});
+
+  get pageMargins() {
+    return `${this.marginSize}in`;
+  }
+
+  @action
+  updatePageLayout(_event) {
+    _event.preventDefault();
+    let pageLayout = PAGE_LAYOUTS[this.pageSize];
+    this.pageHeight = pageLayout.height;
+    this.pageWidth = pageLayout.width;
+    this.hidePages = true;
+
+    later(
+      this,
+      () => {
+        this.hidePages = false;
+      },
+      10
+    );
+  }
+}

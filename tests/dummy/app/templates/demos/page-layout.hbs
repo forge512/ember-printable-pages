@@ -1,6 +1,6 @@
 <LinkTo @route="demos.index">All Demos</LinkTo>
 
-<form onsubmit={{action "updatePageLayout"}}>
+<form onsubmit={{this.updatePageLayout}}>
   <select onchange={{action (mut this.pageSize) value="target.value"}}>
     <option value="">Select One</option>
     {{#each this.pageLayoutOpts as |layout|}}
@@ -12,15 +12,21 @@
     {{/each}}
   </select>
   <Input @type="text" @value={{this.marginSize}} />
-  <input type="submit" value="Update">
+  <input type="submit" value="Update" />
 </form>
 
-{{#unless hidePages}}
-  <PrintablePages @pageLayout={{hash
+{{#unless this.hidePages}}
+  <PrintablePages
+    @pageLayout={{hash
       height=this.pageHeight
       width=this.pageWidth
       margins=this.pageMargins
-    }} @onRenderStart={{progressDisplay.start}} @onRenderProgress={{progressDisplay.updateProgress}} @onRenderComplete={{progressDisplay.complete}} as |document|>
+    }}
+    @onRenderStart={{@progressDisplay.start}}
+    @onRenderProgress={{@progressDisplay.updateProgress}}
+    @onRenderComplete={{@progressDisplay.complete}}
+    as |document|
+  >
 
     <document.chapter as |chapter|>
       <chapter.page-header as |header|>
@@ -43,43 +49,53 @@
       <chapter.section @columnCount={{1}}>
         <h3>Section 2</h3>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sapien ligula,
-          scelerisque et imperdiet sit amet, imperdiet sit amet nisi. Nulla sit amet neque
-          ullamcorper lorem tincidunt facilisis. Morbi ante risus, consectetur id feugiat
-          nec, interdum ac enim. Phasellus molestie placerat lorem et pharetra. Aenean congue
-          tempor viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus eros,
-          id feugiat erat tortor et felis. Pellentesque id nisl non justo viverra lacinia
-          id sit amet arcu. Mauris non euismod ipsum. Fusce lacinia felis nec euismod vulputate.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+          sapien ligula, scelerisque et imperdiet sit amet, imperdiet sit amet
+          nisi. Nulla sit amet neque ullamcorper lorem tincidunt facilisis.
+          Morbi ante risus, consectetur id feugiat nec, interdum ac enim.
+          Phasellus molestie placerat lorem et pharetra. Aenean congue tempor
+          viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus
+          eros, id feugiat erat tortor et felis. Pellentesque id nisl non justo
+          viverra lacinia id sit amet arcu. Mauris non euismod ipsum. Fusce
+          lacinia felis nec euismod vulputate.
         </p>
       </chapter.section>
 
-      <chapter.section @columnCount={{2}} @data={{array 1 2 3 4 5}} as |section|>
+      <chapter.section
+        @columnCount={{2}}
+        @data={{array 1 2 3 4 5}}
+        as |section|
+      >
         {{#if (eq section.index 0)}}
           <h3>Section 3</h3>
         {{/if}}
 
         <h4>Section 3 {{section.data}}</h4>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sapien ligula,
-          scelerisque et imperdiet sit amet, imperdiet sit amet nisi. Nulla sit amet neque
-          ullamcorper lorem tincidunt facilisis. Morbi ante risus, consectetur id feugiat
-          nec, interdum ac enim. Phasellus molestie placerat lorem et pharetra. Aenean congue
-          tempor viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus eros,
-          id feugiat erat tortor et felis. Pellentesque id nisl non justo viverra lacinia
-          id sit amet arcu. Mauris non euismod ipsum. Fusce lacinia felis nec euismod vulputate.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+          sapien ligula, scelerisque et imperdiet sit amet, imperdiet sit amet
+          nisi. Nulla sit amet neque ullamcorper lorem tincidunt facilisis.
+          Morbi ante risus, consectetur id feugiat nec, interdum ac enim.
+          Phasellus molestie placerat lorem et pharetra. Aenean congue tempor
+          viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus
+          eros, id feugiat erat tortor et felis. Pellentesque id nisl non justo
+          viverra lacinia id sit amet arcu. Mauris non euismod ipsum. Fusce
+          lacinia felis nec euismod vulputate.
         </p>
       </chapter.section>
 
       <chapter.section @columnCount={{1}}>
         <h3>Section 4</h3>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sapien ligula,
-          scelerisque et imperdiet sit amet, imperdiet sit amet nisi. Nulla sit amet neque
-          ullamcorper lorem tincidunt facilisis. Morbi ante risus, consectetur id feugiat
-          nec, interdum ac enim. Phasellus molestie placerat lorem et pharetra. Aenean congue
-          tempor viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus eros,
-          id feugiat erat tortor et felis. Pellentesque id nisl non justo viverra lacinia
-          id sit amet arcu. Mauris non euismod ipsum. Fusce lacinia felis nec euismod vulputate.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+          sapien ligula, scelerisque et imperdiet sit amet, imperdiet sit amet
+          nisi. Nulla sit amet neque ullamcorper lorem tincidunt facilisis.
+          Morbi ante risus, consectetur id feugiat nec, interdum ac enim.
+          Phasellus molestie placerat lorem et pharetra. Aenean congue tempor
+          viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus
+          eros, id feugiat erat tortor et felis. Pellentesque id nisl non justo
+          viverra lacinia id sit amet arcu. Mauris non euismod ipsum. Fusce
+          lacinia felis nec euismod vulputate.
         </p>
       </chapter.section>
 

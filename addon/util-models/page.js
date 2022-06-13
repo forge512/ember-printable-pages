@@ -1,6 +1,13 @@
-import EmberObject from '@ember/object';
+import { tracked } from "@glimmer/tracking";
+export default class Page {
+  @tracked number;
+  @tracked endIndex;
+  @tracked nextItemIndex;
 
-export default EmberObject.extend({
-  number: 1
-});
-
+  constructor(options = {}) {
+    let { nextItemIndex, endIndex } = options;
+    this.endIndex = endIndex || 0;
+    this.nextItemIndex = nextItemIndex || 0;
+    // this.number = 1;
+  }
+}

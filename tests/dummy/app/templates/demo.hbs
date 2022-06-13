@@ -3,14 +3,10 @@
 
   <div class="flex flex-row h-full-less-top-bar print:h-auto">
     <PrintablePages
-      @onRenderStart={{action "start"}}
-      @onRenderProgress={{action "updateProgress"}}
-      @onRenderComplete={{action "complete"}}
-
-      @dimensions={{hash
-        width=this.settings.width
-        height=this.settings.height
-      }}
+      @onRenderStart={{this.start}}
+      @onRenderProgress={{this.updateProgress}}
+      @onRenderComplete={{this.complete}}
+      @dimensions={{hash width=this.settings.width height=this.settings.height}}
       @margins={{hash
         top=this.settings.top
         right=this.settings.right
@@ -19,14 +15,7 @@
       }}
       @orientation={{this.settings.orientation}}
       @units={{this.settings.units}}
-
-      class="
-        h-full print:h-auto
-        w-4/5 print:w-screen
-        overflow-y-auto
-        pt-4 px-4 print:pt-0 print:px-0
-        text-gray-700 print:text-black
-      "
+      class="h-full print:h-auto w-4/5 print:w-screen overflow-y-auto pt-4 px-4 print:pt-0 print:px-0 text-gray-700 print:text-black"
       as |document|
     >
       <document.chapter as |chapter|>
@@ -40,7 +29,11 @@
         <chapter.section>
           <h1>Chapter 1</h1>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non efficitur risus, a faucibus elit. Etiam at tempor mi, a consequat nibh. Phasellus feugiat felis porttitor dui egestas, in viverra ex tempus. Sed gravida diam libero, at aliquam purus porttitor et. Nam tristique posuere odio, eget tristique neque ornare in.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non
+            efficitur risus, a faucibus elit. Etiam at tempor mi, a consequat
+            nibh. Phasellus feugiat felis porttitor dui egestas, in viverra ex
+            tempus. Sed gravida diam libero, at aliquam purus porttitor et. Nam
+            tristique posuere odio, eget tristique neque ornare in.
           </p>
         </chapter.section>
 
@@ -82,7 +75,10 @@
         <chapter.page-footer as |footer|>
           <div class="flex flex-row justify-between text-sm">
             <div>Created by Forge 512</div>
-            <div>Page {{footer.pageMeta.pageNumber}} of {{footer.pageMeta.total}}</div>
+            <div>Page
+              {{footer.pageMeta.pageNumber}}
+              of
+              {{footer.pageMeta.total}}</div>
           </div>
         </chapter.page-footer>
       </document.chapter>
@@ -98,14 +94,23 @@
         <chapter.section>
           <h1>Chapter 2</h1>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non efficitur risus, a faucibus elit. Etiam at tempor mi, a consequat nibh. Phasellus feugiat felis porttitor dui egestas, in viverra ex tempus. Sed gravida diam libero, at aliquam purus porttitor et. Nam tristique posuere odio, eget tristique neque ornare in. Donec convallis, metus a pretium iaculis, mauris nisi dignissim enim, et vehicula neque libero vitae augue. Morbi sit amet magna eget nisl
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non
+            efficitur risus, a faucibus elit. Etiam at tempor mi, a consequat
+            nibh. Phasellus feugiat felis porttitor dui egestas, in viverra ex
+            tempus. Sed gravida diam libero, at aliquam purus porttitor et. Nam
+            tristique posuere odio, eget tristique neque ornare in. Donec
+            convallis, metus a pretium iaculis, mauris nisi dignissim enim, et
+            vehicula neque libero vitae augue. Morbi sit amet magna eget nisl
           </p>
         </chapter.section>
 
         <chapter.page-footer as |footer|>
           <div class="flex flex-row justify-between text-sm">
             <div>Created by Forge 512</div>
-            <div>Page {{footer.pageMeta.pageNumber}} of {{footer.pageMeta.total}}</div>
+            <div>Page
+              {{footer.pageMeta.pageNumber}}
+              of
+              {{footer.pageMeta.total}}</div>
           </div>
         </chapter.page-footer>
 
@@ -122,15 +127,30 @@
 
       <div class="py-2">
         <label>Section 2 Item Count</label>
-        <Input @type="number" @value={{this.sectionCount}} @min={{1}} @max={{5000}} data-test-input-section-count={{true}} class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal" />
+        <Input
+          @type="number"
+          @value={{this.sectionCount}}
+          min={{1}}
+          max={{5000}}
+          data-test-input-section-count={{true}}
+          class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
+        />
       </div>
 
       <div class="py-2">
         <label>Column Count</label>
-        <Input @type="number" @value={{this.columnCount}} @min={{1}} @max={{3}} @size={{5}} data-test-column-count={{true}} class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal" />
+        <Input
+          @type="number"
+          @value={{this.columnCount}}
+          min={{1}}
+          max={{3}}
+          size={{5}}
+          data-test-column-count={{true}}
+          class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
+        />
       </div>
 
-      <hr class="my-8">
+      <hr class="my-8" />
 
       <PrintSettings />
     </div>

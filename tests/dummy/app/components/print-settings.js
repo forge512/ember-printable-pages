@@ -1,9 +1,6 @@
-import Component from "@ember/component";
-import layout from "../templates/components/print-settings";
-import { storageFor } from "ember-local-storage";
+import Component from '@glimmer/component';
+import { storageFor } from 'ember-local-storage';
 
-export default Component.extend({
-  settings: storageFor("print-settings"),
-  layout,
-  tagName: ""
-});
+export default class extends Component {
+  @storageFor('print-settings') settings;
+}

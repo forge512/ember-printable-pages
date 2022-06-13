@@ -1,7 +1,3 @@
-import Component from '@ember/component';
-import layout from '../../templates/components/printable-pages/title-page';
+import Component from '@glimmer/component';
 
-export default Component.extend({
-  layout,
-  tagName: ''
-});
+export default class TitlePage extends Component {}

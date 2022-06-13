@@ -1,4 +1,4 @@
-import StorageObject from "ember-local-storage/local/object";
+import StorageObject from 'ember-local-storage/local/object';
 
 const Storage = StorageObject.extend();
 
@@ -11,10 +11,10 @@ Storage.reopenClass({
       right: 0.5,
       bottom: 0.5,
       left: 0.5,
-      orientation: "portrait",
-      units: "in"
+      orientation: 'portrait',
+      units: 'in',
     };
-  }
+  },
 });
 
 export default Storage;

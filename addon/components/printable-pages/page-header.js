@@ -1,8 +1,5 @@
-import Component from "@ember/component";
-import layout from "../../templates/components/printable-pages/page-header";
-
-export default Component.extend({
-  layout,
-  tagName: "",
-  shouldRender: true
-});
+import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+export default class PageHeader extends Component {
+  @tracked shouldRender = true;
+}

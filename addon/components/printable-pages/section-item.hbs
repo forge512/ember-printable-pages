@@ -1,0 +1,10 @@
+section.hbs section-item.hbs
+<div
+  class="PrintablePages-sectionItem"
+  id={{this.elementId}}
+  data-test-section-item
+  {{did-insert this.onInsert this}}
+  {{will-destroy this.willDestroy}}
+>
+  {{yield}}
+</div>

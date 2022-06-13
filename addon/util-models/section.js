@@ -1,75 +1,86 @@
-import EmberObject, { computed } from "@ember/object";
 import { A } from "@ember/array";
+import { tracked } from "@glimmer/tracking";
+import Page from "./page";
+import { TrackedObject, TrackedArray } from "tracked-built-ins";
+import { action } from "@ember/object";
 
-export default EmberObject.extend({
-  init() {
-    this._super(...arguments);
-    this.set("pages", A([]));
-  },
+export default class Section {
+  @tracked pages = A([]);
+  @tracked id;
+  @tracked columnCount = 1;
+  @tracked nextItemIndex = 0;
+  @tracked renderDataLength = 0;
+  @tracked maxItemHeight = null;
+  @tracked minItemHeight = null;
+  @tracked isFullyRendered = false;
+  @tracked data = A([]);
 
-  id: null,
-  columnCount: 1,
-  nextItemIndex: 0,
-  isFullyRendered: false,
-  renderDataLength: 0,
-  pages: null,
-  maxItemHeight: null,
-  minItemHeight: null,
-  itemHeightDiff: computed("maxItemHeight", "minItemHeight", function() {
+  constructor(options = {}) {
+    let { id, index, columnCount, data } = options;
+    this.id = id;
+    this.index = index;
+    this.columnCount = columnCount;
+    this.data = data;
+  }
+
+  get itemHeightDiff() {
     return this.maxItemHeight - this.minItemHeight;
-  }),
-
-  toString() {
-    return `<section:${this.id}> ${this.data.length} items, nextItemIndex ${
-      this.nextItemIndex
-    }, isFullyRendered ${this.isFullyRendered}`;
-  },
+  }
 
   itemCountForPage(pageIndex) {
-    let page = this.pages.objectAt(pageIndex);
+    let page = this.pages.at(pageIndex);
     if (!page) return 0;
+
     return page.endIndex - page.startIndex + 1;
-  },
+  }
 
   reconcilePageStartIndex(pageIndex) {
-    let previousPage = this.pages.objectAt(pageIndex - 1);
+    let previousPage = this.pages.at(pageIndex - 1);
     let startIndex = previousPage.endIndex + 1;
-    let page = this.pages.objectAt(pageIndex);
+    let page = this.pages.at(pageIndex);
     if (!page) {
       this.addPage(pageIndex, startIndex);
     } else {
-      page.set("startIndex", startIndex);
+      page.startIndex = startIndex;
     }
-    this.incrementProperty("nextItemIndex");
-    this.updateIsFullyRendered();
-  },
 
+    this.nextItemIndex = this.nextItemIndex + 1;
+    // this.updateIsFullyRendered();
+  }
+
+  // seems like this could be a getter
   updateIsFullyRendered() {
-    this.set("isFullyRendered", this.nextItemIndex >= this.data.length);
-  },
+    this.isFullyRendered = this.nextItemIndex >= this.data.length;
+  }
 
+  @action
   addPage(pageIndex, startIndex) {
-    let page = EmberObject.create({
+    let page = new Page({
       startIndex: startIndex,
-      endIndex: startIndex
+      endIndex: startIndex,
     });
 
     if (this.pages.length === 0) {
-      this.pages.pushObjects([...Array(pageIndex), page]);
+      this.pages = [...Array(pageIndex), page];
     } else {
-      this.pages.pushObject(page);
+      this.pages = [...this.pages, page];
     }
     // this.updateIsFullyRendered();
-  },
+  }
 
+  @action
   addItemToPage(pageIndex) {
-    let page = this.pages.objectAt(pageIndex);
+    let page = this.pages.at(pageIndex);
     if (!page) {
       this.addPage(pageIndex, 0);
     } else {
-      page.incrementProperty("endIndex");
-      this.incrementProperty("nextItemIndex");
+      page.endIndex = page.endIndex + 1;
+      this.nextItemIndex = this.nextItemIndex + 1;
       // this.updateIsFullyRendered();
     }
   }
-});
+
+  toString() {
+    return `<section:${this.id}> ${this.data.length} items, nextItemIndex ${this.nextItemIndex}, isFullyRendered ${this.isFullyRendered}`;
+  }
+}

@@ -1,0 +1,23 @@
+{{! template-lint-disable no-inline-styles no-triple-curlies}}
+<div class="PrintablePages-pageLayout">
+  <div
+    class="PrintablePages-pageContainer"
+    data-test-page={{@pageNumber}}
+    {{style
+      paddingTop=@pageLayout.top
+      paddingRight=@pageLayout.right
+      paddingBottom=@pageLayout.bottom
+      paddingLeft=@pageLayout.left
+    }}
+  >
+    <section
+      class="PrintablePages-page"
+      {{style height=@pageLayout.innerHeight width=@pageLayout.innerWidth}}
+    >
+      {{yield}}
+    </section>
+  </div>
+
+</div>
+
+{{! template-lint-enable no-inline-styles }}

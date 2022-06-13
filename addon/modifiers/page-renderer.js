@@ -1,31 +1,28 @@
-import Component from "@glimmer/component";
-import { htmlSafe } from "@ember/template";
-import { later, next, schedule } from "@ember/runloop";
-import { inject as service } from "@ember/service";
-import { isBlank, isPresent } from "@ember/utils";
-import { getOwner } from "@ember/application";
-import { action } from "@ember/object";
-import { guidFor } from "@ember/object/internals";
+import Modifier from "ember-modifier";
+import { task, timeout, waitForProperty } from "ember-concurrency";
 import { tracked } from "@glimmer/tracking";
+import { isBlank, isPresent } from "@ember/utils";
+import { later, next, schedule } from "@ember/runloop";
 
-export default class ChapterPage extends Component {
-  elementId = "ember-" + guidFor(this);
+export default class PageRenderer extends Modifier {
+  get lastRenderedItemId() {
+    return this.args.named?.lastRenderedItemId;
+  }
 
-  @service documentData;
+  didReceiveArguments() {
+    this.renderNext.perform();
+  }
 
-  @tracked element;
-  @tracked isSettled;
-  lastRenderedItemId = null;
-  previousTailPosition = null;
-  previousLastRenderedItemId = null;
-  overflowed = null;
+  didInstall() {
+    this.setBodyHeight.perform();
+  }
 
-  @tracked bodyHeight;
-
-  // LIFECYCLE HOOKS
-  @action
-  onInsert(element) {
-    this.element = element;
+  @task
+  *setBodyHeight() {
+    // The first render is used to measure the header and footer height
+    // and set the page body to fixed height (in this component's
+    // onInsert hook). If the bodyElement hasn't been set
+    // to a fixed height yet then wait before checking for overflow.
 
     let topOfBreakAfter = this.element
       .querySelector(".js-page-break-after")
@@ -36,27 +33,21 @@ export default class ChapterPage extends Component {
     let config = getOwner(this).resolveRegistration("config:environment");
     if (config.environment === "test") wrapperHeight = wrapperHeight * 2;
 
-    // set the page body height
-    this._setPageBodyHeight(wrapperHeight);
+    wrapperHeight = Math.ceil(wrapperHeight);
+    // Use height based on parent (100%) so that parent owns the overall page height
 
-    later(() => {
-      this.didRender();
-    }, 10);
+    // Set the body to a fixed height
+    this.element.style.setProperty("height", `calc(100% - ${wrapperHeight}px)`);
   }
 
-  @action
-  didRender() {
-    // The first render is used to measure the header and footer height
-    // and set the page body to fixed height (in this component's
-    // onInsert hook). If the bodyElement hasn't been set
-    // to a fixed height yet then wait before checking for overflow.
-
-    let bodyElement = this.element.querySelector(".js-page-body");
-
-    if (isBlank(bodyElement.style.height)) return;
+  @task
+  *renderNext() {
     // This component determines whether it needs more items,
     // or fewer based upon where the `.js-visibility-tail` is
     // located in the dom relative to the `.js-page-body` element.
+
+    yield waitForProperty(this.element.style, "height", (h) => !!h);
+
     let tailElement = this.element.querySelector(".js-visibility-tail");
     let tailBounding = tailElement.getBoundingClientRect();
     // Grab the bounding rect for the `.js-page-body` element
@@ -117,32 +108,5 @@ export default class ChapterPage extends Component {
     this.previousLastRenderedItemId = this.lastRenderedItemId;
   }
 
-  // INTERNAL STATE
-  sectionRegistrationIndex = 0;
-
-  // HELPER FUNCTIONS
-  _setPageBodyHeight(wrapperHeight) {
-    wrapperHeight = Math.ceil(wrapperHeight);
-    // Use height based on parent (100%) so that parent owns the overall page height
-    this.bodyHeight = `calc(100% - ${wrapperHeight}px)`;
-  }
-
-  // Register the section if this page is the first in the chapter.
-  // Return the section index in the page as the section's id. This
-  // is the unique id for the section across all pages.
-  @action
-  registerSection(data) {
-    let id = this.sectionRegistrationIndex;
-    if (this.args.pageIndexInChapter === 0) {
-      this.args.registerSection(id, data);
-    }
-
-    this.sectionRegistrationIndex = this.sectionRegistrationIndex + 1;
-    return id;
-  }
-
-  @action
-  setLastRenderedItem(elementId) {
-    this.lastRenderedItemId = elementId;
-  }
+  didUpdateArguments() {}
 }

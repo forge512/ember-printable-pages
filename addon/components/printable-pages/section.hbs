@@ -1,0 +1,27 @@
+{{!-- <div {{did-update this.onUpdate this @data @item @index this.columnCount}}> --}}
+
+{{#if (and this.shouldRender this.page)}}
+  {{! template-lint-disable no-inline-styles no-triple-curlies}}
+  <div
+    {{did-update this.onUpdate this @data @item @index this.columnCount}}
+    class={{concat "PrintablePages-section " @sectionClass}}
+    data-test-section
+    {{style columnCount=(concat "" this.columnCount)}}
+  >
+    {{#if (and this.hasOnlyBlock this.page)}}
+      {{yield (hash data=@item index=@index)}}
+    {{else}}
+      {{#each this.items as |item index|}}
+        <PrintablePages::SectionItem
+          @class={{@itemClass}}
+          @section={{this.section}}
+          @setLastRenderedItem={{@setLastRenderedItem}}
+        >
+          {{yield item (add index this.page.startIndex) index}}
+        </PrintablePages::SectionItem>
+      {{/each}}
+    {{/if}}
+  </div>
+  {{! template-lint-enable no-inline-styles }}
+{{/if}}
+{{! </div> }}

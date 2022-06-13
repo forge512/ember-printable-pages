@@ -1,0 +1,40 @@
+<div
+  class="PrintablePages-chapterPage"
+  id={{this.elementId}}
+  {{did-insert this.onInsert this}}
+  {{did-update this.didRender this @pageIndexInChapter @pageMeta}}
+>
+  {{yield (hash block="header" meta=@pageMeta)}}
+
+  {{! template-lint-disable no-inline-styles no-triple-curlies}}
+  <div
+    class="PrintablePages-pageBody js-page-body"
+    {{!-- {{set-page-body-height}} --}}
+    {{page-renderer
+      lastRenderedItemId=this.lastRenderedItemId
+      onPageOverflow=@onPageOverflow
+      renderNextItem=@renderNextItem
+      renderNextPage=@renderNextPage
+    }}
+    {{style height=this.bodyHeight}}
+  >
+    {{yield
+      (hash
+        block="body"
+        element=this.element
+        meta=@pageMeta
+        registerSection=this.registerSection
+        setLastRenderedItem=this.setLastRenderedItem
+      )
+    }}
+
+    {{! element used to check if the content has overflowed page body}}
+    <div class="js-visibility-tail" style="height: 1px;"></div>
+  </div>
+  {{! template-lint-enable no-inline-styles }}
+
+  {{yield (hash block="footer" meta=@pageMeta)}}
+
+  <div class="js-page-break-after u-page-break-after"></div>
+
+</div>
