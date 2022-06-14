@@ -10,6 +10,7 @@ export default class PageRenderer extends Modifier {
   @tracked element = null;
 
   modify(element, positionalArgs, namedArgs) {
+    console.log("------ modifier:page-renderer modify ----", element);
     this.element = element;
     this.namedArgs = namedArgs;
     this.setBodyHeight.perform();
@@ -34,6 +35,7 @@ export default class PageRenderer extends Modifier {
 
   @task
   *setBodyHeight() {
+    console.log("modifier:page-renderer setBodyHeight", this.element);
     // The first render is used to measure the header and footer height
     // and set the page body to fixed height (in this component's
     // onInsert hook). If the bodyElement hasn't been set
@@ -55,13 +57,16 @@ export default class PageRenderer extends Modifier {
 
   @task
   *waitForFixedBody() {
+    console.log("modifier:page-renderer waitForFixedBody", this.element);
     while (!this.pageBodyElement.style.height) {
+      console.log("modifier:page-renderer waitForFixedBody while true ----");
       yield timeout(100);
     }
   }
 
   @task
   *renderNext() {
+    console.log("modifier:page-renderer renderNext", this.element);
     yield this.waitForFixedBody.perform();
 
     // This component determines whether it needs more items,

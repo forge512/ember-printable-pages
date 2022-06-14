@@ -33,17 +33,20 @@ export default class Chapter extends Component {
 
   @action
   onPageOverflow(pageIndex) {
+    console.log(`<chapter:${this.elementId}> onPageOverflow`);
     this.chapter.removeLastItem(pageIndex, this.args.addPage);
   }
 
   @action
   renderNextItem(pageIndex, remainingHeight) {
+    console.log(`<chapter:${this.elementId}> renderNextItem`);
     this.chapter.renderNextItem(pageIndex, remainingHeight);
     this.args.checkIfComplete();
   }
 
   @action
   renderNextPage(pageIndex) {
+    console.log(`<chapter:${this.elementId}> renderNextPage`);
     this.chapter.renderNextPage(pageIndex, this.args.addPage);
   }
 }

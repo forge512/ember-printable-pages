@@ -50,6 +50,10 @@ export default class Section {
 
   // seems like this could be a getter
   updateIsFullyRendered() {
+    console.log(
+      "util-models:section updateIsFullyRendered",
+      this.nextItemIndex >= this.data.length
+    );
     this.isFullyRendered = this.nextItemIndex >= this.data.length;
   }
 

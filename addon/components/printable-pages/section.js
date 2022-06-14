@@ -37,6 +37,7 @@ export default class Section extends Component {
 
   @action
   onUpdate() {
+    console.log(`%c <section:${this.elementId}> did-update`, "color: grey");
     let columnCountChanged = this.section?.columnCount != this.args.columnCount;
     let dataLengthChanged =
       this.section?.data?.length != this.args.data?.length;
@@ -44,5 +45,11 @@ export default class Section extends Component {
     if (this.shouldRender && (columnCountChanged || dataLengthChanged)) {
       this.args.triggerRerender();
     }
+  }
+
+  @action
+  onInsert() {
+    console.log(`%c <section:${this.id}> did-insert`, "color: grey");
+    if (this.hasOnlyBlock) this.args.renderNext();
   }
 }

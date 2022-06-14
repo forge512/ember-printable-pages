@@ -1,6 +1,6 @@
 import { tracked } from "@glimmer/tracking";
 export default class Page {
-  @tracked number;
+  @tracked number = 1;
   @tracked endIndex;
   @tracked nextItemIndex;
 
@@ -8,6 +8,5 @@ export default class Page {
     let { nextItemIndex, endIndex } = options;
     this.endIndex = endIndex || 0;
     this.nextItemIndex = nextItemIndex || 0;
-    // this.number = 1;
   }
 }

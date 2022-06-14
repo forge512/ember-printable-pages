@@ -8,6 +8,10 @@ export default class SectionItem extends Component {
 
   @action
   onInsert(element) {
+    console.log(
+      `%c <section-item:${this.elementId}> did-insert`,
+      "color: darkgrey"
+    );
     this.element = element;
 
     let height = this.element.offsetHeight;

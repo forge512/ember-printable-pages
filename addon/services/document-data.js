@@ -5,11 +5,13 @@ import Page from "../util-models/page";
 import Section from "../util-models/section";
 import { tracked } from "@glimmer/tracking";
 import { TrackedObject } from "tracked-built-ins";
+
 export default class DocumentData extends Service {
   @tracked reports = {};
 
   register(id) {
-    // console.log(`<service:document-data> register(${id})`);
+    window.documentData = this;
+    console.log(`<service:document-data> register(${id})`);
     let report = new Report();
     this.reports[id] = report;
     return report;
@@ -20,9 +22,9 @@ export default class DocumentData extends Service {
   }
 
   registerChapter(reportId, chapterId, opts = {}) {
-    // console.log(
-    //   `<service:document-data> registerChapter(${reportId}, ${chapterId})`
-    // );
+    console.log(
+      `<service:document-data> registerChapter(${reportId}, ${chapterId})`
+    );
 
     let report = this.reports[reportId];
     let chapter = new Chapter({
@@ -41,9 +43,9 @@ export default class DocumentData extends Service {
   }
 
   registerSection(reportId, chapterId, sectionId, options = {}) {
-    // console.log(
-    //   `<service:document-data> registerSection(${reportId}, ${chapterId}, ${sectionId})`
-    // );
+    console.log(
+      `<service:document-data> registerSection(${reportId}, ${chapterId}, ${sectionId})`
+    );
 
     let { data, columnCount } = options;
     let report = this.reports[reportId];
@@ -64,7 +66,7 @@ export default class DocumentData extends Service {
   }
 
   addPage(reportId, chapterId) {
-    // console.log(`<service:document-data> addPage(${reportId}, ${chapterId})`);
+    console.log(`<service:document-data> addPage(${reportId}, ${chapterId})`);
     let report = this.reports[reportId];
     let chapter = report.chapterMap[chapterId];
     let chapterIndex = report.chapters.indexOf(chapter);

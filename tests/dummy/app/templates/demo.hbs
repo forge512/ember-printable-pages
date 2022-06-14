@@ -40,6 +40,7 @@
         <chapter.section>
           <h2>Section 1</h2>
         </chapter.section>
+
         <chapter.section
           @columnCount={{this.columnCount}}
           @data={{range 1 10}}
@@ -83,38 +84,6 @@
         </chapter.page-footer>
       </document.chapter>
 
-      <document.chapter as |chapter|>
-        <chapter.page-header as |header|>
-          <div class="mb-4 text-sm flex flex-row justify-between">
-            <div>Chapter {{header.pageMeta.chapterNumber}}</div>
-            <div>Ember Printable Pages</div>
-          </div>
-        </chapter.page-header>
-
-        <chapter.section>
-          <h1>Chapter 2</h1>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non
-            efficitur risus, a faucibus elit. Etiam at tempor mi, a consequat
-            nibh. Phasellus feugiat felis porttitor dui egestas, in viverra ex
-            tempus. Sed gravida diam libero, at aliquam purus porttitor et. Nam
-            tristique posuere odio, eget tristique neque ornare in. Donec
-            convallis, metus a pretium iaculis, mauris nisi dignissim enim, et
-            vehicula neque libero vitae augue. Morbi sit amet magna eget nisl
-          </p>
-        </chapter.section>
-
-        <chapter.page-footer as |footer|>
-          <div class="flex flex-row justify-between text-sm">
-            <div>Created by Forge 512</div>
-            <div>Page
-              {{footer.pageMeta.pageNumber}}
-              of
-              {{footer.pageMeta.total}}</div>
-          </div>
-        </chapter.page-footer>
-
-      </document.chapter>
     </PrintablePages>
 
     <div class="w-1/5 print:hidden p-4 overflow-y-auto">
