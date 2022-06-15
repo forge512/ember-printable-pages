@@ -13,6 +13,8 @@ Router.map(function() {
   this.route("demos", function() {
     // acceptance test
     this.route("large");
+    this.route("title-page");
+    this.route("page-layout");
   });
 
   docsRoute(this, function() {

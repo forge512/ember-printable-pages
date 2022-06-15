@@ -7,6 +7,14 @@ export default class Chapter extends Component {
 
   @tracked chapter;
 
+  constructor() {
+    super(...arguments)
+    this.chapter = this.args.registerChapter(this.elementId, {
+      name: this.args.name,
+      isToc: !!this.args.isToc,
+    });
+  }
+
   get pages() {
     return this.chapter?.pages;
   }
@@ -24,17 +32,10 @@ export default class Chapter extends Component {
   }
 
   @action
-  onInsert(element) {
-    this.chapter = this.args.registerChapter(this.elementId, {
-      name: this.args.name,
-      isToc: !!this.args.isToc,
-    });
-  }
-
-  @action
   onPageOverflow(pageIndex) {
     console.log(`<chapter:${this.elementId}> onPageOverflow`);
     this.chapter.removeLastItem(pageIndex, this.args.addPage);
+    this.chapter.renderNextPage(pageIndex, this.args.addPage);
   }
 
   @action

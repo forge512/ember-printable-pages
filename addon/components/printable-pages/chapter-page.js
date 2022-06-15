@@ -7,7 +7,7 @@ import { getOwner } from "@ember/application";
 import { action } from "@ember/object";
 import { guidFor } from "@ember/object/internals";
 import { tracked } from "@glimmer/tracking";
-import { task } from "ember-concurrency";
+import { task, timeout } from "ember-concurrency";
 
 export default class ChapterPage extends Component {
   elementId = "ember-" + guidFor(this);
@@ -53,9 +53,34 @@ export default class ChapterPage extends Component {
   }
 
   @task
+  *waitForFixedBody() {
+    // console.log("component:chapter-page waitForFixedBody", this.element);
+    while (!this.element || !this.pageBodyElement.style.height) {
+      // console.log("component:chapter-page waitForFixedBody while true ----");
+      yield timeout(100);
+    }
+  }
+
+  get pageElement() {
+    return this.element;
+  }
+
+  get pageBodyElement() {
+    return this.element.querySelector(".js-page-body");
+  }
+
+  get visibilityTailElement() {
+    return this.element.querySelector(".js-visibility-tail");
+  }
+
+  get pageBreakElement() {
+    return this.element.querySelector(".js-page-break-after");
+  }
+
+  @task
   *renderNext() {
     console.log("component:chapter-page renderNext", this.element);
-    // yield this.waitForFixedBody.perform();
+    yield this.waitForFixedBody.perform();
 
     // This component determines whether it needs more items,
     // or fewer based upon where the `.js-visibility-tail` is
@@ -67,8 +92,6 @@ export default class ChapterPage extends Component {
 
     let tailPosition =
       Math.floor(pageBounding.bottom) - Math.ceil(tailBounding.bottom);
-
-    console.log(`tailPosition: ${tailPosition}`);
 
     // If the tail hasn't moved, then do nothing.
     // This can happen if the page count increments in a
@@ -99,13 +122,13 @@ export default class ChapterPage extends Component {
       // If the page overflowed...
       // call onPageOverflow so the parent context can remove an item
       this.overflowed = true;
-      this.namedArgs?.onPageOverflow();
+      this.args.onPageOverflow();
     } else if (!this.overflowed) {
       // If the page did not overflow this time AND it has never overflowed...
       // tell the context this page can handle more item(s)
       next(() => {
         if (this.isDestroyed) return;
-        this.namedArgs?.renderNextItem(tailPosition);
+        this.args.renderNextItem(tailPosition);
       });
     } else if (!this.isSettled) {
       // did not overflow this time, but did in the past...
@@ -113,10 +136,10 @@ export default class ChapterPage extends Component {
       // it can render the next page if it wants
 
       this.isSettled = true;
-      this.namedArgs?.renderNextPage();
+      this.args.renderNextPage();
     }
 
     this.previousTailPosition = tailPosition;
-    this.previousLastRenderedItemId = this.namedArgs?.lastRenderedItemId;
+    this.previousLastRenderedItemId = this.args.lastRenderedItemId;
   }
 }

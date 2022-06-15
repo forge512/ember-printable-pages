@@ -135,7 +135,7 @@ export default class PrintablePagesComponent extends Component {
 
   @task({ keepLatest: true })
   *reportProgressTask() {
-    if (this.onRenderProgress) {
+    if (this.args.onRenderProgress) {
       yield new Promise((resolve) => {
         next(() => {
           this.args.onRenderProgress(this.reportObject?.lastPage);
@@ -154,7 +154,7 @@ export default class PrintablePagesComponent extends Component {
 
           this._isRendering = false;
 
-          if (this.onRenderComplete) {
+          if (this.args.onRenderComplete) {
             this.args.onRenderComplete(this.reportObject?.lastPage);
           }
 
@@ -167,20 +167,17 @@ export default class PrintablePagesComponent extends Component {
   // ACTIONS
   @action
   registerChapter(id, opts) {
-    // console.log(`register chapter ${id}, ${opts}`);
     return this.documentData.registerChapter(this.elementId, id, opts);
   }
 
   @action
   registerSection() {
-    // console.log(`register section ${arguments}`);
-    this.documentData.registerSection(...arguments);
+    return this.documentData.registerSection(...arguments);
   }
 
   @action
   addPage(chapterId) {
-    // console.log(`add page ${chapterId}`);
-    this.documentData.addPage(this.elementId, chapterId);
+    let page = this.documentData.addPage(this.elementId, chapterId);
     this.reportProgressTask.perform();
   }
 }

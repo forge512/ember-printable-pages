@@ -103,8 +103,8 @@ export default class Chapter {
 
   @action
   removeItemFromPage(pageIndex) {
-    // console.log(`Chapter#removeItemFromPage(${pageIndex})`);
-    // this.instrument();
+    console.log(`Chapter#removeItemFromPage(${pageIndex})`);
+    this.instrument();
 
     let section = this.lastSectionInPage(pageIndex);
     let pageInSection = section.pages.at(pageIndex);
@@ -119,17 +119,17 @@ export default class Chapter {
     section.nextItemIndex = section.nextItemIndex - 1;
     section.isFullyRendered = false;
 
-    // console.log("------");
-    // this.instrument();
-    // console.log(`</> Chapter#removeItemFromPage(${pageIndex})`);
+    console.log("------");
+    this.instrument();
+    console.log(`</> Chapter#removeItemFromPage(${pageIndex})`);
   }
 
   // Rename to 'removeLastItem'
   @action
   removeLastItem(pageIndex, addPageFn) {
     next(() => {
-      // console.log(`Chapter#removeLastItem(${pageIndex}, fn)`);
-      // this.instrument();
+      console.log(`Chapter#removeLastItem(${pageIndex}, fn)`);
+      this.instrument();
 
       let itemCountForPage = this.itemCountForPage(pageIndex);
 

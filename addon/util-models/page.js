@@ -3,9 +3,11 @@ export default class Page {
   @tracked number = 1;
   @tracked endIndex;
   @tracked nextItemIndex;
+  @tracked startIndex;
 
   constructor(options = {}) {
-    let { nextItemIndex, endIndex } = options;
+    let { nextItemIndex, endIndex, startIndex } = options;
+    this.startIndex = startIndex || 0;
     this.endIndex = endIndex || 0;
     this.nextItemIndex = nextItemIndex || 0;
   }

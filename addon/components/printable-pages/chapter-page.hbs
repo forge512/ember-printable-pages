@@ -1,17 +1,16 @@
-{{log 'CHAPTER PAGE' }}
+{{log "CHAPTER PAGE"}}
 <div
   class="PrintablePages-chapterPage"
   id={{this.elementId}}
-  {{page-renderer
-    lastRenderedItemId=this.lastRenderedItemId
-    onPageOverflow=@onPageOverflow
-    renderNextItem=@renderNextItem
-    renderNextPage=@renderNextPage
-  }}
+  {{page-renderer}}
   {{did-insert this.didInsert}}
+  {{did-insert (perform this.renderNext)}}
   {{did-update this.onUpdate}}
 >
-  {{yield (hash meta=@pageMeta) to="header"}}
+  {{yield
+    (hash meta=@pageMeta renderNext=(perform this.renderNext))
+    to="header"
+  }}
 
   <div class="PrintablePages-pageBody js-page-body">
     {{yield

@@ -1,5 +1,5 @@
-<div class='print:hidden'>
-  <LinkTo @route='demos.index'>All Demos</LinkTo>
+<div class="print:hidden">
+  <LinkTo @route="demos.index">All Demos</LinkTo>
 
   <ProgressDisplay
     @isRunning={{this.isRunning}}
@@ -9,16 +9,18 @@
   />
 
   <label>Section Count</label>
+
   <Input
-    @type='number'
+    @type="number"
     @value={{this.sectionCount}}
     min={{1}}
     max={{10000}}
     data-test-input-section-count={{true}}
   />
   <label>Column Count</label>
+
   <Input
-    @type='number'
+    @type="number"
     @value={{this.columnCount}}
     min={{1}}
     max={{3}}
@@ -27,9 +29,9 @@
 </div>
 
 <PrintablePages
-  @onRenderStart={{this.start}}
-  @onRenderProgress={{this.updateProgress}}
-  @onRenderComplete={{this.complete}}
+  @onRenderStart={{this.onStart}}
+  @onRenderProgress={{this.onUpdateProgress}}
+  @onRenderComplete={{this.onComplete}}
   as |document|
 >
   <document.chapter as |chapter|>

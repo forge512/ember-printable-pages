@@ -12,24 +12,26 @@ export default class extends Controller {
   @tracked isRunning;
   @tracked renderTime;
   @tracked currentPage;
-  @tracked isCurrent;
+  @tracked isComplete;
 
   get sectionData() {
     return [...Array(Number(this.sectionCount))].map((_, i) => i);
   }
 
   @action
-  start(currentPage) {
+  onStart(currentPage) {
     this.startTimeStamp = new Date();
     this.isRunning = true;
     this.currentPage = currentPage;
   }
+
   @action
-  updateProgress(currentPage) {
+  onUpdateProgress(currentPage) {
     this.currentPage = currentPage;
   }
+
   @action
-  complete() {
+  onComplete() {
     this.renderTime = (new Date() - this.startTimeStamp) / 1000;
     this.isRunning = false;
     this.isComplete = true;

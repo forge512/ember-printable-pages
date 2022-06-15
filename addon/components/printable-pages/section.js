@@ -18,7 +18,7 @@ export default class Section extends Component {
   }
 
   get section() {
-    return this.args.sectionMap?.[this.id];
+    return this.args.sectionMap[this.id];
   }
 
   get hasOnlyBlock() {

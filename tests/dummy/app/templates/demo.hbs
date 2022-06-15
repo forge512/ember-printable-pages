@@ -3,9 +3,9 @@
 
   <div class="flex flex-row h-full-less-top-bar print:h-auto">
     <PrintablePages
-      @onRenderStart={{this.start}}
-      @onRenderProgress={{this.updateProgress}}
-      @onRenderComplete={{this.complete}}
+      @onRenderStart={{this.onStart}}
+      @onRenderProgress={{this.onUpdateProgress}}
+      @onRenderComplete={{this.onComplete}}
       @dimensions={{hash width=this.settings.width height=this.settings.height}}
       @margins={{hash
         top=this.settings.top

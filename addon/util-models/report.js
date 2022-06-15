@@ -1,10 +1,9 @@
-import { A } from "@ember/array";
 import { tracked } from "@glimmer/tracking";
 import { TrackedObject, TrackedArray } from "tracked-built-ins";
 
 export default class Report {
   @tracked chapterMap = {};
-  @tracked chapters = new TrackedArray([]);
+  @tracked chapters = []
 
   get chapterCount() {
     return this.chapters?.length;

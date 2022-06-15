@@ -7,17 +7,19 @@
       @data
       @item
       @index
-      this.columnCount
+      @columnCount
       this.page
       this.hasOnlyBlock
       this.shouldRender
     }}
+    {{did-insert @renderNext this}}
+    {{!-- {{did-update @renderNext this @data @item @index this.page}} --}}
     {{did-insert this.onInsert}}
     class={{concat "PrintablePages-section " @sectionClass}}
     data-test-section
-    {{style columnCount=(concat "" this.columnCount)}}
+    {{style columnCount=(concat "" @columnCount)}}
   >
-    {{log 'section --- isFullyRendered' this.section.isFullyRendered}}
+    {{log "section --- isFullyRendered" this.section.isFullyRendered}}
     {{#if (and this.hasOnlyBlock this.page)}}
       {{log "SECTION NO ITEMS"}}
       {{yield (hash data=@item index=@index)}}
@@ -27,6 +29,7 @@
           @class={{@itemClass}}
           @section={{this.section}}
           @setLastRenderedItem={{@setLastRenderedItem}}
+          @renderNext={{@renderNext}}
         >
           {{yield item (add index this.page.startIndex) index}}
         </PrintablePages::SectionItem>
