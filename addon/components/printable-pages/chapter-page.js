@@ -1,20 +1,19 @@
 import Component from "@glimmer/component";
-import { htmlSafe } from "@ember/template";
-import { later, next, schedule } from "@ember/runloop";
+import { next } from "@ember/runloop";
 import { inject as service } from "@ember/service";
-import { isBlank, isPresent } from "@ember/utils";
+import { isPresent } from "@ember/utils";
 import { getOwner } from "@ember/application";
 import { action } from "@ember/object";
 import { guidFor } from "@ember/object/internals";
 import { tracked } from "@glimmer/tracking";
-import { task, timeout } from "ember-concurrency";
+import { task, timeout, waitForProperty } from "ember-concurrency";
 
 export default class ChapterPage extends Component {
   elementId = "ember-" + guidFor(this);
+  @tracked element = null;
+  @tracked lastRenderedItemId = null;
 
   @service documentData;
-  @tracked lastRenderedItemId;
-  @tracked element;
 
   // INTERNAL STATE
   sectionRegistrationIndex = 0;
@@ -29,36 +28,40 @@ export default class ChapterPage extends Component {
       this.args.registerSection(id, data);
     }
 
-    console.log(`reg index: ${this.sectionRegistrationIndex}`);
     this.sectionRegistrationIndex = this.sectionRegistrationIndex + 1;
     return id;
   }
 
-  @action didInsert(element) {
+  @action
+  onInsert(element) {
     this.element = element;
+    console.log(`<chapter-page:${this.elementId}> on-insert`, this.elementId);
+
+    this.renderNext.perform();
   }
 
   @action
-  setLastRenderedItem(elementId) {
+  onUpdate() {
+    console.log(`<chapter-page:${this.elementId}> did-update`, this.elementId);
+    this.renderNext.perform();
+  }
+
+  // @action
+
+  @task({ keepLatest: true })
+  *setLastRenderedItem(elementId) {
     console.log(
       `<chapter-page:${this.elementId}> setLastRenderedItem`,
       elementId
     );
     this.lastRenderedItemId = elementId;
-  }
-
-  @action
-  onUpdate() {
-    console.log("----- <ChapterPage> onUpdate ----");
+    this.renderNext.perform();
   }
 
   @task
   *waitForFixedBody() {
-    // console.log("component:chapter-page waitForFixedBody", this.element);
-    while (!this.element || !this.pageBodyElement.style.height) {
-      // console.log("component:chapter-page waitForFixedBody while true ----");
-      yield timeout(100);
-    }
+    yield waitForProperty(this, "element");
+    yield waitForProperty(this, "pageBodyElement", (b) => b?.style?.height);
   }
 
   get pageElement() {
@@ -77,9 +80,8 @@ export default class ChapterPage extends Component {
     return this.element.querySelector(".js-page-break-after");
   }
 
-  @task
+  @task({ drop: true })
   *renderNext() {
-    console.log("component:chapter-page renderNext", this.element);
     yield this.waitForFixedBody.perform();
 
     // This component determines whether it needs more items,
@@ -93,6 +95,12 @@ export default class ChapterPage extends Component {
     let tailPosition =
       Math.floor(pageBounding.bottom) - Math.ceil(tailBounding.bottom);
 
+    console.log(
+      `<chapter-page:${this.elementId}> renderNext`,
+      this.element,
+      `${tailPosition}px`
+    );
+
     // If the tail hasn't moved, then do nothing.
     // This can happen if the page count increments in a
     // separate render from adding/removing section items.
@@ -103,7 +111,7 @@ export default class ChapterPage extends Component {
       let tailMovement = Math.abs(this.previousTailPosition - tailPosition);
       if (
         tailMovement <= 2 &&
-        this.previousLastRenderedItemId === this.namedArgs?.lastRenderedItemId
+        this.previousLastRenderedItemId === this.lastRenderedItemId
       ) {
         return;
       }
@@ -140,6 +148,6 @@ export default class ChapterPage extends Component {
     }
 
     this.previousTailPosition = tailPosition;
-    this.previousLastRenderedItemId = this.args.lastRenderedItemId;
+    this.previousLastRenderedItemId = this.lastRenderedItemId;
   }
 }

@@ -4,11 +4,10 @@ import { tracked } from "@glimmer/tracking";
 import { guidFor } from "@ember/object/internals";
 export default class Chapter extends Component {
   elementId = "ember-" + guidFor(this);
-
   @tracked chapter;
 
   constructor() {
-    super(...arguments)
+    super(...arguments);
     this.chapter = this.args.registerChapter(this.elementId, {
       name: this.args.name,
       isToc: !!this.args.isToc,

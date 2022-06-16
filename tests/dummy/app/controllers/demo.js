@@ -16,6 +16,8 @@ export default class extends Controller {
   @tracked isRunning;
   @tracked currentPage;
   @tracked isCurrent;
+  @tracked renderTime;
+  @tracked isComplete;
 
   // Computed Props
   get sectionData() {

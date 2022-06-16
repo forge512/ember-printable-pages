@@ -7,18 +7,18 @@ import { tracked } from "@glimmer/tracking";
 import { TrackedObject } from "tracked-built-ins";
 
 export default class DocumentData extends Service {
-  @tracked reports = {};
+  @tracked reportsMap = {};
 
   register(id) {
     window.documentData = this;
     console.log(`<service:document-data> register(${id})`);
     let report = new Report();
-    this.reports[id] = report;
+    this.reportsMap[id] = report;
     return report;
   }
 
   unregister(id) {
-    this.reports[id] = null;
+    this.reportsMap[id] = null;
   }
 
   registerChapter(reportId, chapterId, opts = {}) {
@@ -26,7 +26,10 @@ export default class DocumentData extends Service {
       `<service:document-data> registerChapter(${reportId}, ${chapterId})`
     );
 
-    let report = this.reports[reportId];
+    let report = this.reportsMap[reportId];
+
+    if (!report) return;
+
     let chapter = new Chapter({
       id: chapterId,
       index: report.chapterCount,
@@ -37,7 +40,7 @@ export default class DocumentData extends Service {
     });
 
     report.chapterMap[chapterId] = chapter;
-    report.chapters = [...report.chapters, chapter];
+    report.chapters.push(chapter);
 
     return chapter;
   }
@@ -48,7 +51,7 @@ export default class DocumentData extends Service {
     );
 
     let { data, columnCount } = options;
-    let report = this.reports[reportId];
+    let report = this.reportsMap[reportId];
     let chapter = report.chapterMap[chapterId];
 
     let section = new Section({
@@ -59,7 +62,6 @@ export default class DocumentData extends Service {
     });
 
     chapter.sectionMap[sectionId] = section;
-
     chapter.sections.push(section);
 
     return section;
@@ -67,7 +69,7 @@ export default class DocumentData extends Service {
 
   addPage(reportId, chapterId) {
     console.log(`<service:document-data> addPage(${reportId}, ${chapterId})`);
-    let report = this.reports[reportId];
+    let report = this.reportsMap[reportId];
     let chapter = report.chapterMap[chapterId];
     let chapterIndex = report.chapters.indexOf(chapter);
 
@@ -79,7 +81,7 @@ export default class DocumentData extends Service {
 
     for (let i = chapterIndex + 1; i < report.chapters.length; i++) {
       report.chapters[i].startPage = report.chapters[i].startPage + 1;
-      report.chapters[i].endPage = report.chapters[i].startPage + 1;
+      report.chapters[i].endPage = report.chapters[i].endPage + 1;
     }
   }
 }

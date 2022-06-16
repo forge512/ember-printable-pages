@@ -1,19 +1,19 @@
 import { A } from "@ember/array";
 import { tracked } from "@glimmer/tracking";
 import Page from "./page";
-import { TrackedObject, TrackedArray } from "tracked-built-ins";
 import { action } from "@ember/object";
 
 export default class Section {
-  @tracked pages = A([]);
-  @tracked id;
-  @tracked columnCount = 1;
-  @tracked nextItemIndex = 0;
-  @tracked renderDataLength = 0;
-  @tracked maxItemHeight = null;
-  @tracked minItemHeight = null;
-  @tracked isFullyRendered = false;
-  @tracked data = A([]);
+  @tracked pages = [];
+
+  id;
+  columnCount = 1;
+  nextItemIndex = 0;
+  renderDataLength = 0;
+  maxItemHeight = null;
+  minItemHeight = null;
+  isFullyRendered = false;
+  data = [];
 
   constructor(options = {}) {
     let { id, index, columnCount, data } = options;
@@ -39,19 +39,24 @@ export default class Section {
     let startIndex = previousPage.endIndex + 1;
     let page = this.pages.at(pageIndex);
     if (!page) {
-      this.addPage(pageIndex, startIndex);
+      page = this.addPage(pageIndex, startIndex);
     } else {
       page.startIndex = startIndex;
     }
 
     this.nextItemIndex = this.nextItemIndex + 1;
+    console.log(
+      `Section:${this.id} #reconcilePageStartIndex`,
+      `${pageIndex} : ${page.startIndex}`
+    );
+
     // this.updateIsFullyRendered();
   }
 
   // seems like this could be a getter
   updateIsFullyRendered() {
     console.log(
-      "util-models:section updateIsFullyRendered",
+      `Section:${this.id} #updateIsFullyRendered`,
       this.nextItemIndex >= this.data.length
     );
     this.isFullyRendered = this.nextItemIndex >= this.data.length;
@@ -59,6 +64,8 @@ export default class Section {
 
   @action
   addPage(pageIndex, startIndex) {
+    console.log(`Section:${this.id} #addPage`);
+
     let page = new Page({
       startIndex: startIndex,
       endIndex: startIndex,
@@ -67,13 +74,17 @@ export default class Section {
     if (this.pages.length === 0) {
       this.pages = [...Array(pageIndex), page];
     } else {
-      this.pages = [...this.pages, page];
+      this.pages.push(page);
+      // this.pages = [...this.pages, page];
     }
+    return page;
     // this.updateIsFullyRendered();
   }
 
   @action
   addItemToPage(pageIndex) {
+    console.log(`Section:${this.id} #addItemToPage`);
+
     let page = this.pages.at(pageIndex);
     if (!page) {
       this.addPage(pageIndex, 0);
@@ -85,6 +96,6 @@ export default class Section {
   }
 
   toString() {
-    return `<section:${this.id}> ${this.data.length} items, nextItemIndex ${this.nextItemIndex}, isFullyRendered ${this.isFullyRendered}`;
+    return `<Models::Section:${this.id}> ${this.data.length} items, nextItemIndex ${this.nextItemIndex}, isFullyRendered ${this.isFullyRendered}`;
   }
 }

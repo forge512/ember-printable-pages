@@ -12,7 +12,7 @@ export default class PageRenderer extends Modifier {
   modify(element, positionalArgs, namedArgs) {
     console.log("------ modifier:page-renderer modify ----", element);
     this.element = element;
-    this.setBodyHeight.perform();
+    this.setBodyHeight();
   }
 
   get pageElement() {
@@ -31,8 +31,7 @@ export default class PageRenderer extends Modifier {
     return this.element.querySelector(".js-page-break-after");
   }
 
-  @task
-  *setBodyHeight() {
+  setBodyHeight() {
     console.log("modifier:page-renderer setBodyHeight", this.element);
     // The first render is used to measure the header and footer height
     // and set the page body to fixed height (in this component's
@@ -52,5 +51,4 @@ export default class PageRenderer extends Modifier {
     // Set the body to a fixed height
     this.pageBodyElement.style.height = `calc(100% - ${wrapperHeight}px)`;
   }
-
 }

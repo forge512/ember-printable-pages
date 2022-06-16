@@ -39,10 +39,9 @@ export default class PrintablePagesComponent extends Component {
 
   @service documentData;
 
-  @tracked isRendering = false;
-  @tracked reportObject;
   @tracked rerendering;
-  @tracked element;
+  reportObject;
+  element;
 
   constructor() {
     super(...arguments);
@@ -51,7 +50,7 @@ export default class PrintablePagesComponent extends Component {
 
   @action
   onInsert(element) {
-    console.log(`<printable-pages:${this.elementId}> did-insert`);
+    console.log(`<printable-pages:${this.elementId}> on-insert`);
     this.element = element;
   }
 
@@ -162,6 +161,12 @@ export default class PrintablePagesComponent extends Component {
         });
       });
     }
+  }
+
+  @action
+  onUpdate() {
+    console.log(`<printable-pages:${this.elementId}> on-update`);
+    this.rerenderTask.perform();
   }
 
   // ACTIONS

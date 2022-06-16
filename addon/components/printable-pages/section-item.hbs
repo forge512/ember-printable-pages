@@ -1,11 +1,9 @@
-{{log "SECTION ITEM"}}
 <div
   class="PrintablePages-sectionItem"
   id={{this.elementId}}
   data-test-section-item
   {{did-insert this.onInsert this}}
   {{did-insert @renderNext this @section}}
-  {{!-- {{did-update @renderNext this @section}} --}}
   {{will-destroy this.willDestroy}}
   ...attributes
 >

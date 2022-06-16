@@ -1,7 +1,7 @@
 <div
   {{!-- {{did-insert this.onInsert this}} --}}
   {{did-update
-    (perform this.rerenderTask)
+    this.onUpdate
     @margins
     @dimensions
     @orientation

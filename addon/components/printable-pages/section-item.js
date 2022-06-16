@@ -2,24 +2,26 @@ import Component from "@glimmer/component";
 import { tracked } from "@glimmer/tracking";
 import { guidFor } from "@ember/object/internals";
 import { action } from "@ember/object";
-import { task, waitForProperty } from 'ember-concurrency';
+import { task, waitForProperty } from "ember-concurrency";
 export default class SectionItem extends Component {
   elementId = "ember-" + guidFor(this);
-  @tracked element;
+  element = null;
 
   @action
   onInsert(element) {
+    console.log(
+      `%c <section-item:${this.elementId}> on-insert`,
+      "color: darkgrey"
+    );
+
     this.element = element;
-    this.onRender.perform()
+    this.onRender.perform();
+
+    this.args.renderNext();
   }
 
   @task
   *onRender() {
-    console.log(
-      `%c <section-item:${this.elementId}> did-insert`,
-      "color: darkgrey"
-    );
-
     let height = this.element.offsetHeight;
     if (
       this.args.section.maxItemHeight === null ||

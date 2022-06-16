@@ -1,27 +1,24 @@
 {{#if (and this.shouldRender this.page)}}
   {{! template-lint-disable no-inline-styles no-triple-curlies}}
   <div
+    id={{this.elementId}}
     {{did-update
       this.onUpdate
       this
       @data
       @item
       @index
-      @columnCount
+      this.columnCount
       this.page
-      this.hasOnlyBlock
-      this.shouldRender
+      this.items.length
     }}
-    {{did-insert @renderNext this}}
-    {{!-- {{did-update @renderNext this @data @item @index this.page}} --}}
-    {{did-insert this.onInsert}}
+    {{did-insert this.onInsert this}}
     class={{concat "PrintablePages-section " @sectionClass}}
     data-test-section
-    {{style columnCount=(concat "" @columnCount)}}
+    {{style columnCount=(concat "" this.columnCount)}}
   >
-    {{log "section --- isFullyRendered" this.section.isFullyRendered}}
+    {{!-- {{log "section --- isFullyRendered" this.section.isFullyRendered}} --}}
     {{#if (and this.hasOnlyBlock this.page)}}
-      {{log "SECTION NO ITEMS"}}
       {{yield (hash data=@item index=@index)}}
     {{else}}
       {{#each this.items as |item index|}}

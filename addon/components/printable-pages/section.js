@@ -2,10 +2,14 @@ import Component from "@glimmer/component";
 import { isEmpty } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
-
+import { guidFor } from "@ember/object/internals";
+import { scheduleOnce } from "@ember/runloop";
 export default class Section extends Component {
-  @tracked shouldRender = true;
-  @tracked id;
+  elementId = "ember-" + guidFor(this);
+
+  shouldRender = true;
+  id;
+  section;
 
   constructor() {
     super(...arguments);
@@ -13,12 +17,14 @@ export default class Section extends Component {
 
     this.id = this.args.registerSection({
       data: this.args.data || [],
-      columnCount: this.args.columnCount || 1,
+      columnCount: this.columnCount,
     });
+
+    this.section = this.args.sectionMap[this.id];
   }
 
-  get section() {
-    return this.args.sectionMap[this.id];
+  get columnCount() {
+    return Math.max(this.args.columnCount, 1);
   }
 
   get hasOnlyBlock() {
@@ -31,17 +37,21 @@ export default class Section extends Component {
   }
 
   get items() {
-    let { startIndex, endIndex } = this.page;
-    return this.section.data.slice(startIndex, endIndex + 1);
+    return this.section.data.slice(
+      this.page.startIndex,
+      this.page.endIndex + 1
+    );
   }
 
   @action
   onUpdate() {
-    console.log(`%c <section:${this.elementId}> did-update`, "color: grey");
-    let columnCountChanged = this.section?.columnCount != this.args.columnCount;
+    console.log(
+      `%c <section:${this.elementId} - ${this.id}> did-update`,
+      "color: grey"
+    );
+    let columnCountChanged = this.section?.columnCount != this.columnCount;
     let dataLengthChanged =
       this.section?.data?.length != this.args.data?.length;
-
     if (this.shouldRender && (columnCountChanged || dataLengthChanged)) {
       this.args.triggerRerender();
     }
@@ -49,7 +59,15 @@ export default class Section extends Component {
 
   @action
   onInsert() {
-    console.log(`%c <section:${this.id}> did-insert`, "color: grey");
-    if (this.hasOnlyBlock) this.args.renderNext();
+    console.log(
+      `%c <section:${this.elementId} - ${this.id}> on-insert`,
+      "color: grey"
+    );
+    if (this.hasOnlyBlock) {
+      console.log(
+        `%c <section:${this.elementId} - ${this.id}> on-insert: renderNext`
+      );
+      this.args.renderNext();
+    }
   }
 }

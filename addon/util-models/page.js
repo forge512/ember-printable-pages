@@ -1,6 +1,7 @@
 import { tracked } from "@glimmer/tracking";
+
 export default class Page {
-  @tracked number = 1;
+  number = 1;
   @tracked endIndex;
   @tracked nextItemIndex;
   @tracked startIndex;

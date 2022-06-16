@@ -1,4 +1,4 @@
-import Component from '@glimmerer/component';
+import Component from "@glimmer/component";
 
 export default class TableOfContents extends Component {
   get chapterMeta() {

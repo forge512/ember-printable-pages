@@ -1,22 +1,14 @@
-import { A } from "@ember/array";
 import { next } from "@ember/runloop";
 import Page from "./page";
 import { tracked } from "@glimmer/tracking";
-import { TrackedArray, TrackedObject } from "tracked-built-ins";
 import { action } from "@ember/object";
 
 export default class Chapter {
-  @tracked sectionMap = {};
-  @tracked sections = [];
-  @tracked firstPage;
+  sectionMap = {};
+  sections = [];
   @tracked pages;
-
-  @tracked id;
-  @tracked index;
-  @tracked startPage;
   @tracked endPage;
-  @tracked name;
-  @tracked isToc;
+  @tracked startPage;
 
   constructor({ id, index, startPage, endPage, name, isToc }) {
     this.id = id;
@@ -35,10 +27,7 @@ export default class Chapter {
   }
 
   get isFinishedRendering() {
-    return (
-      this.sections.filter((s) => s.isFullyRendered).length ==
-      this.sections.length
-    );
+    return !this.sections.find((s) => !s.isFullyRendered);
   }
 
   instrument() {
@@ -48,7 +37,9 @@ export default class Chapter {
 
   @action
   renderNextItem(pageIndex, remainingHeight) {
-    console.log(`Chapter#renderNextItem(${pageIndex}, ${remainingHeight})`);
+    console.log(
+      `<Models::Chapter#renderNextItem(${pageIndex}, ${remainingHeight})`
+    );
     this.instrument();
 
     let section = this.sections.find((s) => s.isFullyRendered == false);
@@ -73,6 +64,7 @@ export default class Chapter {
       );
       fastForwardCount = Math.max(1, fastForwardCount);
       fastForwardCount = Math.min(fastForwardCount, remainingItemCount);
+
       page.endIndex = page.endIndex + fastForwardCount;
       section.nextItemIndex = section.nextItemIndex + fastForwardCount;
     } else {
@@ -84,7 +76,9 @@ export default class Chapter {
 
     console.log(`-------`);
     this.instrument();
-    console.log(`</> Chapter#renderNextItem(${pageIndex}, ${remainingHeight})`);
+    console.log(
+      `</> Models::Chapter#renderNextItem(${pageIndex}, ${remainingHeight})`
+    );
   }
 
   @action
@@ -97,13 +91,8 @@ export default class Chapter {
   }
 
   @action
-  itemCountForPage(pageIndex) {
-    return this.sections.reduce((a, v) => a + v.itemCountForPage(pageIndex), 0);
-  }
-
-  @action
   removeItemFromPage(pageIndex) {
-    console.log(`Chapter#removeItemFromPage(${pageIndex})`);
+    console.group(`<Models::Chapter#removeItemFromPage(${pageIndex})`);
     this.instrument();
 
     let section = this.lastSectionInPage(pageIndex);
@@ -117,18 +106,18 @@ export default class Chapter {
       pageInSection.endIndex = pageInSection.endIndex - 1;
     }
     section.nextItemIndex = section.nextItemIndex - 1;
-    section.isFullyRendered = false;
+    // section.isFullyRendered = false;
 
     console.log("------");
     this.instrument();
-    console.log(`</> Chapter#removeItemFromPage(${pageIndex})`);
+    console.groupEnd(`</> Models::Chapter#removeItemFromPage(${pageIndex})`);
   }
 
   // Rename to 'removeLastItem'
   @action
   removeLastItem(pageIndex, addPageFn) {
     next(() => {
-      console.log(`Chapter#removeLastItem(${pageIndex}, fn)`);
+      console.group(`<Models::Chapter#removeLastItem(${pageIndex}, fn)`);
       this.instrument();
 
       let itemCountForPage = this.itemCountForPage(pageIndex);
@@ -150,6 +139,8 @@ export default class Chapter {
       }
 
       this.removeItemFromPage(pageIndex);
+
+      console.groupEnd();
     });
   }
 
@@ -180,5 +171,9 @@ export default class Chapter {
       this.instrument();
       console.log(`</> Chapter#renderNextPage(${pageIndex}, fn)`);
     });
+  }
+
+  itemCountForPage(pageIndex) {
+    return this.sections.reduce((a, v) => a + v.itemCountForPage(pageIndex), 0);
   }
 }

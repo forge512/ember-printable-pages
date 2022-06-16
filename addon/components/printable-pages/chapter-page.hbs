@@ -1,11 +1,13 @@
-{{log "CHAPTER PAGE"}}
 <div
   class="PrintablePages-chapterPage"
   id={{this.elementId}}
   {{page-renderer}}
-  {{did-insert this.didInsert}}
-  {{did-insert (perform this.renderNext)}}
-  {{did-update this.onUpdate}}
+  {{did-insert this.onInsert this}}
+  {{did-update
+    this.onUpdate
+    this.previousLastRenderedItemId
+    @lastRenderedItemId
+  }}
 >
   {{yield
     (hash meta=@pageMeta renderNext=(perform this.renderNext))
@@ -18,7 +20,7 @@
         element=this.element
         meta=@pageMeta
         registerSection=this.registerSection
-        setLastRenderedItem=this.setLastRenderedItem
+        setLastRenderedItem=(perform this.setLastRenderedItem)
         renderNext=(perform this.renderNext)
       )
       to="body"
