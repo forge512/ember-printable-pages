@@ -33,6 +33,7 @@
     "ember-composable-helpers": "^5.0.0",
     "ember-concurrency": "^2.2.1",
     "ember-math-helpers": "^2.14.0",
+    "ember-named-blocks-polyfill": "^0.2.5",
     "ember-truth-helpers": "^3.0.0",
     "webpack": "^5.73.0"
   },
@@ -73,7 +74,6 @@
     "ember-local-storage": "^2.0.2",
     "ember-maybe-import-regenerator": "^1.0.0",
     "ember-modifier": "^3.2.7",
-    "ember-named-blocks-polyfill": "^0.2.5",
     "ember-page-title": "^7.0.0",
     "ember-qunit": "^5.1.5",
     "ember-resolver": "^8.0.3",
