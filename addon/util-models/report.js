@@ -1,6 +1,3 @@
-import { tracked } from "@glimmer/tracking";
-import { TrackedObject, TrackedArray } from "tracked-built-ins";
-
 export default class Report {
   chapterMap = {};
   chapters = []
