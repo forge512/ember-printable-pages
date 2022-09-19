@@ -106,7 +106,7 @@ export default class Chapter {
       pageInSection.endIndex = pageInSection.endIndex - 1;
     }
     section.nextItemIndex = section.nextItemIndex - 1;
-    // section.isFullyRendered = false;
+    section.isFullyRendered = false;
 
     console.log("------");
     this.instrument();
