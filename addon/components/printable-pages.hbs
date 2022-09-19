@@ -1,0 +1,49 @@
+<div
+  {{!-- {{did-insert this.onInsert this}} --}}
+  {{did-update
+    this.onUpdate
+    @margins
+    @dimensions
+    @orientation
+    @units
+    @pageLayout
+  }}
+  class="PrintablePages"
+  id={{this.elementId}}
+  ...attributes
+>
+  {{#unless this.rerendering}}
+    {{yield
+      (hash
+        title-page=(component
+          "printable-pages/title-page"
+          pageLayout=this.pageLayout
+          pageCount=this.reportObject.lastPage
+        )
+        chapter=(component
+          "printable-pages/chapter"
+          chapters=this.chapters
+          lastReportPage=this.reportObject.lastPage
+          pageLayout=this.pageLayout
+          register=this.registerChapter
+          registerChapter=this.registerChapter
+          registerSection=(fn this.registerSection this.elementId)
+          addPage=this.addPage
+          checkIfComplete=(perform this.reportIfCompleteTask)
+          triggerRerender=(perform this.rerenderTask)
+        )
+        table-of-contents=(component
+          "printable-pages/table-of-contents"
+          chapters=this.chapters
+          lastReportPage=this.reportObject.lastPage
+          pageLayout=this.pageLayout
+          register=this.registerChapter
+          registerSection=(fn this.registerSection this.elementId)
+          addPage=this.addPage
+          checkIfComplete=(perform this.reportIfCompleteTask)
+          triggerRerender=(perform this.rerenderTask)
+        )
+      )
+    }}
+  {{/unless}}
+</div>

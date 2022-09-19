@@ -1,35 +1,46 @@
 import Controller from "@ember/controller";
-import { computed } from "@ember/object";
 import { storageFor } from "ember-local-storage";
+import { action } from "@ember/object";
+import { tracked } from "@glimmer/tracking";
 
-export default Controller.extend({
-  settings: storageFor("print-settings"),
+export default class extends Controller {
+  @storageFor("print-settings") settings;
 
-  queryParams: ["sectionCount", "columnCount"],
+  queryParams = ["sectionCount", "columnCount"];
 
   // Content Settings
-  sectionCount: 300,
-  columnCount: 2,
+  @tracked sectionCount = 300;
+  @tracked columnCount = 2;
+
+  @tracked startTimeStamp;
+  @tracked isRunning;
+  @tracked currentPage;
+  @tracked isCurrent;
+  @tracked renderTime;
+  @tracked isComplete;
 
   // Computed Props
-  sectionData: computed("sectionCount", function() {
+  get sectionData() {
     return [...Array(Number(this.sectionCount))].map((_, i) => i);
-  }),
+  }
 
   // Actions
-  actions: {
-    start(currentPage) {
-      this.set("startTimeStamp", new Date());
-      this.set("isRunning", true);
-      this.set("currentPage", currentPage);
-    },
-    updateProgress(currentPage) {
-      this.set("currentPage", currentPage);
-    },
-    complete() {
-      this.set("renderTime", (new Date() - this.startTimeStamp) / 1000);
-      this.set("isRunning", false);
-      this.set("isComplete", true);
-    }
+  @action
+  onStart(currentPage) {
+    this.startTimeStamp = new Date();
+    this.isRunning = true;
+    this.currentPage = currentPage;
   }
-});
+
+  @action
+  onUpdateProgress(currentPage) {
+    this.currentPage = currentPage;
+  }
+
+  @action
+  onComplete() {
+    this.renderTime = (new Date() - this.startTimeStamp) / 1000;
+    this.isRunning = false;
+    this.isComplete = true;
+  }
+}

@@ -1,73 +1,86 @@
 import Service from "@ember/service";
-import EmberObject from "@ember/object";
 import Report from "../util-models/report";
 import Chapter from "../util-models/chapter";
 import Page from "../util-models/page";
 import Section from "../util-models/section";
+import { tracked } from "@glimmer/tracking";
 
-export default Service.extend({
-  init() {
-    this._super(...arguments);
-    this.set("reports", EmberObject.create());
-  },
+export default class DocumentData extends Service {
+  @tracked reportsMap = {};
 
-  // register/unregister reports
   register(id) {
-    let report = Report.create();
-    this.reports.set(id, report);
+    window.documentData = this;
+    console.log(`<service:document-data> register(${id})`);
+    let report = new Report();
+    this.reportsMap[id] = report;
     return report;
-  },
+  }
 
   unregister(id) {
-    this.reports.set(id, null);
-  },
+    this.reportsMap[id] = null;
+  }
 
   registerChapter(reportId, chapterId, opts = {}) {
-    let report = this.reports[reportId];
+    console.log(
+      `<service:document-data> registerChapter(${reportId}, ${chapterId})`
+    );
 
-    let chapter = Chapter.create({
+    let report = this.reportsMap[reportId];
+
+    if (!report) return;
+
+    let chapter = new Chapter({
       id: chapterId,
       index: report.chapterCount,
       startPage: report.chapterCount + 1,
       endPage: report.chapterCount + 1,
       name: opts.name,
-      isToc: opts.isToc
+      isToc: opts.isToc,
     });
 
-    report.chapterMap.set(chapterId, chapter);
-    report.chapters.pushObject(chapter);
+    report.chapterMap[chapterId] = chapter;
+    report.chapters.push(chapter);
 
     return chapter;
-  },
+  }
 
-  registerSection(reportId, chapterId, sectionId, { data, columnCount }) {
-    let report = this.reports[reportId];
+  registerSection(reportId, chapterId, sectionId, options = {}) {
+    console.log(
+      `<service:document-data> registerSection(${reportId}, ${chapterId}, ${sectionId})`
+    );
+
+    let { data, columnCount } = options;
+    let report = this.reportsMap[reportId];
     let chapter = report.chapterMap[chapterId];
 
-    let section = Section.create({
+    let section = new Section({
       id: sectionId,
       data: data,
       columnCount: columnCount,
-      index: chapter.sectionCount
+      index: chapter.sectionCount,
     });
-    chapter.sectionMap.set(sectionId, section);
-    chapter.sections.pushObject(section);
+
+    chapter.sectionMap[sectionId] = section;
+    chapter.sections.push(section);
 
     return section;
-  },
+  }
 
   addPage(reportId, chapterId) {
-    // console.log(`<service:document-data> addPage(${reportId}, ${chapterId})`);
-    let report = this.reports[reportId];
+    console.log(`<service:document-data> addPage(${reportId}, ${chapterId})`);
+    let report = this.reportsMap[reportId];
     let chapter = report.chapterMap[chapterId];
     let chapterIndex = report.chapters.indexOf(chapter);
 
-    chapter.incrementProperty("endPage");
-    chapter.pages.pushObject(Page.create({ number: chapter.pages.length }));
+    chapter.endPage = chapter.endPage + 1;
+    chapter.pages = [
+      ...chapter.pages,
+      new Page({ number: chapter.pages.length }),
+    ];
 
     for (let i = chapterIndex + 1; i < report.chapters.length; i++) {
-      report.chapters[i].incrementProperty("startPage");
-      report.chapters[i].incrementProperty("endPage");
+      report.chapters[i].startPage = report.chapters[i].startPage + 1;
+      report.chapters[i].endPage = report.chapters[i].endPage + 1;
     }
   }
-});
+}

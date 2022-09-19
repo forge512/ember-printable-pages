@@ -1,26 +1,16 @@
-import Component from "@ember/component";
-import layout from "../../templates/components/printable-pages/table-of-contents";
-import { computed } from "@ember/object";
+import Component from "@glimmer/component";
 
-export default Component.extend({
-  layout,
-  classNames: ["PrintablePages-toc"],
+export default class TableOfContents extends Component {
+  get chapterMeta() {
+    return this.args.chapters.map((c) => ({
+      startPage: c.startPage,
+      endPage: c.endPage,
+      name: c.name,
+      isToc: c.isToc,
+    }));
+  }
 
-  "data-test-toc": true,
-
-  chapterMeta: computed(
-    "chapters.@each.{startPage,endPage,name,isToc}",
-    function() {
-      return this.chapters.map(c => ({
-        startPage: c.startPage,
-        endPage: c.endPage,
-        name: c.name,
-        isToc: c.isToc
-      }));
-    }
-  ),
-
-  chapterMetaWithoutToc: computed("chapterMeta.@each.isToc", function() {
-    return this.chapterMeta.filter(c => !c.isToc);
-  })
-});
+  get chapterMetaWithoutToc() {
+    return this.chapterMeta.filter((c) => !c.isToc);
+  }
+}

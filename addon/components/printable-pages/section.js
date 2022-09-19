@@ -1,51 +1,73 @@
-import Component from "@ember/component";
-import layout from "../../templates/components/printable-pages/section";
-import { htmlSafe } from "@ember/template";
-import { computed, get } from "@ember/object";
-import { empty } from "@ember/object/computed";
+import Component from "@glimmer/component";
+import { isEmpty } from "@ember/utils";
+import { tracked } from "@glimmer/tracking";
+import { action } from "@ember/object";
+import { guidFor } from "@ember/object/internals";
+import { scheduleOnce } from "@ember/runloop";
+export default class Section extends Component {
+  elementId = "ember-" + guidFor(this);
 
-export default Component.extend({
-  layout,
-  tagName: "",
-  shouldRender: true,
+  shouldRender = true;
+  id;
+  section;
 
-  // LIFECYCLE HOOKS
-  init() {
-    this._super(...arguments);
-    this.style = htmlSafe(`column-count: ${this.columnCount};`);
-  },
-  didInsertElement() {
-    this._super(...arguments);
+  constructor() {
+    super(...arguments);
     if (!this.shouldRender) return;
 
-    let id = this.register({
-      data: this.data || [],
-      columnCount: this.columnCount
+    this.id = this.args.registerSection({
+      data: this.args.data || [],
+      columnCount: this.columnCount,
     });
-    this.set("id", id);
-    this.set("section", this.sectionMap[id]);
-  },
-  didUpdateAttrs() {
-    let columnCountChanged =
-      get(this, "section.columnCount") != this.sectionCount;
-    let dataLengthChanged =
-      get(this, "section.data.length") != get(this, "data.length");
-    if (this.shouldRender && (columnCountChanged || dataLengthChanged)) {
-      this.triggerRerender();
-    }
-  },
 
-  // INPUT PROPS
-  columnCount: 1,
+    this.section = this.args.sectionMap[this.id];
+  }
 
-  // COMPUTED PROPS
-  hasOnlyBlock: empty("data"),
-  page: computed("section.pages.[]", "pageIndexInChapter", function() {
+  get columnCount() {
+    return Math.max(this.args.columnCount, 1);
+  }
+
+  get hasOnlyBlock() {
+    return isEmpty(this.args.data);
+  }
+
+  get page() {
     if (!this.section) return;
-    return this.section.pages.objectAt(this.pageIndexInChapter);
-  }),
-  items: computed("section.data.[]", "page.{startIndex,endIndex}", function() {
-    let { startIndex, endIndex } = this.page;
-    return this.section.data.slice(startIndex, endIndex + 1);
-  })
-});
+    return this.section.pages.at(this.args.pageIndexInChapter);
+  }
+
+  get items() {
+    return this.section.data.slice(
+      this.page.startIndex,
+      this.page.endIndex + 1
+    );
+  }
+
+  @action
+  onUpdate() {
+    console.log(
+      `%c <section:${this.elementId} - ${this.id}> did-update`,
+      "color: grey"
+    );
+    let columnCountChanged = this.section?.columnCount != this.columnCount;
+    let dataLengthChanged =
+      this.section?.data?.length != this.args.data?.length;
+    if (this.shouldRender && (columnCountChanged || dataLengthChanged)) {
+      this.args.triggerRerender();
+    }
+  }
+
+  @action
+  onInsert() {
+    console.log(
+      `%c <section:${this.elementId} - ${this.id}> on-insert`,
+      "color: grey"
+    );
+    if (this.hasOnlyBlock) {
+      console.log(
+        `%c <section:${this.elementId} - ${this.id}> on-insert: renderNext`
+      );
+      this.args.renderNext();
+    }
+  }
+}

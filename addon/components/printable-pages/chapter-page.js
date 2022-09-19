@@ -1,55 +1,105 @@
-import Component from "@ember/component";
-import layout from "../../templates/components/printable-pages/chapter-page";
-import { htmlSafe } from "@ember/template";
+import Component from "@glimmer/component";
 import { next } from "@ember/runloop";
 import { inject as service } from "@ember/service";
-import { isBlank, isPresent } from "@ember/utils";
+import { isPresent } from "@ember/utils";
 import { getOwner } from "@ember/application";
+import { action } from "@ember/object";
+import { guidFor } from "@ember/object/internals";
+import { tracked } from "@glimmer/tracking";
+import { task, timeout, waitForProperty } from "ember-concurrency";
 
-export default Component.extend({
-  layout,
-  documentData: service(),
-  classNames: ["PrintablePages-chapterPage"],
+export default class ChapterPage extends Component {
+  elementId = "ember-" + guidFor(this);
+  @tracked element = null;
+  @tracked lastRenderedItemId = null;
 
-  // LIFECYCLE HOOKS
-  didInsertElement() {
-    let topOfBreakAfter = this.element
-      .querySelector(".js-page-break-after")
-      .getBoundingClientRect().top;
-    let topOfElement = this.element.getBoundingClientRect().top;
-    let wrapperHeight = topOfBreakAfter - topOfElement;
+  @service documentData;
 
-    // The ember test environment scales the page down by 50%
-    let config = getOwner(this).resolveRegistration("config:environment");
-    if (config.environment === "test") wrapperHeight = wrapperHeight * 2;
+  // INTERNAL STATE
+  sectionRegistrationIndex = 0;
 
-    // set the page body height
-    this._setPageBodyHeight(wrapperHeight);
-  },
+  // Register the section if this page is the first in the chapter.
+  // Return the section index in the page as the section's id. This
+  // is the unique id for the section across all pages.
+  @action
+  registerSection(data) {
+    let id = this.sectionRegistrationIndex;
+    if (this.args.pageIndexInChapter === 0) {
+      this.args.registerSection(id, data);
+    }
 
-  didRender() {
-    this._super(...arguments);
+    this.sectionRegistrationIndex = this.sectionRegistrationIndex + 1;
+    return id;
+  }
 
-    // The first render is used to measure the header and footer height
-    // and set the page body to fixed height (in this component's
-    // didInsertElement hook). If the bodyElement hasn't been set
-    // to a fixed height yet then wait before checking for overflow.
-    let bodyElement = this.element.querySelector(".js-page-body");
-    if (isBlank(bodyElement.style.height)) return;
+  @action
+  onInsert(element) {
+    this.element = element;
+    console.log(`<chapter-page:${this.elementId}> on-insert`, this.elementId);
+
+    this.renderNext.perform();
+  }
+
+  @action
+  onUpdate() {
+    console.log(`<chapter-page:${this.elementId}> did-update`, this.elementId);
+    this.renderNext.perform();
+  }
+
+  // @action
+
+  @task({ keepLatest: true })
+  *setLastRenderedItem(elementId) {
+    console.log(
+      `<chapter-page:${this.elementId}> setLastRenderedItem`,
+      elementId
+    );
+    this.lastRenderedItemId = elementId;
+    this.renderNext.perform();
+  }
+
+  @task
+  *waitForFixedBody() {
+    yield waitForProperty(this, "element");
+    yield waitForProperty(this, "pageBodyElement", (b) => b?.style?.height);
+  }
+
+  get pageElement() {
+    return this.element;
+  }
+
+  get pageBodyElement() {
+    return this.element.querySelector(".js-page-body");
+  }
+
+  get visibilityTailElement() {
+    return this.element.querySelector(".js-visibility-tail");
+  }
+
+  get pageBreakElement() {
+    return this.element.querySelector(".js-page-break-after");
+  }
+
+  @task({ drop: true })
+  *renderNext() {
+    yield this.waitForFixedBody.perform();
 
     // This component determines whether it needs more items,
     // or fewer based upon where the `.js-visibility-tail` is
     // located in the dom relative to the `.js-page-body` element.
-    let tailElement = this.element.querySelector(".js-visibility-tail");
-    let tailBounding = tailElement.getBoundingClientRect();
 
+    let tailBounding = this.visibilityTailElement.getBoundingClientRect();
     // Grab the bounding rect for the `.js-page-body` element
-    let pageBounding = this.element
-      .querySelector(".js-page-body")
-      .getBoundingClientRect();
+    let pageBounding = this.pageBodyElement.getBoundingClientRect();
 
     let tailPosition =
       Math.floor(pageBounding.bottom) - Math.ceil(tailBounding.bottom);
+
+    console.log(
+      `<chapter-page:${this.elementId}> renderNext`,
+      this.element,
+      `${tailPosition}px`
+    );
 
     // If the tail hasn't moved, then do nothing.
     // This can happen if the page count increments in a
@@ -79,56 +129,25 @@ export default Component.extend({
     if (hasOverflow) {
       // If the page overflowed...
       // call onPageOverflow so the parent context can remove an item
-      this.set("overflowed", true);
-      this.onPageOverflow();
+      this.overflowed = true;
+      this.args.onPageOverflow();
     } else if (!this.overflowed) {
       // If the page did not overflow this time AND it has never overflowed...
       // tell the context this page can handle more item(s)
       next(() => {
         if (this.isDestroyed) return;
-        this.renderNextItem(tailPosition);
+        this.args.renderNextItem(tailPosition);
       });
     } else if (!this.isSettled) {
       // did not overflow this time, but did in the past...
       // then the page is probably settled. let context know
       // it can render the next page if it wants
-      this.set("isSettled", true);
-      this.renderNextPage();
+
+      this.isSettled = true;
+      this.args.renderNextPage();
     }
 
-    this.set("previousTailPosition", tailPosition);
-    this.set("previousLastRenderedItemId", this.lastRenderedItemId);
-  },
-
-  // INTERNAL STATE
-  sectionRegistrationIndex: 0,
-
-  // HELPER FUNCTIONS
-  _setPageBodyHeight(wrapperHeight) {
-    wrapperHeight = Math.ceil(wrapperHeight);
-    // Use height based on parent (100%) so that parent owns the overall page height
-    this.set(
-      "bodyStyles",
-      htmlSafe(`height: calc(100% - ${wrapperHeight}px);`)
-    );
-  },
-
-  actions: {
-    // Register the section if this page is the first in the chapter.
-    // Return the section index in the page as the section's id. This
-    // is the unique id for the section across all pages.
-    registerSection(data) {
-      let id = this.sectionRegistrationIndex;
-
-      if (this.pageIndexInChapter === 0) {
-        this.registerSection(id, data);
-      }
-
-      this.incrementProperty("sectionRegistrationIndex");
-      return id;
-    },
-    renderedItem(elementId) {
-      this.lastRenderedItemId = elementId;
-    },
-  },
-});
+    this.previousTailPosition = tailPosition;
+    this.previousLastRenderedItemId = this.lastRenderedItemId;
+  }
+}

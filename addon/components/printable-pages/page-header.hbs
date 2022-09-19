@@ -1,5 +1,5 @@
-{{#if shouldRender}}
+{{#if this.shouldRender}}
   <div class="PrintablePages-pageHeader" data-test-page-header>
-    {{yield (hash pageMeta=pageMeta)}}
+    {{yield (hash pageMeta=@pageMeta)}}
   </div>
 {{/if}}

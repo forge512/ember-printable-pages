@@ -1,32 +1,47 @@
-import Component from "@ember/component";
-import layout from "../../templates/components/printable-pages/section-item";
+import Component from "@glimmer/component";
+import { tracked } from "@glimmer/tracking";
+import { guidFor } from "@ember/object/internals";
+import { action } from "@ember/object";
+import { task, waitForProperty } from "ember-concurrency";
+export default class SectionItem extends Component {
+  elementId = "ember-" + guidFor(this);
+  element = null;
 
-export default Component.extend({
-  layout,
-  classNames: ["PrintablePages-sectionItem"],
-  "data-test-section-item": true,
-  didInsertElement() {
-    this._super(...arguments);
+  @action
+  onInsert(element) {
+    console.log(
+      `%c <section-item:${this.elementId}> on-insert`,
+      "color: darkgrey"
+    );
+
+    this.element = element;
+    this.onRender.perform();
+
+    this.args.renderNext();
+  }
+
+  @task
+  *onRender() {
     let height = this.element.offsetHeight;
     if (
-      this.section.maxItemHeight === null ||
-      this.section.maxItemHeight < height
+      this.args.section.maxItemHeight === null ||
+      this.args.section.maxItemHeight < height
     ) {
-      this.section.set("maxItemHeight", height);
+      this.args.section.maxItemHeight = height;
     }
 
     if (
-      this.section.minItemHeight === null ||
-      height < this.section.minItemHeight
+      this.args.section.minItemHeight === null ||
+      height < this.args.section.minItemHeight
     ) {
-      this.section.set("minItemHeight", height);
+      this.args.section.minItemHeight = height;
     }
 
-    this.renderedItem(this.elementId);
-  },
-
-  willDestroyElement() {
-    this._super(...arguments);
-    this.renderedItem("-" + this.elementId);
+    this.args.setLastRenderedItem(this.elementId);
   }
-});
+
+  @action
+  willDestroy() {
+    this.args.setLastRenderedItem("-" + this.elementId);
+  }
+}

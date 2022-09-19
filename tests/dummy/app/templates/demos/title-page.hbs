@@ -1,11 +1,11 @@
 <div class="no-print">
-  {{link-to "All Demos" "demos.index"}}
+  <LinkTo @route="demos.index">All Demos</LinkTo>
 </div>
 
-{{#printable-pages as |document|}}
+<PrintablePages as |document|>
 
   {{! Document Title Page }}
-  {{#document.title-page as |titlePage|}}
+  <document.title-page as |titlePage|>
     <div>As of March 2019</div>
     <div class="TitlePage-hero">
       <h1>This is the document title page</h1>
@@ -13,18 +13,18 @@
     <div>
       ©2019 Forge 512, LLC | {{titlePage.pageMeta.total}}
     </div>
-  {{/document.title-page}}
+  </document.title-page>
 
   {{! Chapters }}
-  {{#document.chapter as |chapter|}}
-    {{#chapter.page-header as |header|}}
+  <document.chapter as |chapter|>
+    <chapter.page-header as |header|>
       <div>
         <div>Chapter {{header.chapterNumber}}</div>
         <div>page {{header.current}} of {{header.total}}</div>
       </div>
-    {{/chapter.page-header}}
+    </chapter.page-header>
 
-    {{#chapter.section columnCount=1}}
+    <chapter.section @columnCount={{1}}>
       <h1>Section 1</h1>
       <div>current {{chapter.number.current}}</div>
       <div>total {{chapter.number.total}}</div>
@@ -32,9 +32,9 @@
       <div>isLast {{chapter.number.isLast}}</div>
       <div>isFirstInChapter {{chapter.number.isFirstInChapter}}</div>
       <div>isLastInChapter {{chapter.number.isLastInChapter}}</div>
-    {{/chapter.section}}
+    </chapter.section>
 
-    {{#chapter.section columnCount=1}}
+    <chapter.section @columnCount={{1}}>
       <h3>Section 2</h3>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sapien ligula,
@@ -45,9 +45,9 @@
         id feugiat erat tortor et felis. Pellentesque id nisl non justo viverra lacinia
         id sit amet arcu. Mauris non euismod ipsum. Fusce lacinia felis nec euismod vulputate.
       </p>
-    {{/chapter.section}}
+    </chapter.section>
 
-    {{#chapter.section columnCount=2 data=(array 1 2 3 4 5) as |section|}}
+    <chapter.section @columnCount={{2}} @data={{array 1 2 3 4 5}} as |section|>
       {{#if (eq section.index 0)}}
         <h3>Section 3</h3>
       {{/if}}
@@ -62,10 +62,10 @@
         id feugiat erat tortor et felis. Pellentesque id nisl non justo viverra lacinia
         id sit amet arcu. Mauris non euismod ipsum. Fusce lacinia felis nec euismod vulputate.
       </p>
-    {{/chapter.section}}
+    </chapter.section>
 
-    {{#chapter.page-footer as |footer|}}
+    <chapter.page-footer as |footer|>
       <div>Footer page {{footer.pageMeta.current}} of {{footer.pageMeta.total}}</div>
-    {{/chapter.page-footer}}
-  {{/document.chapter}}
-{{/printable-pages}}
+    </chapter.page-footer>
+  </document.chapter>
+</PrintablePages>
