@@ -33,8 +33,7 @@ export default class Chapter extends Component {
   @action
   onPageOverflow(pageIndex) {
     console.log(`<chapter:${this.elementId}> onPageOverflow`);
-    this.chapter.removeLastItem(pageIndex, this.args.addPage);
-    this.chapter.renderNextPage(pageIndex, this.args.addPage);
+    this.chapter.moveLastItem(pageIndex, this.args.addPage);
   }
 
   @action
@@ -47,6 +46,6 @@ export default class Chapter extends Component {
   @action
   renderNextPage(pageIndex) {
     console.log(`<chapter:${this.elementId}> renderNextPage`);
-    this.chapter.renderNextPage(pageIndex, this.args.addPage);
+    this.args.addPage(this.chapter.id);
   }
 }
