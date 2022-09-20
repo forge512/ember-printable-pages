@@ -50,7 +50,6 @@ export default class PrintablePagesComponent extends Component {
 
   @action
   onInsert(element) {
-    console.log(`<printable-pages:${this.elementId}> on-insert`);
     this.element = element;
   }
 
@@ -84,7 +83,6 @@ export default class PrintablePagesComponent extends Component {
   // eslint-disable-next-line require-yield
   @task
   *renderTask() {
-    console.log(`<printable-pages:${this.elementId}> renderTask`);
     this.reportObject = this.documentData.register(this.elementId);
     this.rerendering = false;
     this.reportStartTask.perform(this.reportObject.lastPage, null);
@@ -92,7 +90,6 @@ export default class PrintablePagesComponent extends Component {
 
   @task({ drop: true })
   *rerenderTask() {
-    console.log(`<printable-pages:${this.elementId}> did-update`);
     yield new Promise((resolve) => {
       next(() => {
         if (this.isDestroyed) return resolve();
@@ -165,7 +162,6 @@ export default class PrintablePagesComponent extends Component {
 
   @action
   onUpdate() {
-    console.log(`<printable-pages:${this.elementId}> on-update`);
     this.rerenderTask.perform();
   }
 
