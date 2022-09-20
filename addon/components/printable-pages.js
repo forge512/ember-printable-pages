@@ -182,4 +182,9 @@ export default class PrintablePagesComponent extends Component {
     let page = this.documentData.addPage(this.elementId, chapterId);
     this.reportProgressTask.perform();
   }
+
+  @action
+  addFirstPageToChapters() {
+    this.chapters.forEach((chapter) => this.addPage(chapter.id));
+  }
 }

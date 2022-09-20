@@ -5,7 +5,7 @@ import { action } from "@ember/object";
 export default class Chapter {
   sectionMap = {};
   sections = [];
-  @tracked pages;
+  @tracked pages = [];
   @tracked endPage;
   @tracked startPage;
 
@@ -16,9 +16,6 @@ export default class Chapter {
     this.endPage = endPage;
     this.name = name;
     this.isToc = isToc;
-
-    this.firstPage = new Page();
-    this.pages = [this.firstPage];
   }
 
   get sectionCount() {
@@ -177,34 +174,6 @@ export default class Chapter {
 
     return false;
   }
-
-  // @action
-  // renderNextPage(pageIndex, addPageFn) {
-  //   console.group(this.logPrefix(), `#renderNextPage(${pageIndex}, fn)`);
-  //   this.instrument();
-
-  //   let lastSectionInPage = this.lastSectionInPage(pageIndex);
-
-  //   // maybe move to renderNextItem?
-  //   // if (!lastSectionInPage) {
-  //   //   let nextSection = this.sections.find((s) => s.isFullyRendered == false);
-  //   //   nextSection.addItemToPage(pageIndex + 1);
-  //   if (!lastSectionInPage) {
-  //     // no-op
-  //   if (!lastSectionInPage?.isFullyRendered) {
-  //     lastSectionInPage.reconcilePageStartIndex(pageIndex + 1);
-  //   } else {
-  //     this.log("---------------DO WEIRD THING---------------");
-  //     //Ensure there are any other sections left.
-  //     let nextSection = this.sections[lastSectionInPage.index + 1];
-  //     if (nextSection) {
-  //       nextSection.addItemToPage(pageIndex + 1);
-  //     }
-  //   }
-
-  //   this.instrument();
-  //   console.groupEnd(this.logPrefix(), `#renderNextPage(${pageIndex}, fn)`);
-  // }
 
   itemCountForPage(pageIndex) {
     return this.sections.reduce((a, v) => a + v.itemCountForPage(pageIndex), 0);

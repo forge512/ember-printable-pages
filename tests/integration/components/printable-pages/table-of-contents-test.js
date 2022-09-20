@@ -3,12 +3,10 @@ import { setupRenderingTest } from "ember-qunit";
 import { render } from "@ember/test-helpers";
 import hbs from "htmlbars-inline-precompile";
 
-module("Integration | Component | printable-pages/table-of-contents", function(
-  hooks
-) {
+module("Integration | Component | printable-pages/table-of-contents", function (hooks) {
   setupRenderingTest(hooks);
 
-  let renderTemplate = function() {
+  let renderTemplate = function () {
     return render(hbs`
       <PrintablePages as |document|>
         <document.table-of-contents as |toc|>
@@ -42,7 +40,7 @@ module("Integration | Component | printable-pages/table-of-contents", function(
     `);
   };
 
-  test("basic table of contents", async function(assert) {
+  test("basic table of contents", async function (assert) {
     await renderTemplate(this);
 
     assert.dom("[data-test-page]").exists({ count: 4 });
@@ -54,14 +52,8 @@ module("Integration | Component | printable-pages/table-of-contents", function(
     // Verify that we have a TOC page
     assert.dom("[data-test-toc] [data-test-page]").exists({ count: 1 });
 
-    assert
-      .dom("[data-test-page='1'] [data-test-toc-item='0']")
-      .hasText("Chapter 1.... 2-2");
-    assert
-      .dom("[data-test-page='1'] [data-test-toc-item='1']")
-      .hasText("Chapter 2.... 3-3");
-    assert
-      .dom("[data-test-page='1'] [data-test-toc-item='2']")
-      .hasText("Chapter 3.... 4-4");
+    assert.dom("[data-test-page='1'] [data-test-toc-item='0']").hasText("Chapter 1.... 2-2");
+    assert.dom("[data-test-page='1'] [data-test-toc-item='1']").hasText("Chapter 2.... 3-3");
+    assert.dom("[data-test-page='1'] [data-test-toc-item='2']").hasText("Chapter 3.... 4-4");
   });
 });

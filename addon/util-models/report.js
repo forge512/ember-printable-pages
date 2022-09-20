@@ -1,6 +1,6 @@
 export default class Report {
   chapterMap = {};
-  chapters = []
+  chapters = [];
 
   get chapterCount() {
     return this.chapters?.length;
@@ -11,6 +11,11 @@ export default class Report {
   }
 
   get isFinishedRendering() {
-      return !this.chapters.find((c) => !c.isFinishedRendering);
+    return !this.chapters.find((c) => !c.isFinishedRendering);
+  }
+
+  addChapter(chapter) {
+    this.chapterMap[chapter.id] = chapter;
+    this.chapters.push(chapter);
   }
 }

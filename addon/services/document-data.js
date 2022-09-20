@@ -3,10 +3,9 @@ import Report from "../util-models/report";
 import Chapter from "../util-models/chapter";
 import Page from "../util-models/page";
 import Section from "../util-models/section";
-import { tracked } from "@glimmer/tracking";
 
 export default class DocumentData extends Service {
-  @tracked reportsMap = {};
+  reportsMap = {};
 
   register(id) {
     window.documentData = this;
@@ -38,8 +37,7 @@ export default class DocumentData extends Service {
       isToc: opts.isToc,
     });
 
-    report.chapterMap[chapterId] = chapter;
-    report.chapters.push(chapter);
+    report.addChapter(chapter);
 
     return chapter;
   }
@@ -72,6 +70,11 @@ export default class DocumentData extends Service {
     let report = this.reportsMap[reportId];
     let chapter = report.chapterMap[chapterId];
     let chapterIndex = report.chapters.indexOf(chapter);
+
+    if (chapter.pages.length === 0) {
+      chapter.pages = [new Page()];
+      return;
+    }
 
     chapter.endPage = chapter.endPage + 1;
     chapter.pages = [
