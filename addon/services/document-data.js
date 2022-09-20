@@ -7,6 +7,9 @@ import { tracked } from "@glimmer/tracking";
 
 export default class DocumentData extends Service {
   @tracked reportsMap = {};
+  get reports() {
+    return Object.values(this.reportsMap)
+  }
 
   register(id) {
     window.documentData = this;
