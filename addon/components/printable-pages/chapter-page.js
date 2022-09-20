@@ -1,5 +1,4 @@
 import Component from "@glimmer/component";
-import { next } from "@ember/runloop";
 import { inject as service } from "@ember/service";
 import { isPresent } from "@ember/utils";
 import { getOwner } from "@ember/application";
@@ -35,14 +34,14 @@ export default class ChapterPage extends Component {
   @action
   onInsert(element) {
     this.element = element;
-    console.log(`<chapter-page:${this.elementId}> on-insert`, this.elementId);
+    console.log(`<chapter-page:${this.elementId}> on-insert`);
 
     this.renderNext.perform();
   }
 
   @action
   onUpdate() {
-    console.log(`<chapter-page:${this.elementId}> did-update`, this.elementId);
+    console.log(`<chapter-page:${this.elementId}> did-update`);
     this.renderNext.perform();
   }
 
@@ -50,10 +49,7 @@ export default class ChapterPage extends Component {
 
   @task({ keepLatest: true })
   *setLastRenderedItem(elementId) {
-    console.log(
-      `<chapter-page:${this.elementId}> setLastRenderedItem`,
-      elementId
-    );
+    console.log(`<chapter-page:${this.elementId}> setLastRenderedItem`);
     this.lastRenderedItemId = elementId;
     this.renderNext.perform();
   }
@@ -82,6 +78,10 @@ export default class ChapterPage extends Component {
 
   @task({ drop: true })
   *renderNext() {
+    // The first rendering of chapter-page should only have header and footer content.
+    // modifier:page-renderer will set a fixed height on this element.
+    //
+    // Upon completion ask for items to be added to the page.
     yield this.waitForFixedBody.perform();
 
     // This component determines whether it needs more items,
@@ -96,8 +96,7 @@ export default class ChapterPage extends Component {
       Math.floor(pageBounding.bottom) - Math.ceil(tailBounding.bottom);
 
     console.log(
-      `<chapter-page:${this.elementId}> renderNext`,
-      this.element,
+      `<chapter-page:${this.elementId}> renderNext -- tail position`,
       `${tailPosition}px`
     );
 
@@ -134,10 +133,8 @@ export default class ChapterPage extends Component {
     } else if (!this.overflowed) {
       // If the page did not overflow this time AND it has never overflowed...
       // tell the context this page can handle more item(s)
-      next(() => {
-        if (this.isDestroyed) return;
-        this.args.renderNextItem(tailPosition);
-      });
+      if (this.isDestroyed) return;
+      this.args.renderNextItem(tailPosition);
     } else if (!this.isSettled) {
       // did not overflow this time, but did in the past...
       // then the page is probably settled. let context know
