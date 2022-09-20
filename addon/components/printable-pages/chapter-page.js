@@ -84,10 +84,12 @@ export default class ChapterPage extends Component {
     // Upon completion ask for items to be added to the page.
     yield this.waitForFixedBody.perform();
 
+    // This allows routes to finish transitioning while the printable pages doc is still rendering.
+    yield timeout(0);
+
     // This component determines whether it needs more items,
     // or fewer based upon where the `.js-visibility-tail` is
     // located in the dom relative to the `.js-page-body` element.
-
     let tailBounding = this.visibilityTailElement.getBoundingClientRect();
     // Grab the bounding rect for the `.js-page-body` element
     let pageBounding = this.pageBodyElement.getBoundingClientRect();
