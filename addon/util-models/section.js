@@ -38,6 +38,7 @@ export default class Section {
     let startIndex = previousPage.endIndex + 1;
     let page = this.pages.at(pageIndex);
     if (!page) {
+      console.log(`Section:${this.id} #reconcilePageStartIndex --- addPage`);
       page = this.addPage(pageIndex, startIndex);
     } else {
       page.startIndex = startIndex;
@@ -73,8 +74,7 @@ export default class Section {
     if (this.pages.length === 0) {
       this.pages = [...Array(pageIndex), page];
     } else {
-      this.pages.push(page);
-      // this.pages = [...this.pages, page];
+      this.pages = [...this.pages, page];
     }
     return page;
     // this.updateIsFullyRendered();
