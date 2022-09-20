@@ -60,8 +60,11 @@ export default class Chapter {
       return;
     }
 
+    let didAddNewPage = false;
     if (!section.pages.at(pageIndex)) {
+      didAddNewPage = true;
       section.addPage(pageIndex, section.nextItemIndex);
+      section.nextItemIndex = section.nextItemIndex + 1;
     }
     let page = section.pages.at(pageIndex);
 
@@ -77,7 +80,7 @@ export default class Chapter {
 
       page.endIndex = page.endIndex + fastForwardCount;
       section.nextItemIndex = section.nextItemIndex + fastForwardCount;
-    } else {
+    } else if (!didAddNewPage) {
       // ELSE increment forward by 1
       page.endIndex = section.nextItemIndex;
       section.nextItemIndex = section.nextItemIndex + 1;
