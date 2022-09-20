@@ -18,7 +18,7 @@ export default class Section {
     let { id, index, columnCount, data } = options;
     this.id = id;
     this.index = index;
-    this.columnCount = columnCount;
+    this.columnCount = columnCount || 1;
     this.data = data;
   }
 
