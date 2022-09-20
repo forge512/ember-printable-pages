@@ -45,14 +45,14 @@ export default class Section extends Component {
 
   @action
   onUpdate() {
-    console.log(
-      `%c <section:${this.elementId} - ${this.id}> did-update`,
-      "color: grey"
-    );
     let columnCountChanged = this.section?.columnCount != this.columnCount;
     let dataLengthChanged =
-      this.section?.data?.length != this.args.data?.length;
+      this.args.data && this.section?.data?.length != this.args.data.length;
     if (this.shouldRender && (columnCountChanged || dataLengthChanged)) {
+      console.log(
+        `%c <section:${this.elementId} - ${this.id}> did-update`,
+        "color: grey"
+      );
       this.args.triggerRerender();
     }
   }
@@ -60,12 +60,13 @@ export default class Section extends Component {
   @action
   onInsert() {
     console.log(
-      `%c <section:${this.elementId} - ${this.id}> on-insert`,
+      `%c <section:${this.elementId} - ${this.id}> onInsert`,
       "color: grey"
     );
     if (this.hasOnlyBlock) {
       console.log(
-        `%c <section:${this.elementId} - ${this.id}> on-insert: renderNext`
+        `%c <section:${this.elementId} - ${this.id}> #onInsert -- has only block renderNext`,
+        "color: grey"
       );
       this.args.renderNext();
     }
