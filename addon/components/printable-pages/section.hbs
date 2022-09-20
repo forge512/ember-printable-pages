@@ -13,11 +13,11 @@
       this.items.length
     }}
     {{did-insert this.onInsert this}}
+    {{will-destroy @renderNext}}
     class={{concat "PrintablePages-section " @sectionClass}}
     data-test-section
     {{style columnCount=(concat "" this.columnCount)}}
   >
-    {{!-- {{log "section --- isFullyRendered" this.section.isFullyRendered}} --}}
     {{#if (and this.hasOnlyBlock this.page)}}
       {{yield (hash data=@item index=@index)}}
     {{else}}
