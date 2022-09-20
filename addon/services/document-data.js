@@ -66,6 +66,7 @@ export default class DocumentData extends Service {
     return section;
   }
 
+  // Adds a page to a chapter
   addPage(reportId, chapterId) {
     console.log(`<service:document-data> addPage(${reportId}, ${chapterId})`);
     let report = this.reportsMap[reportId];
@@ -75,7 +76,7 @@ export default class DocumentData extends Service {
     chapter.endPage = chapter.endPage + 1;
     chapter.pages = [
       ...chapter.pages,
-      new Page({ number: chapter.pages.length }),
+      new Page({ number: chapter.pages.length + 1 }),
     ];
 
     for (let i = chapterIndex + 1; i < report.chapters.length; i++) {
