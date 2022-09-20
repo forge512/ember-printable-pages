@@ -1,4 +1,3 @@
-import { next } from "@ember/runloop";
 import Page from "./page";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
@@ -31,14 +30,21 @@ export default class Chapter {
   }
 
   instrument() {
-    // eslint-disable-next-line no-console
-    this.sections.map((s) => console.log(s.toString(), s.pages));
+    console.group("sections");
+    this.sections.map((s) =>
+      console.log(
+        s.toString(),
+        s.pages.map((p) => p?.toJson())
+      )
+    );
+    console.groupEnd("sections");
   }
 
   @action
   renderNextItem(pageIndex, remainingHeight) {
-    console.log(
-      `<Models::Chapter#renderNextItem(${pageIndex}, ${remainingHeight})`
+    console.group(
+      this.logPrefix(),
+      `#renderNextItem( pageIndex: ${pageIndex}, remainingHeight: ${remainingHeight})`
     );
     this.instrument();
 
@@ -46,14 +52,18 @@ export default class Chapter {
 
     // If no section, then this chapter is done!
     if (this.isFinishedRendering) {
+      this.log("isFinishedRendering");
+      console.groupEnd(
+        this.logPrefix(),
+        `#renderNextItem(${pageIndex}, ${remainingHeight})`
+      );
       return;
     }
+
     if (!section.pages.at(pageIndex)) {
-      section.addPage(pageIndex, 0);
+      section.addPage(pageIndex, section.nextItemIndex);
     }
     let page = section.pages.at(pageIndex);
-
-    if (page.delayRender) return;
 
     // If rendered 2 or more items AND similar in height (within 200px)
     if (section.nextItemIndex > 1 && section.itemHeightDiff < 200) {
@@ -72,12 +82,13 @@ export default class Chapter {
       page.endIndex = section.nextItemIndex;
       section.nextItemIndex = section.nextItemIndex + 1;
     }
-    section.updateIsFullyRendered();
 
-    console.log(`-------`);
+    section.updateIsFullyRendered();
     this.instrument();
-    console.log(
-      `</> Models::Chapter#renderNextItem(${pageIndex}, ${remainingHeight})`
+
+    console.groupEnd(
+      this.logPrefix(),
+      `#renderNextItem( pageIndex: ${pageIndex}, remainingHeight: ${remainingHeight})`
     );
   }
 
@@ -92,7 +103,7 @@ export default class Chapter {
 
   @action
   removeItemFromPage(pageIndex) {
-    console.group(`<Models::Chapter#removeItemFromPage(${pageIndex})`);
+    console.group(this.logPrefix(), `#removeItemFromPage(${pageIndex})`);
     this.instrument();
 
     let section = this.lastSectionInPage(pageIndex);
@@ -100,80 +111,107 @@ export default class Chapter {
 
     // Take an item away from the current page
     if (pageInSection.endIndex === 0) {
-      section.pages.splice(pageIndex, 1);
-      section.pages.splice(pageIndex, 0, null);
+      let pagesClone = [...section.pages];
+      pagesClone.splice(pageIndex, 1);
+      pagesClone.splice(pageIndex, 0, null);
+      section.pages = pagesClone;
     } else {
       pageInSection.endIndex = pageInSection.endIndex - 1;
     }
     section.nextItemIndex = section.nextItemIndex - 1;
-    // section.isFullyRendered = false;
+    section.isFullyRendered = false;
 
-    console.log("------");
     this.instrument();
-    console.groupEnd(`</> Models::Chapter#removeItemFromPage(${pageIndex})`);
-  }
-
-  // Rename to 'removeLastItem'
-  @action
-  removeLastItem(pageIndex, addPageFn) {
-    next(() => {
-      console.group(`<Models::Chapter#removeLastItem(${pageIndex}, fn)`);
-      this.instrument();
-
-      let itemCountForPage = this.itemCountForPage(pageIndex);
-
-      // If there is only one item on the page, don't remove it
-      // as it won't fit anywhere else
-      if (itemCountForPage === 1) {
-        // eslint-disable-next-line no-console
-        console.warn(
-          "ember-printable-pages could not fit a section item within a full page. " +
-            "Content is likely clipped or page/column breaks are in unexpected places. " +
-            `See page ${pageIndex + 1}.`
-        );
-
-        if (!this.isFinishedRendering) {
-          this.renderNextPage(pageIndex, addPageFn);
-        }
-        return;
-      }
-
-      this.removeItemFromPage(pageIndex);
-
-      console.groupEnd();
-    });
+    console.groupEnd(this.logPrefix(), `#removeItemFromPage(${pageIndex})`);
   }
 
   @action
-  renderNextPage(pageIndex, addPageFn) {
-    next(() => {
-      console.log(`Chapter#renderNextPage(${pageIndex}, fn)`);
-      this.instrument();
-      let chapterPage = this.pages.at(pageIndex + 1);
-      if (!chapterPage) addPageFn(this.id);
+  moveLastItem(pageIndex, addPageFn) {
+    console.group(this.logPrefix(), `#moveLastItem(${pageIndex}, fn)`);
+    this.instrument();
 
+    // If there is only one item on the page, don't move it
+    if (this.lastSectionDidNotFit(pageIndex)) {
+      console.log(
+        this.logPrefix(),
+        `#moveLastItem(${pageIndex}, fn) -- lastSectionDidNotFit`
+      );
+      if (!this.isFinishedRendering) addPageFn(this.id);
+      return;
+    }
+
+    // Remove an item from the page
+    this.removeItemFromPage(pageIndex);
+
+    // If the next page exists, move item to that page.
+    // Else add a page
+    if (this.pages.at(pageIndex + 1)) {
+      console.log(
+        this.logPrefix(),
+        `#moveLastItem(${pageIndex}, fn) -- move to next page`
+      );
       let lastSectionInPage = this.lastSectionInPage(pageIndex);
+      lastSectionInPage.reconcilePageStartIndex(pageIndex + 1);
+    }
 
-      if (!lastSectionInPage) {
-        let nextSection = this.sections.find((s) => s.isFullyRendered == false);
-        nextSection.addItemToPage(pageIndex + 1);
-      } else if (!lastSectionInPage.isFullyRendered) {
-        lastSectionInPage.reconcilePageStartIndex(pageIndex + 1);
-      } else {
-        //Ensure there are any other sections left.
-        let nextSection = this.sections[lastSectionInPage.index + 1];
-        if (nextSection) {
-          nextSection.addItemToPage(pageIndex + 1);
-        }
-      }
-
-      console.log("----");
-      this.instrument();
-      console.log(`</> Chapter#renderNextPage(${pageIndex}, fn)`);
-    });
+    this.instrument();
+    console.groupEnd(this.logPrefix(), `#moveLastItem(${pageIndex}, fn)`);
   }
+
+  lastSectionDidNotFit(pageIndex) {
+    let itemCountForPage = this.itemCountForPage(pageIndex);
+
+    if (itemCountForPage === 1) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        "ember-printable-pages could not fit a section item within a full page. " +
+          "Content is likely clipped or page/column breaks are in unexpected places. " +
+          `See page ${pageIndex + 1}.`
+      );
+
+      return true;
+    }
+
+    return false;
+  }
+
+  // @action
+  // renderNextPage(pageIndex, addPageFn) {
+  //   console.group(this.logPrefix(), `#renderNextPage(${pageIndex}, fn)`);
+  //   this.instrument();
+
+  //   let lastSectionInPage = this.lastSectionInPage(pageIndex);
+
+  //   // maybe move to renderNextItem?
+  //   // if (!lastSectionInPage) {
+  //   //   let nextSection = this.sections.find((s) => s.isFullyRendered == false);
+  //   //   nextSection.addItemToPage(pageIndex + 1);
+  //   if (!lastSectionInPage) {
+  //     // no-op
+  //   if (!lastSectionInPage?.isFullyRendered) {
+  //     lastSectionInPage.reconcilePageStartIndex(pageIndex + 1);
+  //   } else {
+  //     this.log("---------------DO WEIRD THING---------------");
+  //     //Ensure there are any other sections left.
+  //     let nextSection = this.sections[lastSectionInPage.index + 1];
+  //     if (nextSection) {
+  //       nextSection.addItemToPage(pageIndex + 1);
+  //     }
+  //   }
+
+  //   this.instrument();
+  //   console.groupEnd(this.logPrefix(), `#renderNextPage(${pageIndex}, fn)`);
+  // }
 
   itemCountForPage(pageIndex) {
     return this.sections.reduce((a, v) => a + v.itemCountForPage(pageIndex), 0);
+  }
+
+  log() {
+    console.log(this.logPrefix(), ...arguments);
+  }
+
+  logPrefix() {
+    return `<util-models:chapter:${this.id}:index-${this.index}>`;
   }
 }
