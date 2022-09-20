@@ -90,6 +90,7 @@ export default class PrintablePagesComponent extends Component {
 
   @task({ drop: true })
   *rerenderTask() {
+    console.log("<component:printable-pages> #rerenderTask");
     yield new Promise((resolve) => {
       next(() => {
         if (this.isDestroyed) return resolve();

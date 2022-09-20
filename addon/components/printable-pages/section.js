@@ -24,7 +24,7 @@ export default class Section extends Component {
   }
 
   get columnCount() {
-    return Math.max(this.args.columnCount, 1);
+    return Math.max(this.args.columnCount || 1, 1);
   }
 
   get hasOnlyBlock() {
@@ -50,7 +50,7 @@ export default class Section extends Component {
       this.args.data && this.section?.data?.length != this.args.data.length;
     if (this.shouldRender && (columnCountChanged || dataLengthChanged)) {
       console.log(
-        `%c <section:${this.elementId} - ${this.id}> did-update`,
+        `%c <section:${this.elementId} - ${this.id}> did-update --- rerendering`,
         "color: grey"
       );
       this.args.triggerRerender();
