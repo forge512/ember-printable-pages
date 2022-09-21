@@ -39,8 +39,8 @@ export default class PrintablePagesComponent extends Component {
 
   @service documentData;
 
-  @tracked rerendering;
-  reportObject;
+  @tracked rerendering = true;
+  @tracked reportObject;
   element;
 
   constructor() {
@@ -54,7 +54,7 @@ export default class PrintablePagesComponent extends Component {
   }
 
   get chapters() {
-    return this.reportObject.chapters;
+    return this.reportObject?.chapters;
   }
 
   get pageLayout() {
@@ -179,6 +179,8 @@ export default class PrintablePagesComponent extends Component {
 
   @action
   addPage(chapterId) {
+    if (this.rerendering) return;
+
     let page = this.documentData.addPage(this.elementId, chapterId);
     this.reportProgressTask.perform();
   }

@@ -2,16 +2,7 @@
   {{! template-lint-disable no-inline-styles no-triple-curlies}}
   <div
     id={{this.elementId}}
-    {{did-update
-      this.onUpdate
-      this
-      @data
-      @item
-      @index
-      this.columnCount
-      this.page
-      this.items.length
-    }}
+    {{did-update this.onUpdate @data.length this.columnCount}}
     {{did-insert this.onInsert this}}
     {{will-destroy @renderNext}}
     class={{concat "PrintablePages-section " @sectionClass}}

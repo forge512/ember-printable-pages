@@ -37,37 +37,23 @@ export default class Section extends Component {
   }
 
   get items() {
-    return this.section.data.slice(
-      this.page.startIndex,
-      this.page.endIndex + 1
-    );
+    return this.section.data.slice(this.page.startIndex, this.page.endIndex + 1);
   }
 
   @action
   onUpdate() {
     let columnCountChanged = this.section?.columnCount != this.columnCount;
-    let dataLengthChanged =
-      this.args.data && this.section?.data?.length != this.args.data.length;
+    let dataLengthChanged = this.args.data && this.section?.data?.length != this.args.data.length;
     if (this.shouldRender && (columnCountChanged || dataLengthChanged)) {
-      console.log(
-        `%c <section:${this.elementId} - ${this.id}> did-update --- rerendering`,
-        "color: grey"
-      );
+      console.log(`%c <section:${this.elementId} - ${this.id}> did-update --- rerendering`, "color: grey");
       this.args.triggerRerender();
     }
   }
 
   @action
   onInsert() {
-    console.log(
-      `%c <section:${this.elementId} - ${this.id}> onInsert`,
-      "color: grey"
-    );
     if (this.hasOnlyBlock) {
-      console.log(
-        `%c <section:${this.elementId} - ${this.id}> #onInsert -- has only block renderNext`,
-        "color: grey"
-      );
+      console.log(`%c <section:${this.elementId} - ${this.id}> #onInsert -- has only block renderNext`, "color: grey");
       this.args.renderNext();
     }
   }

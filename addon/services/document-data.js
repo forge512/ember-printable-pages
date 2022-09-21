@@ -11,7 +11,7 @@ export default class DocumentData extends Service {
     window.documentData = this;
     console.log(`<service:document-data> register(${id})`);
     let report = new Report();
-    this.reportsMap[id] = report;
+    this.reportsMap = Object.assign({}, this.reportsMap, { [id]: report });
     return report;
   }
 
@@ -20,9 +20,7 @@ export default class DocumentData extends Service {
   }
 
   registerChapter(reportId, chapterId, opts = {}) {
-    console.log(
-      `<service:document-data> registerChapter(${reportId}, ${chapterId})`
-    );
+    console.log(`<service:document-data> registerChapter(${reportId}, ${chapterId})`);
 
     let report = this.reportsMap[reportId];
 
@@ -43,9 +41,7 @@ export default class DocumentData extends Service {
   }
 
   registerSection(reportId, chapterId, sectionId, options = {}) {
-    console.log(
-      `<service:document-data> registerSection(${reportId}, ${chapterId}, ${sectionId})`
-    );
+    console.log(`<service:document-data> registerSection(${reportId}, ${chapterId}, ${sectionId})`);
 
     let { data, columnCount } = options;
     let report = this.reportsMap[reportId];
@@ -77,10 +73,7 @@ export default class DocumentData extends Service {
     }
 
     chapter.endPage = chapter.endPage + 1;
-    chapter.pages = [
-      ...chapter.pages,
-      new Page({ number: chapter.pages.length + 1 }),
-    ];
+    chapter.pages = [...chapter.pages, new Page({ number: chapter.pages.length + 1 })];
 
     for (let i = chapterIndex + 1; i < report.chapters.length; i++) {
       report.chapters[i].startPage = report.chapters[i].startPage + 1;

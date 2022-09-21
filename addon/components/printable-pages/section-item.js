@@ -9,11 +9,6 @@ export default class SectionItem extends Component {
 
   @action
   onInsert(element) {
-    console.log(
-      `%c <section-item:${this.elementId}> on-insert`,
-      "color: darkgrey"
-    );
-
     this.element = element;
     this.onRender.perform();
 
@@ -23,17 +18,11 @@ export default class SectionItem extends Component {
   @task
   *onRender() {
     let height = this.element.offsetHeight;
-    if (
-      this.args.section.maxItemHeight === null ||
-      this.args.section.maxItemHeight < height
-    ) {
+    if (this.args.section.maxItemHeight === null || this.args.section.maxItemHeight < height) {
       this.args.section.maxItemHeight = height;
     }
 
-    if (
-      this.args.section.minItemHeight === null ||
-      height < this.args.section.minItemHeight
-    ) {
+    if (this.args.section.minItemHeight === null || height < this.args.section.minItemHeight) {
       this.args.section.minItemHeight = height;
     }
 
