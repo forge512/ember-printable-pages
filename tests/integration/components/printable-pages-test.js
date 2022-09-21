@@ -60,9 +60,7 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 1 });
-        assert
-          .dom("[data-test-section-item]")
-          .exists({ count: this.sectionCount });
+        assert.dom("[data-test-section-item]").exists({ count: this.sectionCount });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
       });
@@ -73,9 +71,7 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 1 });
-        assert
-          .dom("[data-test-section-item]")
-          .exists({ count: this.sectionCount });
+        assert.dom("[data-test-section-item]").exists({ count: this.sectionCount });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
       });
@@ -86,9 +82,7 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 1 });
-        assert
-          .dom("[data-test-section-item]")
-          .exists({ count: this.sectionCount });
+        assert.dom("[data-test-section-item]").exists({ count: this.sectionCount });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
       });
@@ -99,12 +93,8 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 2 });
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 15 });
-        assert
-          .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 1 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 15 });
+        assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 1 });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
         assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
@@ -117,12 +107,8 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 2 });
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 15 });
-        assert
-          .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 15 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 15 });
+        assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 15 });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
         assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
@@ -136,15 +122,9 @@ module("Integration | Component | printable-pages", function (hooks) {
 
         assert.dom("[data-test-page]").exists({ count: 3 });
 
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 15 });
-        assert
-          .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 15 });
-        assert
-          .dom("[data-test-page='3'] [data-test-section-item]")
-          .exists({ count: 1 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 15 });
+        assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 15 });
+        assert.dom("[data-test-page='3'] [data-test-section-item]").exists({ count: 1 });
 
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
@@ -161,15 +141,9 @@ module("Integration | Component | printable-pages", function (hooks) {
 
         assert.dom("[data-test-page]").exists({ count: 3 });
 
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 15 });
-        assert
-          .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 15 });
-        assert
-          .dom("[data-test-page='3'] [data-test-section-item]")
-          .exists({ count: 5 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 15 });
+        assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 15 });
+        assert.dom("[data-test-page='3'] [data-test-section-item]").exists({ count: 5 });
 
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
@@ -191,9 +165,7 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 1 });
-        assert
-          .dom("[data-test-section-item]")
-          .exists({ count: this.sectionCount });
+        assert.dom("[data-test-section-item]").exists({ count: this.sectionCount });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
       });
@@ -204,12 +176,8 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 2 });
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 30 });
-        assert
-          .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 1 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 30 });
+        assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 1 });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
         assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
@@ -222,12 +190,8 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 2 });
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 30 });
-        assert
-          .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 30 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 30 });
+        assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 30 });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
         assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
@@ -241,15 +205,9 @@ module("Integration | Component | printable-pages", function (hooks) {
 
         assert.dom("[data-test-page]").exists({ count: 3 });
 
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 30 });
-        assert
-          .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 30 });
-        assert
-          .dom("[data-test-page='3'] [data-test-section-item]")
-          .exists({ count: 1 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 30 });
+        assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 30 });
+        assert.dom("[data-test-page='3'] [data-test-section-item]").exists({ count: 1 });
 
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
@@ -266,15 +224,9 @@ module("Integration | Component | printable-pages", function (hooks) {
 
         assert.dom("[data-test-page]").exists({ count: 3 });
 
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 30 });
-        assert
-          .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 30 });
-        assert
-          .dom("[data-test-page='3'] [data-test-section-item]")
-          .exists({ count: 5 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 30 });
+        assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 30 });
+        assert.dom("[data-test-page='3'] [data-test-section-item]").exists({ count: 5 });
 
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
@@ -296,9 +248,7 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 1 });
-        assert
-          .dom("[data-test-section-item]")
-          .exists({ count: this.sectionCount });
+        assert.dom("[data-test-section-item]").exists({ count: this.sectionCount });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
       });
@@ -309,12 +259,8 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 2 });
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 45 });
-        assert
-          .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 1 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 45 });
+        assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 1 });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
         assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
@@ -327,12 +273,8 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 2 });
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 45 });
-        assert
-          .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 45 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 45 });
+        assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 45 });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
         assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
@@ -346,15 +288,9 @@ module("Integration | Component | printable-pages", function (hooks) {
 
         assert.dom("[data-test-page]").exists({ count: 3 });
 
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 45 });
-        assert
-          .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 45 });
-        assert
-          .dom("[data-test-page='3'] [data-test-section-item]")
-          .exists({ count: 1 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 45 });
+        assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 45 });
+        assert.dom("[data-test-page='3'] [data-test-section-item]").exists({ count: 1 });
 
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
@@ -371,15 +307,9 @@ module("Integration | Component | printable-pages", function (hooks) {
 
         assert.dom("[data-test-page]").exists({ count: 3 });
 
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 45 });
-        assert
-          .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 45 });
-        assert
-          .dom("[data-test-page='3'] [data-test-section-item]")
-          .exists({ count: 5 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 45 });
+        assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 45 });
+        assert.dom("[data-test-page='3'] [data-test-section-item]").exists({ count: 5 });
 
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
@@ -441,9 +371,7 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 1 });
-        assert
-          .dom("[data-test-section-item]")
-          .exists({ count: this.sectionCount });
+        assert.dom("[data-test-section-item]").exists({ count: this.sectionCount });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
       });
@@ -454,9 +382,7 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 1 });
-        assert
-          .dom("[data-test-section-item]")
-          .exists({ count: this.sectionCount });
+        assert.dom("[data-test-section-item]").exists({ count: this.sectionCount });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
       });
@@ -467,9 +393,7 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 1 });
-        assert
-          .dom("[data-test-section-item]")
-          .exists({ count: this.sectionCount });
+        assert.dom("[data-test-section-item]").exists({ count: this.sectionCount });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
       });
@@ -480,12 +404,8 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 2 });
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 6 });
-        assert
-          .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 1 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 6 });
+        assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 1 });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
         assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
@@ -498,12 +418,8 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 2 });
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 6 });
-        assert
-          .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 5 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 6 });
+        assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 5 });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
         assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
@@ -517,15 +433,9 @@ module("Integration | Component | printable-pages", function (hooks) {
 
         assert.dom("[data-test-page]").exists({ count: 3 });
 
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 6 });
-        assert
-          .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 5 });
-        assert
-          .dom("[data-test-page='3'] [data-test-section-item]")
-          .exists({ count: 1 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 6 });
+        assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 5 });
+        assert.dom("[data-test-page='3'] [data-test-section-item]").exists({ count: 1 });
 
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
@@ -542,15 +452,9 @@ module("Integration | Component | printable-pages", function (hooks) {
 
         assert.dom("[data-test-page]").exists({ count: 3 });
 
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 6 });
-        assert
-          .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 5 });
-        assert
-          .dom("[data-test-page='3'] [data-test-section-item]")
-          .exists({ count: 3 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 6 });
+        assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 5 });
+        assert.dom("[data-test-page='3'] [data-test-section-item]").exists({ count: 3 });
 
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
@@ -562,6 +466,11 @@ module("Integration | Component | printable-pages", function (hooks) {
     });
   });
 
+  // Octane Upgrade TODO
+  // Not sure what the solution is for this in octane... In pre octane any update of a nested
+  // component would trigger the didUpdate lifecycle hook of parent components. PrintablePages
+  // abused this to support this use case without forcing the components rendered in sections
+  // be aware of printable pages.
   module("item height grows after initial render", function () {
     let renderTemplate = function (context) {
       context.set(
@@ -602,9 +511,7 @@ module("Integration | Component | printable-pages", function (hooks) {
       await renderTemplate(this);
 
       assert.dom("[data-test-page]").exists({ count: 1 });
-      assert
-        .dom("[data-test-page='1'] [data-test-section-item]")
-        .exists({ count: 15 });
+      assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 15 });
       assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
       assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
 
@@ -612,12 +519,8 @@ module("Integration | Component | printable-pages", function (hooks) {
       await settled();
 
       assert.dom("[data-test-page]").exists({ count: 2 });
-      assert
-        .dom("[data-test-page='1'] [data-test-section-item]")
-        .exists({ count: 8 });
-      assert
-        .dom("[data-test-page='2'] [data-test-section-item]")
-        .exists({ count: 7 });
+      assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 8 });
+      assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 7 });
     });
   });
 
@@ -666,12 +569,8 @@ module("Integration | Component | printable-pages", function (hooks) {
       this.set("itemsPerSection", 8);
 
       await renderTemplate(this);
-      assert
-        .dom("[data-test-page='1'] [data-test-item-for-section='0']")
-        .exists({ count: 8 });
-      assert
-        .dom("[data-test-page='1'] [data-test-item-for-section='1']")
-        .exists({ count: 8 });
+      assert.dom("[data-test-page='1'] [data-test-item-for-section='0']").exists({ count: 8 });
+      assert.dom("[data-test-page='1'] [data-test-item-for-section='1']").exists({ count: 8 });
     });
 
     test("2 sections, 1 item overflows to second page", async function (assert) {
@@ -679,19 +578,11 @@ module("Integration | Component | printable-pages", function (hooks) {
       this.set("itemsPerSection", 9);
 
       await renderTemplate(this);
-      assert
-        .dom("[data-test-page='1'] [data-test-item-for-section='0']")
-        .exists({ count: 9 });
-      assert
-        .dom("[data-test-page='1'] [data-test-item-for-section='1']")
-        .exists({ count: 8 });
+      assert.dom("[data-test-page='1'] [data-test-item-for-section='0']").exists({ count: 9 });
+      assert.dom("[data-test-page='1'] [data-test-item-for-section='1']").exists({ count: 8 });
 
-      assert
-        .dom("[data-test-page='2'] [data-test-item-for-section='0']")
-        .doesNotExist();
-      assert
-        .dom("[data-test-page='2'] [data-test-item-for-section='1']")
-        .exists({ count: 1 });
+      assert.dom("[data-test-page='2'] [data-test-item-for-section='0']").doesNotExist();
+      assert.dom("[data-test-page='2'] [data-test-item-for-section='1']").exists({ count: 1 });
     });
 
     test("3 sections, 1 item from secion 2 overflows to second page", async function (assert) {
@@ -699,25 +590,13 @@ module("Integration | Component | printable-pages", function (hooks) {
       this.set("itemsPerSection", 9);
 
       await renderTemplate(this);
-      assert
-        .dom("[data-test-page='1'] [data-test-item-for-section='0']")
-        .exists({ count: 9 });
-      assert
-        .dom("[data-test-page='1'] [data-test-item-for-section='1']")
-        .exists({ count: 8 });
-      assert
-        .dom("[data-test-page='1'] [data-test-item-for-section='2']")
-        .doesNotExist();
+      assert.dom("[data-test-page='1'] [data-test-item-for-section='0']").exists({ count: 9 });
+      assert.dom("[data-test-page='1'] [data-test-item-for-section='1']").exists({ count: 8 });
+      assert.dom("[data-test-page='1'] [data-test-item-for-section='2']").doesNotExist();
 
-      assert
-        .dom("[data-test-page='2'] [data-test-item-for-section='0']")
-        .doesNotExist();
-      assert
-        .dom("[data-test-page='2'] [data-test-item-for-section='1']")
-        .exists({ count: 1 });
-      assert
-        .dom("[data-test-page='2'] [data-test-item-for-section='2']")
-        .exists({ count: 9 });
+      assert.dom("[data-test-page='2'] [data-test-item-for-section='0']").doesNotExist();
+      assert.dom("[data-test-page='2'] [data-test-item-for-section='1']").exists({ count: 1 });
+      assert.dom("[data-test-page='2'] [data-test-item-for-section='2']").exists({ count: 9 });
     });
   });
 
@@ -778,9 +657,7 @@ module("Integration | Component | printable-pages", function (hooks) {
       await renderTemplate(this);
 
       assert.dom("[data-test-page]").exists({ count: 1 });
-      assert
-        .dom("[data-test-page='1'] [data-test-section]")
-        .exists({ count: this.sectionCount });
+      assert.dom("[data-test-page='1'] [data-test-section]").exists({ count: this.sectionCount });
       assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
       assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
     });
@@ -791,15 +668,11 @@ module("Integration | Component | printable-pages", function (hooks) {
       await renderTemplate(this);
 
       assert.dom("[data-test-page]").exists({ count: 2 });
-      assert
-        .dom("[data-test-page='1'] [data-test-section]")
-        .exists({ count: 1 });
+      assert.dom("[data-test-page='1'] [data-test-section]").exists({ count: 1 });
       assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
       assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
 
-      assert
-        .dom("[data-test-page='2'] [data-test-section]")
-        .exists({ count: 1 });
+      assert.dom("[data-test-page='2'] [data-test-section]").exists({ count: 1 });
       assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
       assert.dom("[data-test-page='2'] [data-test-page-footer]").exists();
     });
@@ -810,21 +683,15 @@ module("Integration | Component | printable-pages", function (hooks) {
       await renderTemplate(this);
 
       assert.dom("[data-test-page]").exists({ count: 3 });
-      assert
-        .dom("[data-test-page='1'] [data-test-section]")
-        .exists({ count: 1 });
+      assert.dom("[data-test-page='1'] [data-test-section]").exists({ count: 1 });
       assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
       assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
 
-      assert
-        .dom("[data-test-page='2'] [data-test-section]")
-        .exists({ count: 1 });
+      assert.dom("[data-test-page='2'] [data-test-section]").exists({ count: 1 });
       assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
       assert.dom("[data-test-page='2'] [data-test-page-footer]").exists();
 
-      assert
-        .dom("[data-test-page='3'] [data-test-section]")
-        .exists({ count: 1 });
+      assert.dom("[data-test-page='3'] [data-test-section]").exists({ count: 1 });
       assert.dom("[data-test-page='3'] [data-test-page-header]").exists();
       assert.dom("[data-test-page='3'] [data-test-page-footer]").exists();
     });
@@ -837,11 +704,7 @@ module("Integration | Component | printable-pages", function (hooks) {
       assert.dom("[data-test-page]").exists({ count: 5 });
       [...Array(Number(this.sectionCount))]
         .map((_, i) => i + 1)
-        .forEach((i) =>
-          assert
-            .dom(`[data-test-page='${i}'] [data-test-section]`)
-            .exists({ count: 1 })
-        );
+        .forEach((i) => assert.dom(`[data-test-page='${i}'] [data-test-section]`).exists({ count: 1 }));
     });
   });
 
@@ -880,9 +743,7 @@ module("Integration | Component | printable-pages", function (hooks) {
       await renderTemplate(this);
 
       assert.dom("[data-test-page]").exists({ count: 1 });
-      assert
-        .dom("[data-test-page='1'] [data-test-section-item]")
-        .exists({ count: this.sectionCount });
+      assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: this.sectionCount });
       assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
       assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
     });
@@ -893,15 +754,11 @@ module("Integration | Component | printable-pages", function (hooks) {
       await renderTemplate(this);
 
       assert.dom("[data-test-page]").exists({ count: 2 });
-      assert
-        .dom("[data-test-page='1'] [data-test-section-item]")
-        .exists({ count: 1 });
+      assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 1 });
       assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
       assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
 
-      assert
-        .dom("[data-test-page='2'] [data-test-section-item]")
-        .exists({ count: 1 });
+      assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 1 });
       assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
       assert.dom("[data-test-page='2'] [data-test-page-footer]").exists();
     });
@@ -912,21 +769,15 @@ module("Integration | Component | printable-pages", function (hooks) {
       await renderTemplate(this);
 
       assert.dom("[data-test-page]").exists({ count: 3 });
-      assert
-        .dom("[data-test-page='1'] [data-test-section-item]")
-        .exists({ count: 1 });
+      assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 1 });
       assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
       assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
 
-      assert
-        .dom("[data-test-page='2'] [data-test-section-item]")
-        .exists({ count: 1 });
+      assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 1 });
       assert.dom("[data-test-page='2'] [data-test-page-header]").exists();
       assert.dom("[data-test-page='2'] [data-test-page-footer]").exists();
 
-      assert
-        .dom("[data-test-page='3'] [data-test-section-item]")
-        .exists({ count: 1 });
+      assert.dom("[data-test-page='3'] [data-test-section-item]").exists({ count: 1 });
       assert.dom("[data-test-page='3'] [data-test-page-header]").exists();
       assert.dom("[data-test-page='3'] [data-test-page-footer]").exists();
     });
@@ -939,11 +790,7 @@ module("Integration | Component | printable-pages", function (hooks) {
       assert.dom("[data-test-page]").exists({ count: 8 });
       [...Array(Number(this.sectionCount))]
         .map((_, i) => i + 1)
-        .forEach((i) =>
-          assert
-            .dom(`[data-test-page='${i}'] [data-test-section-item]`)
-            .exists({ count: 1 })
-        );
+        .forEach((i) => assert.dom(`[data-test-page='${i}'] [data-test-section-item]`).exists({ count: 1 }));
     });
   });
 
@@ -1001,9 +848,7 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 1 });
-        assert
-          .dom("[data-test-section-item]")
-          .exists({ count: this.sectionCount });
+        assert.dom("[data-test-section-item]").exists({ count: this.sectionCount });
         assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
         assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
       });
@@ -1024,12 +869,8 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 2 });
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 10 });
-        assert
-          .dom("[data-test-page='2'] [data-test-section-item]")
-          .exists({ count: 5 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 10 });
+        assert.dom("[data-test-page='2'] [data-test-section-item]").exists({ count: 5 });
       });
     });
 
@@ -1046,10 +887,46 @@ module("Integration | Component | printable-pages", function (hooks) {
         await renderTemplate(this);
 
         assert.dom("[data-test-page]").exists({ count: 1 });
-        assert
-          .dom("[data-test-page='1'] [data-test-section-item]")
-          .exists({ count: 15 });
+        assert.dom("[data-test-page='1'] [data-test-section-item]").exists({ count: 15 });
       });
+    });
+  });
+
+  // TODO: This is an expected behavior of the addon which we may need to change as a
+  // breaking change during the octane upgrade.
+  module("changing arguments", function () {
+    test("triggers a rerender", async function (assert) {
+      let headerRenderCount = 0;
+      this.headerDidRender = () => (headerRenderCount += 1);
+
+      this.randomArg = 1;
+
+      await render(hbs`
+        <PrintablePages @randomArg=this.randomArg as |document|>
+          {{#document.chapter as |chapter|}}
+            {{! template-lint-disable no-inline-styles}}
+
+            {{#chapter.page-header as |header|}}
+              <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.08);"
+                {{did-insert this.headerDidRender}}
+              >
+                randomArg: {{this.randomArg}}
+              </div>
+            {{/chapter.page-header}}
+
+            {{! template-lint-enable no-inline-styles}}
+          {{/document.chapter}}
+        </PrintablePages>
+      `);
+
+      assert.dom("[data-test-page]").exists({ count: 1 });
+      assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
+      assert.equal(headerRenderCount, 1);
+
+      this.set("randomArg", 2);
+      await settled();
+
+      assert.equal(headerRenderCount, 2, "changing random argument of <PrintablePages> will trigger a re-render");
     });
   });
 });
