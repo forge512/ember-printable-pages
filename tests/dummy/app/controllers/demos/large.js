@@ -7,6 +7,7 @@ export default class extends Controller {
 
   @tracked sectionCount = 1000;
   @tracked columnCount = 2;
+  @tracked boxHeight = 50;
 
   @tracked startTimeStamp;
   @tracked isRunning;

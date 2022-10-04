@@ -10,22 +10,13 @@
 
   <label>Section Count</label>
 
-  <Input
-    @type="number"
-    @value={{this.sectionCount}}
-    min={{1}}
-    max={{10000}}
-    data-test-input-section-count={{true}}
-  />
+  <Input @type="number" @value={{this.sectionCount}} min={{1}} max={{10000}} data-test-input-section-count={{true}} />
   <label>Column Count</label>
 
-  <Input
-    @type="number"
-    @value={{this.columnCount}}
-    min={{1}}
-    max={{3}}
-    data-test-column-count={{true}}
-  />
+  <Input @type="number" @value={{this.columnCount}} min={{1}} max={{3}} data-test-column-count={{true}} />
+
+  <label>Box Height</label>
+  <Input @type="number" @value={{this.boxHeight}} min={{0}} max={{100}} data-test-column-count={{true}} />
 </div>
 
 <PrintablePages
@@ -52,7 +43,7 @@
       {{/if}}
 
       <h4>Section 1.{{section.data}}</h4>
-      <p>
+      <p {{style height=(concat this.boxHeight "px")}}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       </p>
     </chapter.section>
