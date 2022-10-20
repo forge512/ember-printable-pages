@@ -2,6 +2,8 @@ import { module, test } from "qunit";
 import { setupRenderingTest } from "ember-qunit";
 import { render, settled } from "@ember/test-helpers";
 import hbs from "htmlbars-inline-precompile";
+import { timeout } from "ember-concurrency";
+import { tracked } from "@glimmer/tracking";
 
 /*
  * A note on testing strategy in this file...
@@ -899,10 +901,12 @@ module("Integration | Component | printable-pages", function (hooks) {
       let headerRenderCount = 0;
       this.headerDidRender = () => (headerRenderCount += 1);
 
-      this.randomArg = 1;
+      this.randomArg = new (class Randon {
+        @tracked value = 1;
+      })();
 
       await render(hbs`
-        <PrintablePages @randomArg=this.randomArg as |document|>
+        <PrintablePages @trackedForRefresh={{hash randomArg=this.randomArg.value}} as |document|>
           {{#document.chapter as |chapter|}}
             {{! template-lint-disable no-inline-styles}}
 
@@ -910,7 +914,7 @@ module("Integration | Component | printable-pages", function (hooks) {
               <div style="height: 50px; margin-bottom: 5px; background-color: rgba(0,0,0,0.08);"
                 {{did-insert this.headerDidRender}}
               >
-                randomArg: {{this.randomArg}}
+                randomArg: {{this.randomArg.value}}
               </div>
             {{/chapter.page-header}}
 
@@ -923,7 +927,7 @@ module("Integration | Component | printable-pages", function (hooks) {
       assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
       assert.equal(headerRenderCount, 1);
 
-      this.set("randomArg", 2);
+      this.randomArg.value = 2;
       await settled();
 
       assert.equal(headerRenderCount, 2, "changing random argument of <PrintablePages> will trigger a re-render");

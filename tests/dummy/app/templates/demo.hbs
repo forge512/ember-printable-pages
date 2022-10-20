@@ -15,6 +15,8 @@
       }}
       @orientation={{this.settings.orientation}}
       @units={{this.settings.units}}
+      @trackedForRefresh={{hash trackedForRefresh=this.trackedForRefresh}}
+
       class="h-full print:h-auto w-4/5 print:w-screen overflow-y-auto pt-4 px-4 print:pt-0 print:px-0 text-gray-700 print:text-black"
       as |document|
     >
@@ -148,6 +150,18 @@
           max={{3}}
           size={{5}}
           data-test-column-count={{true}}
+          class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
+        />
+      </div>
+
+      <div class="py-2">
+        <label>Change to rerender</label>
+        <Input
+          @type="number"
+          @value={{this.trackedForRefresh}}
+          min={{1}}
+          max={{5000}}
+          data-test-input-section-count={{true}}
           class="bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
         />
       </div>
