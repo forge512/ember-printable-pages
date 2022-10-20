@@ -76,6 +76,25 @@ export default class ChapterPage extends Component {
     return this.element.querySelector(".js-page-break-after");
   }
 
+  get innerPageBodyElement() {
+    return this.element.querySelector(".js-page-body-inner");
+  }
+
+  startHeightChangeObserver() {
+    if (this._heightChangeObserver) return;
+
+    this._heightChangeObserver = new ResizeObserver(this.renderNext.perform);
+
+    this._heightChangeObserver.observe(this.innerPageBodyElement);
+  }
+
+  @action
+  stopHeightChangeObserver() {
+    if (!this._heightChangeObserver) return;
+
+    this._heightChangeObserver.unobserve(this.innerPageBodyElement);
+  }
+
   @task({ drop: true })
   *renderNext() {
     // The first rendering of chapter-page should only have header and footer content.
@@ -83,6 +102,8 @@ export default class ChapterPage extends Component {
     //
     // Upon completion ask for items to be added to the page.
     yield this.waitForFixedBody.perform();
+
+    this.startHeightChangeObserver();
 
     // This allows routes to finish transitioning while the printable pages doc is still rendering.
     yield timeout(0);
@@ -94,13 +115,9 @@ export default class ChapterPage extends Component {
     // Grab the bounding rect for the `.js-page-body` element
     let pageBounding = this.pageBodyElement.getBoundingClientRect();
 
-    let tailPosition =
-      Math.floor(pageBounding.bottom) - Math.ceil(tailBounding.bottom);
+    let tailPosition = Math.floor(pageBounding.bottom) - Math.ceil(tailBounding.bottom);
 
-    console.log(
-      `<chapter-page:${this.elementId}> renderNext -- tail position`,
-      `${tailPosition}px`
-    );
+    console.log(`<chapter-page:${this.elementId}> renderNext -- tail position`, `${tailPosition}px`);
 
     // If the tail hasn't moved, then do nothing.
     // This can happen if the page count increments in a
@@ -110,10 +127,7 @@ export default class ChapterPage extends Component {
     // and may need to be revised.
     if (isPresent(this.previousTailPosition)) {
       let tailMovement = Math.abs(this.previousTailPosition - tailPosition);
-      if (
-        tailMovement <= 2 &&
-        this.previousLastRenderedItemId === this.lastRenderedItemId
-      ) {
+      if (tailMovement <= 2 && this.previousLastRenderedItemId === this.lastRenderedItemId) {
         return;
       }
     }

@@ -45,20 +45,14 @@ export default class Section {
     }
 
     this.nextItemIndex = this.nextItemIndex + 1;
-    console.log(
-      `Section:${this.id} #reconcilePageStartIndex`,
-      `${pageIndex} : ${page.startIndex}`
-    );
+    console.log(`Section:${this.id} #reconcilePageStartIndex`, `${pageIndex} : ${page.startIndex}`);
 
     // this.updateIsFullyRendered();
   }
 
   // seems like this could be a getter
   updateIsFullyRendered() {
-    console.log(
-      `Section:${this.id} #updateIsFullyRendered`,
-      this.nextItemIndex >= this.data.length
-    );
+    console.log(`Section:${this.id} #updateIsFullyRendered`, this.nextItemIndex >= this.data.length);
     this.isFullyRendered = this.nextItemIndex >= this.data.length;
   }
 
@@ -74,7 +68,10 @@ export default class Section {
     if (this.pages.length === 0) {
       this.pages = [...Array(pageIndex), page];
     } else {
-      this.pages = [...this.pages, page];
+      // When a chapter section, post-render, expands in height the content may
+      // need to jump several pages forward. In that case fill the empty space
+      // in the pages list for this section.
+      this.pages = [...this.pages, ...Array(pageIndex - this.pages.length), page];
     }
     return page;
     // this.updateIsFullyRendered();

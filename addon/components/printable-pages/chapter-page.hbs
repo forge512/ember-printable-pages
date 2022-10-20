@@ -8,6 +8,7 @@
     this.previousLastRenderedItemId
     @lastRenderedItemId
   }}
+  {{will-destroy this.stopHeightChangeObserver}}
 >
   {{yield
     (hash meta=@pageMeta renderNext=(perform this.renderNext))
@@ -15,16 +16,18 @@
   }}
 
   <div class="PrintablePages-pageBody js-page-body">
-    {{yield
-      (hash
-        element=this.element
-        meta=@pageMeta
-        registerSection=this.registerSection
-        setLastRenderedItem=(perform this.setLastRenderedItem)
-        renderNext=(perform this.renderNext)
-      )
-      to="body"
-    }}
+    <div class="js-page-body-inner">
+      {{yield
+        (hash
+          element=this.element
+          meta=@pageMeta
+          registerSection=this.registerSection
+          setLastRenderedItem=(perform this.setLastRenderedItem)
+          renderNext=(perform this.renderNext)
+        )
+        to="body"
+      }}
+    </div>
 
     {{! element used to check if the content has overflowed page body}}
     <div class="js-visibility-tail" {{style height="1px"}}></div>

@@ -10,7 +10,7 @@ import { tracked } from "@glimmer/tracking";
  *
  * The magic of printable pages lies in how service:printable-page interacts with
  * component:printable-pages/chapter-page. The service guesses at how many items
- * will fit on a page in response the chapter-page component to calls actions when it
+ * will fit on a page in response the chapter-page component calls actions when it
  * is too full or it has room for more items.
  *
  * Because of the way the guesswork and overflow works, it is important to test
@@ -468,11 +468,6 @@ module("Integration | Component | printable-pages", function (hooks) {
     });
   });
 
-  // Octane Upgrade TODO
-  // Not sure what the solution is for this in octane... In pre octane any update of a nested
-  // component would trigger the didUpdate lifecycle hook of parent components. PrintablePages
-  // abused this to support this use case without forcing the components rendered in sections
-  // be aware of printable pages.
   module("item height grows after initial render", function () {
     let renderTemplate = function (context) {
       context.set(
@@ -491,7 +486,7 @@ module("Integration | Component | printable-pages", function (hooks) {
           {{#chapter.section columnCount=this.columnCount data=this.sectionData}}
             <div style="margin-bottom: 5px; background-color: rgba(0,0,0,0.12);">
               <div style="height: 50px;"></div>
-              {{#if this.displayExpandedItems}}<div style="height: 50px;"></div>{{/if}}
+              {{#if this.displayExpandedItems}}<div style="height: 50px;">expanded</div>{{/if}}
             </div>
           {{/chapter.section}}
 

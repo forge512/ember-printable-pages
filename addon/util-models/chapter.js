@@ -39,10 +39,7 @@ export default class Chapter {
 
   @action
   renderNextItem(pageIndex, remainingHeight) {
-    console.group(
-      this.logPrefix(),
-      `#renderNextItem( pageIndex: ${pageIndex}, remainingHeight: ${remainingHeight})`
-    );
+    console.group(this.logPrefix(), `#renderNextItem( pageIndex: ${pageIndex}, remainingHeight: ${remainingHeight})`);
     this.instrument();
 
     let section = this.sections.find((s) => s.isFullyRendered == false);
@@ -50,10 +47,7 @@ export default class Chapter {
     // If no section, then this chapter is done!
     if (this.isFinishedRendering) {
       this.log("isFinishedRendering");
-      console.groupEnd(
-        this.logPrefix(),
-        `#renderNextItem(${pageIndex}, ${remainingHeight})`
-      );
+      console.groupEnd(this.logPrefix(), `#renderNextItem(${pageIndex}, ${remainingHeight})`);
       return;
     }
 
@@ -65,13 +59,13 @@ export default class Chapter {
     }
     let page = section.pages.at(pageIndex);
 
+    if (!page) debugger;
+
     // If rendered 2 or more items AND similar in height (within 200px)
     if (section.nextItemIndex > 1 && section.itemHeightDiff < 200) {
       let remainingItemCount = section.data.length - section.nextItemIndex;
       let heightGuess = (section.maxItemHeight + section.minItemHeight) / 2;
-      let fastForwardCount = Math.round(
-        (section.columnCount * remainingHeight) / heightGuess
-      );
+      let fastForwardCount = Math.round((section.columnCount * remainingHeight) / heightGuess);
       fastForwardCount = Math.max(1, fastForwardCount);
       fastForwardCount = Math.min(fastForwardCount, remainingItemCount);
 
@@ -95,9 +89,7 @@ export default class Chapter {
   @action
   lastSectionInPage(pageIndex) {
     // Find sections with data in page at pageIndex
-    let sectionsInPage = this.sections.filter(
-      (section) => !!section.pages.at(pageIndex)
-    );
+    let sectionsInPage = this.sections.filter((section) => !!section.pages.at(pageIndex));
     return sectionsInPage[sectionsInPage.length - 1];
   }
 
@@ -132,10 +124,7 @@ export default class Chapter {
 
     // If there is only one item on the page, don't move it
     if (this.lastSectionDidNotFit(pageIndex)) {
-      console.log(
-        this.logPrefix(),
-        `#moveLastItem(${pageIndex}, fn) -- lastSectionDidNotFit`
-      );
+      console.log(this.logPrefix(), `#moveLastItem(${pageIndex}, fn) -- lastSectionDidNotFit`);
       if (!this.isFinishedRendering) addPageFn(this.id);
       return;
     }
@@ -146,10 +135,7 @@ export default class Chapter {
     // If the next page exists, move item to that page.
     // Else add a page
     if (this.pages.at(pageIndex + 1)) {
-      console.log(
-        this.logPrefix(),
-        `#moveLastItem(${pageIndex}, fn) -- move to next page`
-      );
+      console.log(this.logPrefix(), `#moveLastItem(${pageIndex}, fn) -- move to next page`);
       let lastSectionInPage = this.lastSectionInPage(pageIndex);
       lastSectionInPage.reconcilePageStartIndex(pageIndex + 1);
     }
