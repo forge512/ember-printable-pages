@@ -204,7 +204,7 @@ workflows:
       - lint:
           requires:
             - install_dependencies
-      - test_lts_3_1:
+      - test_3_1:
           requires:
             - install_dependencies
       - test_lts_3_4:
