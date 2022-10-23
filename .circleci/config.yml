@@ -203,49 +203,49 @@ workflows:
       - prepare 
       - lint:
           requires:
-            - install_dependencies
+            - prepare
       - test_3_1:
           requires:
-            - install_dependencies
+            - prepare
       - test_lts_3_4:
           requires:
-            - install_dependencies
+            - prepare
       - test_lts_3_8:
           requires:
-            - install_dependencies
+            - prepare
       - test_lts_3_12:
           requires:
-            - install_dependencies
+            - prepare
       - test_lts_3_16:
           requires:
-            - install_dependencies
+            - prepare
       - test_lts_3_20:
           requires:
-            - install_dependencies
+            - prepare
       - test_lts_3_24:
           requires:
-            - install_dependencies
+            - prepare
       - test_lts_3_28:
           requires:
-            - install_dependencies
+            - prepare
       - test_lts_4_0:
           requires:
-            - install_dependencies
+            - prepare
       - test_lts_4_4:
           requires:
-            - install_dependencies
+            - prepare
       - test_release:
           requires:
-            - install_dependencies
+            - prepare
       - test_beta:
           requires:
-            - install_dependencies
+            - prepare
       - test_canary:
           requires:
-            - install_dependencies
+            - prepare
       - test_default:
           requires:
-            - install_dependencies
+            - prepare
       - test_default_with_jquery:
           requires:
-            - install_dependencies
+            - prepare
