@@ -1,7 +1,4 @@
 import Modifier from "ember-modifier";
-import { task, timeout, waitForProperty } from "ember-concurrency";
-import { isBlank, isPresent } from "@ember/utils";
-import { later, next, schedule } from "@ember/runloop";
 import { getOwner } from "@ember/application";
 
 export default class PageRenderer extends Modifier {

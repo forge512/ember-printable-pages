@@ -2,11 +2,7 @@
   "name": "ember-printable-pages",
   "version": "0.7.2",
   "description": "An addon for creating printable documents using ember components",
-  "keywords": [
-    "ember-addon",
-    "pagination",
-    "printable-files"
-  ],
+  "keywords": ["ember-addon", "pagination", "printable-files"],
   "repository": "https://github.com/forge512/ember-printable-pages",
   "license": "MIT",
   "author": "Forge 512",
@@ -43,6 +39,7 @@
     "ember-cli-babel": "^7.26.10"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.5.4",
     "@ember/optional-features": "^2.0.0",
     "@ember/render-modifiers": "^2.0.4",
     "@ember/test-helpers": "^2.6.0",
@@ -50,7 +47,6 @@
     "@fullhuman/postcss-purgecss": "^4.1.3",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
-    "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
     "ember-angle-bracket-invocation-polyfill": "^3.0.2",
     "ember-auto-import": "^2.4.2",
