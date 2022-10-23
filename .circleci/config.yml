@@ -1,15 +1,18 @@
 # .circleci/config.yml
+defaults: &defaults
+  docker:
+    - image: cimg/node:16.17.1-browsers
+      environment:
+        JOBS: 2 # https://github.com/emberjs/ember.js/issues/15641
+
+  working_directory: ~/repo
+
 version: '2.1'
 orbs:
   browser-tools: circleci/browser-tools@1.4.0
 jobs:
   prepare:
-    docker:
-      - image: cimg/node:16.17.1-browsers
-        environment:
-          JOBS: 2 # https://github.com/emberjs/ember.js/issues/15641
-
-    working_directory: ~/repo
+    <<: *defaults
     steps:
       - checkout
       - attach_workspace:
