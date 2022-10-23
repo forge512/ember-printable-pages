@@ -8,8 +8,10 @@ defaults: &defaults
   working_directory: ~/repo
 
 version: '2.1'
+
 orbs:
   browser-tools: circleci/browser-tools@1.4.0
+
 jobs:
   prepare:
     <<: *defaults
@@ -94,7 +96,7 @@ jobs:
       - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
       - run:
           name: Run Tests
-          command: timeout 10m ember try:one ember-3.16 --skip-cleanup=true
+          command: timeout 10m ember try:one ember-lts-3.16 --skip-cleanup=true
 
   test_lts_3_20:
     <<: *defaults
@@ -104,7 +106,7 @@ jobs:
       - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
       - run:
           name: Run Tests
-          command: timeout 10m ember try:one ember-3.20 --skip-cleanup=true
+          command: timeout 10m ember try:one ember-lts-3.20 --skip-cleanup=true
 
   test_lts_3_24:
     <<: *defaults
@@ -114,7 +116,7 @@ jobs:
       - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
       - run:
           name: Run Tests
-          command: timeout 10m ember try:one ember-3.24 --skip-cleanup=true
+          command: timeout 10m ember try:one ember-lts-3.24 --skip-cleanup=true
 
   test_lts_3_28:
     <<: *defaults
@@ -124,7 +126,7 @@ jobs:
       - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
       - run:
           name: Run Tests
-          command: timeout 10m ember try:one ember-3.28 --skip-cleanup=true
+          command: timeout 10m ember try:one ember-lts-3.28 --skip-cleanup=true
 
   test_lts_4_0:
     <<: *defaults
@@ -134,7 +136,7 @@ jobs:
       - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
       - run:
           name: Run Tests
-          command: timeout 10m ember try:one ember-4.0 --skip-cleanup=true
+          command: timeout 10m ember try:one ember-lts-4.0 --skip-cleanup=true
 
   test_lts_4_4:
     <<: *defaults
@@ -165,16 +167,6 @@ jobs:
       - run:
           name: Run Tests
           command: timeout 10m ember try:one ember-beta --skip-cleanup=true
-
-  test_canary:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: .
-      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
-      - run:
-          name: Run Tests
-          command: timeout 10m ember try:one ember-canary --skip-cleanup=true
 
   test_default:
     <<: *defaults
