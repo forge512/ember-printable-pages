@@ -513,6 +513,7 @@ module("Integration | Component | printable-pages", function (hooks) {
       assert.dom("[data-test-page='1'] [data-test-page-footer]").exists();
 
       this.set("displayExpandedItems", true);
+      await timeout(200);
       await settled();
 
       assert.dom("[data-test-page]").exists({ count: 2 });
