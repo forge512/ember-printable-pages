@@ -10,6 +10,7 @@ import { isBlank } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { guidFor } from "@ember/object/internals";
+import { log } from "../utils/logger";
 
 const DEFAULT_DIMENSIONS = {
   units: "in",
@@ -90,7 +91,7 @@ export default class PrintablePagesComponent extends Component {
 
   @task({ drop: true })
   *rerenderTask() {
-    console.log("<component:printable-pages> #rerenderTask");
+    log("<component:printable-pages> #rerenderTask");
     yield new Promise((resolve) => {
       next(() => {
         if (this.isDestroyed) return resolve();

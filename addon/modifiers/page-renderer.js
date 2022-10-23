@@ -1,9 +1,10 @@
 import Modifier from "ember-modifier";
 import { getOwner } from "@ember/application";
+import { log } from "../utils/logger";
 
 export default class PageRenderer extends Modifier {
   modify(element, positionalArgs, namedArgs) {
-    console.log("------ modifier:page-renderer modify ----", element);
+    log("------ modifier:page-renderer modify ----", element);
     if (!this.pageElement) {
       this.pageElement = element;
       this.onPageRendered = namedArgs.onPageRendered;
@@ -24,7 +25,7 @@ export default class PageRenderer extends Modifier {
   }
 
   setBodyHeight() {
-    console.log("modifier:page-renderer setBodyHeight", this.pageElement);
+    log("modifier:page-renderer setBodyHeight", this.pageElement);
     // The first render is used to measure the header and footer height
     // and set the page body to fixed height (in this component's
     // onInsert hook). If the bodyElement hasn't been set

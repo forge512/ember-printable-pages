@@ -3,13 +3,14 @@ import Report from "../util-models/report";
 import Chapter from "../util-models/chapter";
 import Page from "../util-models/page";
 import Section from "../util-models/section";
+import { log } from "../utils/logger";
 
 export default class DocumentData extends Service {
   reportsMap = {};
 
   register(id) {
     window.documentData = this;
-    console.log(`<service:document-data> register(${id})`);
+    log(`<service:document-data> register(${id})`);
     let report = new Report();
     this.reportsMap = Object.assign({}, this.reportsMap, { [id]: report });
     return report;
@@ -20,7 +21,7 @@ export default class DocumentData extends Service {
   }
 
   registerChapter(reportId, chapterId, opts = {}) {
-    console.log(`<service:document-data> registerChapter(${reportId}, ${chapterId})`);
+    log(`<service:document-data> registerChapter(${reportId}, ${chapterId})`);
 
     let report = this.reportsMap[reportId];
 
@@ -41,7 +42,7 @@ export default class DocumentData extends Service {
   }
 
   registerSection(reportId, chapterId, sectionId, options = {}) {
-    console.log(`<service:document-data> registerSection(${reportId}, ${chapterId}, ${sectionId})`);
+    log(`<service:document-data> registerSection(${reportId}, ${chapterId}, ${sectionId})`);
 
     let { data, columnCount } = options;
     let report = this.reportsMap[reportId];
@@ -62,7 +63,7 @@ export default class DocumentData extends Service {
 
   // Adds a page to a chapter
   addPage(reportId, chapterId) {
-    console.log(`<service:document-data> addPage(${reportId}, ${chapterId})`);
+    log(`<service:document-data> addPage(${reportId}, ${chapterId})`);
     let report = this.reportsMap[reportId];
     let chapter = report.chapterMap[chapterId];
     let chapterIndex = report.chapters.indexOf(chapter);

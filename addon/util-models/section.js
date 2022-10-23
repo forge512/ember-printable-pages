@@ -1,6 +1,7 @@
 import { tracked } from "@glimmer/tracking";
 import Page from "./page";
 import { action } from "@ember/object";
+import { log } from "../utils/logger";
 
 export default class Section {
   @tracked pages = [];
@@ -38,27 +39,27 @@ export default class Section {
     let startIndex = previousPage.endIndex + 1;
     let page = this.pages.at(pageIndex);
     if (!page) {
-      console.log(`Section:${this.id} #reconcilePageStartIndex --- addPage`);
+      log(`Section:${this.id} #reconcilePageStartIndex --- addPage`);
       page = this.addPage(pageIndex, startIndex);
     } else {
       page.startIndex = startIndex;
     }
 
     this.nextItemIndex = this.nextItemIndex + 1;
-    console.log(`Section:${this.id} #reconcilePageStartIndex`, `${pageIndex} : ${page.startIndex}`);
+    log(`Section:${this.id} #reconcilePageStartIndex`, `${pageIndex} : ${page.startIndex}`);
 
     // this.updateIsFullyRendered();
   }
 
   // seems like this could be a getter
   updateIsFullyRendered() {
-    console.log(`Section:${this.id} #updateIsFullyRendered`, this.nextItemIndex >= this.data.length);
+    log(`Section:${this.id} #updateIsFullyRendered`, this.nextItemIndex >= this.data.length);
     this.isFullyRendered = this.nextItemIndex >= this.data.length;
   }
 
   @action
   addPage(pageIndex, startIndex) {
-    console.log(`Section:${this.id} #addPage`);
+    log(`Section:${this.id} #addPage`);
 
     let page = new Page({
       startIndex: startIndex,
@@ -79,7 +80,7 @@ export default class Section {
 
   @action
   addItemToPage(pageIndex) {
-    console.log(`Section:${this.id} #addItemToPage`);
+    log(`Section:${this.id} #addItemToPage`);
 
     let page = this.pages.at(pageIndex);
     if (!page) {

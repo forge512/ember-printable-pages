@@ -6,6 +6,7 @@ import { action } from "@ember/object";
 import { guidFor } from "@ember/object/internals";
 import { tracked } from "@glimmer/tracking";
 import { task, timeout, waitForProperty } from "ember-concurrency";
+import { log } from "../../utils/logger";
 
 export default class ChapterPage extends Component {
   elementId = "ember-" + guidFor(this);
@@ -34,14 +35,14 @@ export default class ChapterPage extends Component {
   @action
   onInsert(element) {
     this.element = element;
-    console.log(`<chapter-page:${this.elementId}> on-insert`);
+    log(`<chapter-page:${this.elementId}> on-insert`);
 
     this.renderNext.perform();
   }
 
   @action
   onUpdate() {
-    console.log(`<chapter-page:${this.elementId}> did-update`);
+    log(`<chapter-page:${this.elementId}> did-update`);
     this.renderNext.perform();
   }
 
@@ -49,7 +50,7 @@ export default class ChapterPage extends Component {
 
   @task({ keepLatest: true })
   *setLastRenderedItem(elementId) {
-    console.log(`<chapter-page:${this.elementId}> setLastRenderedItem`);
+    log(`<chapter-page:${this.elementId}> setLastRenderedItem`);
     this.lastRenderedItemId = elementId;
     this.renderNext.perform();
   }
@@ -117,7 +118,7 @@ export default class ChapterPage extends Component {
 
     let tailPosition = Math.floor(pageBounding.bottom) - Math.ceil(tailBounding.bottom);
 
-    console.log(`<chapter-page:${this.elementId}> renderNext -- tail position`, `${tailPosition}px`);
+    log(`<chapter-page:${this.elementId}> renderNext -- tail position`, `${tailPosition}px`);
 
     // If the tail hasn't moved, then do nothing.
     // This can happen if the page count increments in a

@@ -2,6 +2,8 @@ import Component from "@glimmer/component";
 import { action } from "@ember/object";
 import { tracked } from "@glimmer/tracking";
 import { guidFor } from "@ember/object/internals";
+import { log } from "../../utils/logger";
+
 export default class Chapter extends Component {
   elementId = "ember-" + guidFor(this);
   @tracked chapter;
@@ -32,20 +34,20 @@ export default class Chapter extends Component {
 
   @action
   onPageOverflow(pageIndex) {
-    console.log(`<chapter:${this.elementId}> onPageOverflow`);
+    log(`<chapter:${this.elementId}> onPageOverflow`);
     this.chapter.moveLastItem(pageIndex, this.args.addPage);
   }
 
   @action
   renderNextItem(pageIndex, remainingHeight) {
-    console.log(`<chapter:${this.elementId}> renderNextItem`);
+    log(`<chapter:${this.elementId}> renderNextItem`);
     this.chapter.renderNextItem(pageIndex, remainingHeight);
     this.args.checkIfComplete();
   }
 
   @action
   renderNextPage(pageIndex) {
-    console.log(`<chapter:${this.elementId}> renderNextPage`);
+    log(`<chapter:${this.elementId}> renderNextPage`);
     this.args.addPage(this.chapter.id);
   }
 }

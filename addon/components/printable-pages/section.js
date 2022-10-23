@@ -4,6 +4,8 @@ import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { guidFor } from "@ember/object/internals";
 import { scheduleOnce } from "@ember/runloop";
+import { log } from "../../utils/logger";
+
 export default class Section extends Component {
   elementId = "ember-" + guidFor(this);
 
@@ -45,7 +47,7 @@ export default class Section extends Component {
     let columnCountChanged = this.section?.columnCount != this.columnCount;
     let dataLengthChanged = this.args.data && this.section?.data?.length != this.args.data.length;
     if (this.shouldRender && (columnCountChanged || dataLengthChanged)) {
-      console.log(`%c <section:${this.elementId} - ${this.id}> did-update --- rerendering`, "color: grey");
+      log(`%c <section:${this.elementId} - ${this.id}> did-update --- rerendering`, "color: grey");
       this.args.triggerRerender();
     }
   }
@@ -53,7 +55,7 @@ export default class Section extends Component {
   @action
   onInsert() {
     if (this.hasOnlyBlock) {
-      console.log(`%c <section:${this.elementId} - ${this.id}> #onInsert -- has only block renderNext`, "color: grey");
+      log(`%c <section:${this.elementId} - ${this.id}> #onInsert -- has only block renderNext`, "color: grey");
       this.args.renderNext();
     }
   }

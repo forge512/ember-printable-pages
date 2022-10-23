@@ -1,6 +1,7 @@
 import Page from "./page";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
+import { log, group, groupEnd } from "../utils/logger";
 
 export default class Chapter {
   sectionMap = {};
@@ -27,19 +28,19 @@ export default class Chapter {
   }
 
   instrument() {
-    console.group("sections");
+    group("sections");
     this.sections.map((s) =>
-      console.log(
+      log(
         s.toString(),
         s.pages.map((p) => p?.toJson())
       )
     );
-    console.groupEnd("sections");
+    groupEnd("sections");
   }
 
   @action
   renderNextItem(pageIndex, remainingHeight) {
-    console.group(this.logPrefix(), `#renderNextItem( pageIndex: ${pageIndex}, remainingHeight: ${remainingHeight})`);
+    group(this.logPrefix(), `#renderNextItem( pageIndex: ${pageIndex}, remainingHeight: ${remainingHeight})`);
     this.instrument();
 
     let section = this.sections.find((s) => s.isFullyRendered == false);
@@ -47,7 +48,7 @@ export default class Chapter {
     // If no section, then this chapter is done!
     if (this.isFinishedRendering) {
       this.log("isFinishedRendering");
-      console.groupEnd(this.logPrefix(), `#renderNextItem(${pageIndex}, ${remainingHeight})`);
+      groupEnd(this.logPrefix(), `#renderNextItem(${pageIndex}, ${remainingHeight})`);
       return;
     }
 
@@ -80,10 +81,7 @@ export default class Chapter {
     section.updateIsFullyRendered();
     this.instrument();
 
-    console.groupEnd(
-      this.logPrefix(),
-      `#renderNextItem( pageIndex: ${pageIndex}, remainingHeight: ${remainingHeight})`
-    );
+    groupEnd(this.logPrefix(), `#renderNextItem( pageIndex: ${pageIndex}, remainingHeight: ${remainingHeight})`);
   }
 
   @action
@@ -95,7 +93,7 @@ export default class Chapter {
 
   @action
   removeItemFromPage(pageIndex) {
-    console.group(this.logPrefix(), `#removeItemFromPage(${pageIndex})`);
+    group(this.logPrefix(), `#removeItemFromPage(${pageIndex})`);
     this.instrument();
 
     let section = this.lastSectionInPage(pageIndex);
@@ -114,17 +112,17 @@ export default class Chapter {
     section.isFullyRendered = false;
 
     this.instrument();
-    console.groupEnd(this.logPrefix(), `#removeItemFromPage(${pageIndex})`);
+    groupEnd(this.logPrefix(), `#removeItemFromPage(${pageIndex})`);
   }
 
   @action
   moveLastItem(pageIndex, addPageFn) {
-    console.group(this.logPrefix(), `#moveLastItem(${pageIndex}, fn)`);
+    group(this.logPrefix(), `#moveLastItem(${pageIndex}, fn)`);
     this.instrument();
 
     // If there is only one item on the page, don't move it
     if (this.lastSectionDidNotFit(pageIndex)) {
-      console.log(this.logPrefix(), `#moveLastItem(${pageIndex}, fn) -- lastSectionDidNotFit`);
+      log(this.logPrefix(), `#moveLastItem(${pageIndex}, fn) -- lastSectionDidNotFit`);
       if (!this.isFinishedRendering) addPageFn(this.id);
       return;
     }
@@ -135,13 +133,13 @@ export default class Chapter {
     // If the next page exists, move item to that page.
     // Else add a page
     if (this.pages.at(pageIndex + 1)) {
-      console.log(this.logPrefix(), `#moveLastItem(${pageIndex}, fn) -- move to next page`);
+      log(this.logPrefix(), `#moveLastItem(${pageIndex}, fn) -- move to next page`);
       let lastSectionInPage = this.lastSectionInPage(pageIndex);
       lastSectionInPage.reconcilePageStartIndex(pageIndex + 1);
     }
 
     this.instrument();
-    console.groupEnd(this.logPrefix(), `#moveLastItem(${pageIndex}, fn)`);
+    groupEnd(this.logPrefix(), `#moveLastItem(${pageIndex}, fn)`);
   }
 
   lastSectionDidNotFit(pageIndex) {
@@ -166,7 +164,7 @@ export default class Chapter {
   }
 
   log() {
-    console.log(this.logPrefix(), ...arguments);
+    log(this.logPrefix(), ...arguments);
   }
 
   logPrefix() {
