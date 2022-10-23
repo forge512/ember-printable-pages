@@ -239,9 +239,6 @@ workflows:
       - test_beta:
           requires:
             - prepare
-      - test_canary:
-          requires:
-            - prepare
       - test_default:
           requires:
             - prepare
