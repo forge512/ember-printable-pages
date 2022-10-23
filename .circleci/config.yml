@@ -1,41 +1,36 @@
-defaults: &defaults
-  docker:
-    - image: circleci/node:10-browsers
-      environment:
-        JOBS: 2
-  working_directory: ~/repo
-
-version: 2
+# .circleci/config.yml
+version: '2.1'
+orbs:
+  browser-tools: circleci/browser-tools@1.4.0
 jobs:
-  checkout_code:
-    <<: *defaults
+  prepare:
+    docker:
+      - image: cimg/node:16.17.1-browsers
+        environment:
+          JOBS: 2 # https://github.com/emberjs/ember.js/issues/15641
+
+    working_directory: ~/repo
     steps:
       - checkout
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-  install_dependencies:
-    <<: *defaults
-    steps:
       - attach_workspace:
           at: .
       - restore_cache:
           keys:
-            - v2-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v2-deps-{{ .Branch }}-
-            - v2-deps-
+            - v3-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v3-deps-{{ .Branch }}
+            - v3-deps-
       - run:
           name: Yarn Install
-          command: yarn install --non-interactive
+          command: yarn install --non-interactive --frozen-lockfile
       - save_cache:
-          key: v2-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: v3-deps-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
       - persist_to_workspace:
           root: .
           paths:
             - .
+
   lint:
     <<: *defaults
     steps:
@@ -88,34 +83,6 @@ jobs:
           name: Run Tests
           command: timeout 10m ember try:one ember-lts-3.12 --skip-cleanup=true
 
-  test_3_13:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: .
-      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
-      - run:
-          name: Run Tests
-          command: timeout 10m ember try:one ember-3.13 --skip-cleanup=true
-  test_3_14:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: .
-      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
-      - run:
-          name: Run Tests
-          command: timeout 10m ember try:one ember-3.14 --skip-cleanup=true
-  test_3_15:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: .
-      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
-      - run:
-          name: Run Tests
-          command: timeout 10m ember try:one ember-3.15 --skip-cleanup=true
-
   test_lts_3_16:
     <<: *defaults
     steps:
@@ -124,7 +91,57 @@ jobs:
       - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
       - run:
           name: Run Tests
-          command: timeout 10m ember try:one ember-lts-3.16 --skip-cleanup=true
+          command: timeout 10m ember try:one ember-3.16 --skip-cleanup=true
+
+  test_lts_3_20:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: timeout 10m ember try:one ember-3.20 --skip-cleanup=true
+
+  test_lts_3_24:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: timeout 10m ember try:one ember-3.24 --skip-cleanup=true
+
+  test_lts_3_28:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: timeout 10m ember try:one ember-3.28 --skip-cleanup=true
+
+  test_lts_4_0:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: timeout 10m ember try:one ember-4.0 --skip-cleanup=true
+
+  test_lts_4_4:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run: echo 'export PATH=~/repo/node_modules/.bin:$PATH' >> $BASH_ENV
+      - run:
+          name: Run Tests
+          command: timeout 10m ember try:one ember-lts-4.4 --skip-cleanup=true
 
   test_release:
     <<: *defaults
@@ -177,7 +194,7 @@ jobs:
           command: timeout 10m ember try:one ember-default-with-jquery --skip-cleanup=true
 
 workflows:
-  version: 2
+  version: '2.1'
   test_and_deploy:
     jobs:
       - checkout_code
@@ -187,6 +204,12 @@ workflows:
       - lint:
           requires:
             - install_dependencies
+      - test_lts_3_1:
+          requires:
+            - install_dependencies
+      - test_lts_3_4:
+          requires:
+            - install_dependencies
       - test_lts_3_8:
           requires:
             - install_dependencies
@@ -194,6 +217,21 @@ workflows:
           requires:
             - install_dependencies
       - test_lts_3_16:
+          requires:
+            - install_dependencies
+      - test_lts_3_20:
+          requires:
+            - install_dependencies
+      - test_lts_3_24:
+          requires:
+            - install_dependencies
+      - test_lts_3_28:
+          requires:
+            - install_dependencies
+      - test_lts_4_0:
+          requires:
+            - install_dependencies
+      - test_lts_4_4:
           requires:
             - install_dependencies
       - test_release:
