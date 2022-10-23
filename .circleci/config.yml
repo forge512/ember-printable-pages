@@ -200,10 +200,7 @@ workflows:
   version: '2.1'
   test_and_deploy:
     jobs:
-      - checkout_code
-      - install_dependencies:
-          requires:
-            - checkout_code
+      - prepare 
       - lint:
           requires:
             - install_dependencies
