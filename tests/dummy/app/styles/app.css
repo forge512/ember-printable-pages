@@ -49,27 +49,27 @@ body.is-test {
     background-color: #fff;
   }
 
-  body > .ember-view {
+  body {
     margin-top: 0;
   }
   /* docs demo page */
-  body > div.ember-view > div.h-screen {
+  body > div.h-screen {
     height: auto;
   }
   /* docs demo page */
-  body > div.ember-view > div.h-screen > header {
+  body > div.h-screen > header {
     display: none;
   }
   /* docs home page */
-  body > div.ember-view > header {
+  body > header {
     display: none;
   }
 
   /* Firefox only prints 1st page when tree has display: flex */
   html,
   body,
-  body > .ember-view,
-  body > .ember-view > div.h-screen > div.flex {
+  body,
+  body > div.h-screen > div.flex {
     display: block;
   }
 
