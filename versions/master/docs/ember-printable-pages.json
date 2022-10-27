@@ -1,1 +1,1 @@
-{"jsonapi":{"version":"1.0"},"data":{"type":"project","id":"ember-printable-pages","attributes":{"name":"ember-printable-pages","version":"0.5.2","navigationIndex":[]},"relationships":{"modules":{"data":[]}}}}
+{"jsonapi":{"version":"1.0"},"data":{"type":"project","id":"ember-printable-pages","attributes":{"name":"ember-printable-pages","version":"1.0.0","navigationIndex":[]},"relationships":{"modules":{"data":[]}}}}
