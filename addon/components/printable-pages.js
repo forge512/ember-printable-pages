@@ -4,13 +4,15 @@ import { next, scheduleOnce } from "@ember/runloop";
 import { task } from "ember-concurrency";
 import { Promise } from "rsvp";
 import { get } from "@ember/object";
-import { registerWaiter } from "@ember/test";
-import Ember from "ember";
 import { isBlank } from "@ember/utils";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { guidFor } from "@ember/object/internals";
 import { log } from "../utils/logger";
+import { buildWaiter } from "@ember/test-waiters";
+
+let waiter = buildWaiter("render-waiter");
+let waiterToken;
 
 const DEFAULT_DIMENSIONS = {
   units: "in",
@@ -82,8 +84,7 @@ export default class PrintablePagesComponent extends Component {
 
   // TASKS
   // eslint-disable-next-line require-yield
-  @task
-  *renderTask() {
+  @task *renderTask() {
     this.reportObject = this.documentData.register(this.elementId);
     this.rerendering = false;
     this.reportStartTask.perform(this.reportObject.lastPage, null);
@@ -116,10 +117,7 @@ export default class PrintablePagesComponent extends Component {
 
   @task({ keepLatest: true })
   *reportStartTask(currentPage) {
-    if (Ember.testing && !this._isRendering) {
-      this._isRendering = true;
-      registerWaiter(() => !this._isRendering);
-    }
+    waiterToken = waiter.beginAsync();
 
     if (this.args.onRenderStart) {
       yield new Promise((resolve) => {
@@ -150,7 +148,7 @@ export default class PrintablePagesComponent extends Component {
         next(() => {
           if (this.isDestroyed) return resolve();
 
-          this._isRendering = false;
+          waiter.endAsync(waiterToken);
 
           if (this.args.onRenderComplete) {
             this.args.onRenderComplete(this.reportObject?.lastPage);
@@ -182,7 +180,7 @@ export default class PrintablePagesComponent extends Component {
   addPage(chapterId) {
     if (this.rerendering) return;
 
-    let page = this.documentData.addPage(this.elementId, chapterId);
+    this.documentData.addPage(this.elementId, chapterId);
     this.reportProgressTask.perform();
   }
 
