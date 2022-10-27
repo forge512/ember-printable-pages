@@ -37,6 +37,7 @@
   },
   "resolutions": {
     "ember-concurrency": "2.2.1",
+    "ember-get-config": "^2.1.1",
     "ember-cli-babel": "^7.26.10"
   },
   "devDependencies": {
