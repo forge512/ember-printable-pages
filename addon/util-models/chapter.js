@@ -1,163 +1,170 @@
-import EmberObject, { computed } from "@ember/object";
-import { alias } from "@ember/object/computed";
-import { A } from "@ember/array";
-import { next } from "@ember/runloop";
-import Page from "./page";
+import { tracked } from "@glimmer/tracking";
+import { action } from "@ember/object";
+import { log, group, groupEnd } from "../utils/logger";
 
-export default EmberObject.extend({
-  init() {
-    this._super(...arguments);
-    this.set("sectionMap", EmberObject.create());
-    this.set("sections", A([]));
-    let firstPage = Page.create();
-    this.set("pages", A([firstPage]));
-  },
-  id: null,
-  pages: null,
-  sectionMap: null,
-  sections: null,
-  index: null,
-  startPage: 1,
-  endPage: 1,
-  sectionCount: alias("sections.length"),
+export default class Chapter {
+  sectionMap = {};
+  sections = [];
+  @tracked pages = [];
+  @tracked endPage;
+  @tracked startPage;
 
-  // COMPUTED PROPS
-  isFinishedRendering: computed("sections.@each.isFullyRendered", function() {
-    return this.sections.isEvery("isFullyRendered");
-  }),
+  constructor({ id, index, startPage, endPage, name, isToc }) {
+    this.id = id;
+    this.index = index;
+    this.startPage = startPage;
+    this.endPage = endPage;
+    this.name = name;
+    this.isToc = isToc;
+  }
+
+  get sectionCount() {
+    return this.sections?.length || 0;
+  }
+
+  get isFinishedRendering() {
+    return !this.sections.find((s) => !s.isFullyRendered);
+  }
 
   instrument() {
-    // eslint-disable-next-line no-console
-    this.sections.map(s => console.log(s.toString(), s.pages.toArray()));
-  },
+    group("sections");
+    this.sections.map((s) =>
+      log(
+        s.toString(),
+        s.pages.map((p) => p?.toJson())
+      )
+    );
+    groupEnd("sections");
+  }
 
+  @action
   renderNextItem(pageIndex, remainingHeight) {
-    // console.log(`Chapter#renderNextItem(${pageIndex}, ${remainingHeight})`);
-    // this.instrument();
+    group(this.logPrefix(), `#renderNextItem( pageIndex: ${pageIndex}, remainingHeight: ${remainingHeight})`);
+    this.instrument();
 
-    let section = this.sections.findBy("isFullyRendered", false);
+    let section = this.sections.find((s) => s.isFullyRendered == false);
 
     // If no section, then this chapter is done!
-    if (this.isFinishedRendering) return;
-
-    if (!section.pages.objectAt(pageIndex)) {
-      section.addPage(pageIndex, 0);
+    if (this.isFinishedRendering) {
+      this.log("isFinishedRendering");
+      groupEnd(this.logPrefix(), `#renderNextItem(${pageIndex}, ${remainingHeight})`);
+      return;
     }
-    let page = section.pages.objectAt(pageIndex);
 
-    if (page.delayRender) return;
+    let didAddNewPage = false;
+    if (!section.pages.at(pageIndex)) {
+      didAddNewPage = true;
+      section.addPage(pageIndex, section.nextItemIndex);
+      section.nextItemIndex = section.nextItemIndex + 1;
+    }
+    let page = section.pages.at(pageIndex);
 
     // If rendered 2 or more items AND similar in height (within 200px)
     if (section.nextItemIndex > 1 && section.itemHeightDiff < 200) {
       let remainingItemCount = section.data.length - section.nextItemIndex;
       let heightGuess = (section.maxItemHeight + section.minItemHeight) / 2;
-      let fastForwardCount = Math.round(
-        (section.columnCount * remainingHeight) / heightGuess
-      );
+      let fastForwardCount = Math.round((section.columnCount * remainingHeight) / heightGuess);
       fastForwardCount = Math.max(1, fastForwardCount);
       fastForwardCount = Math.min(fastForwardCount, remainingItemCount);
-      page.set("endIndex", page.endIndex + fastForwardCount);
-      section.set("nextItemIndex", section.nextItemIndex + fastForwardCount);
-    } else {
+
+      page.endIndex = page.endIndex + fastForwardCount;
+      section.nextItemIndex = section.nextItemIndex + fastForwardCount;
+    } else if (!didAddNewPage) {
       // ELSE increment forward by 1
-      page.set("endIndex", section.nextItemIndex);
-      section.incrementProperty("nextItemIndex");
+      page.endIndex = section.nextItemIndex;
+      section.nextItemIndex = section.nextItemIndex + 1;
     }
 
     section.updateIsFullyRendered();
-    // console.log(`-------`);
-    // this.instrument();
-    // console.log(`</> Chapter#renderNextItem(${pageIndex}, ${remainingHeight})`);
-  },
+    this.instrument();
 
+    groupEnd(this.logPrefix(), `#renderNextItem( pageIndex: ${pageIndex}, remainingHeight: ${remainingHeight})`);
+  }
+
+  @action
   lastSectionInPage(pageIndex) {
     // Find sections with data in page at pageIndex
-    let sectionsInPage = this.sections.filter(
-      section => !!section.pages.objectAt(pageIndex)
-    );
+    let sectionsInPage = this.sections.filter((section) => !!section.pages.at(pageIndex));
     return sectionsInPage[sectionsInPage.length - 1];
-  },
+  }
 
-  itemCountForPage(pageIndex) {
-    return this.sections.reduce((a, v) => a + v.itemCountForPage(pageIndex), 0);
-  },
-
+  @action
   removeItemFromPage(pageIndex) {
-    // console.log(`Chapter#removeItemFromPage(${pageIndex})`);
-    // this.instrument();
+    group(this.logPrefix(), `#removeItemFromPage(${pageIndex})`);
+    this.instrument();
 
     let section = this.lastSectionInPage(pageIndex);
-    let pageInSection = section.pages.objectAt(pageIndex);
+    let pageInSection = section.pages.at(pageIndex);
 
     // Take an item away from the current page
     if (pageInSection.endIndex === 0) {
-      section.pages.removeAt(pageIndex);
-      section.pages.insertAt(pageIndex, null);
+      let pagesClone = [...section.pages];
+      pagesClone.splice(pageIndex, 1);
+      pagesClone.splice(pageIndex, 0, null);
+      section.pages = pagesClone;
     } else {
-      pageInSection.decrementProperty("endIndex");
+      pageInSection.endIndex = pageInSection.endIndex - 1;
     }
-    section.decrementProperty("nextItemIndex");
-    section.set("isFullyRendered", false);
+    section.nextItemIndex = section.nextItemIndex - 1;
+    section.isFullyRendered = false;
 
-    // console.log("------");
-    // this.instrument();
-    // console.log(`</> Chapter#removeItemFromPage(${pageIndex})`);
-  },
-
-  // Rename to 'removeLastItem'
-  moveLastItemToNextPage(pageIndex, addPage) {
-    next(() => {
-      // console.log(`Chapter#moveLastItemToNextPage(${pageIndex}, fn)`);
-      // this.instrument();
-
-      let itemCountForPage = this.itemCountForPage(pageIndex);
-
-      // If there is only one item on the page, don't remove it
-      // as it won't fit anywhere else
-      if (itemCountForPage === 1) {
-        // eslint-disable-next-line no-console
-        console.warn(
-          "ember-printable-pages could not fit a section item within a full page. " +
-            "Content is likely clipped or page/column breaks are in unexpected places. " +
-            `See page ${pageIndex + 1}.`
-        );
-
-        if (!this.isFinishedRendering) {
-          this.renderNextPage(pageIndex, addPage);
-        }
-        return;
-      }
-
-      this.removeItemFromPage(pageIndex);
-    });
-  },
-
-  renderNextPage(pageIndex, addPage) {
-    next(() => {
-      // console.log(`Chapter#renderNextPage(${pageIndex}, fn)`);
-      // this.instrument();
-      let chapterPage = this.pages.objectAt(pageIndex + 1);
-      if (!chapterPage) addPage(this.id);
-
-      let lastSectionInPage = this.lastSectionInPage(pageIndex);
-
-      if (!lastSectionInPage) {
-        let nextSection = this.sections.findBy("isFullyRendered", false);
-        nextSection.addItemToPage(pageIndex + 1);
-      } else if (!lastSectionInPage.isFullyRendered) {
-        lastSectionInPage.reconcilePageStartIndex(pageIndex + 1);
-      } else {
-        //Ensure there are any other sections left.
-        let nextSection = this.sections[lastSectionInPage.index + 1];
-        if (nextSection) {
-          nextSection.addItemToPage(pageIndex + 1);
-          nextSection.updateIsFullyRendered();
-        }
-      }
-
-      // console.log("----");
-      // this.instrument();
-      // console.log(`</> Chapter#renderNextPage(${pageIndex}, fn)`);
-    });
+    this.instrument();
+    groupEnd(this.logPrefix(), `#removeItemFromPage(${pageIndex})`);
   }
-});
+
+  @action
+  moveLastItem(pageIndex, addPageFn) {
+    group(this.logPrefix(), `#moveLastItem(${pageIndex}, fn)`);
+    this.instrument();
+
+    // If there is only one item on the page, don't move it
+    if (this.lastSectionDidNotFit(pageIndex)) {
+      log(this.logPrefix(), `#moveLastItem(${pageIndex}, fn) -- lastSectionDidNotFit`);
+      if (!this.isFinishedRendering) addPageFn(this.id);
+      return;
+    }
+
+    // Remove an item from the page
+    this.removeItemFromPage(pageIndex);
+
+    // If the next page exists, move item to that page.
+    // Else add a page
+    if (this.pages.at(pageIndex + 1)) {
+      log(this.logPrefix(), `#moveLastItem(${pageIndex}, fn) -- move to next page`);
+      let lastSectionInPage = this.lastSectionInPage(pageIndex);
+      lastSectionInPage.reconcilePageStartIndex(pageIndex + 1);
+    }
+
+    this.instrument();
+    groupEnd(this.logPrefix(), `#moveLastItem(${pageIndex}, fn)`);
+  }
+
+  lastSectionDidNotFit(pageIndex) {
+    let itemCountForPage = this.itemCountForPage(pageIndex);
+
+    if (itemCountForPage === 1) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        "ember-printable-pages could not fit a section item within a full page. " +
+          "Content is likely clipped or page/column breaks are in unexpected places. " +
+          `See page ${pageIndex + 1}.`
+      );
+
+      return true;
+    }
+
+    return false;
+  }
+
+  itemCountForPage(pageIndex) {
+    return this.sections.reduce((a, v) => a + v.itemCountForPage(pageIndex), 0);
+  }
+
+  log() {
+    log(this.logPrefix(), ...arguments);
+  }
+
+  logPrefix() {
+    return `<util-models:chapter:${this.id}:index-${this.index}>`;
+  }
+}

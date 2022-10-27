@@ -1,58 +1,81 @@
 <div class="print:hidden">
-  {{link-to "All Demos" "demos.index"}}
+  <LinkTo @route="demos.index">All Demos</LinkTo>
 
-  {{progress-display
-    isRunning=this.isRunning
-    currentPage=this.currentPage
-    isComplete=this.isComplete
-    renderTime=this.renderTime
-  }}
+  <ProgressDisplay
+    @isRunning={{this.isRunning}}
+    @currentPage={{this.currentPage}}
+    @isComplete={{this.isComplete}}
+    @renderTime={{this.renderTime}}
+  />
 
-  <label>Section Count</label>
-  {{input
-    type="number"
-    value=this.sectionCount
-    min=1
-    max=10000
-    data-test-input-section-count=true
-  }}
-  <label>Column Count</label>
-  {{input
-    type="number"
-    value=this.columnCount
-    min=1
-    max=3
-    data-test-column-count=true
-  }}
+  <label>
+    Section Count
+    <Input
+      @type="number"
+      @value={{this.sectionCount}}
+      min={{1}}
+      max={{10000}}
+      data-test-input-section-count={{true}}
+    />
+  </label>
+
+  <label>
+    Column Count
+    <Input
+      @type="number"
+      @value={{this.columnCount}}
+      min={{1}}
+      max={{3}}
+      data-test-column-count={{true}}
+    />
+  </label>
+
+  <label>
+    Box Height
+    <Input
+      @type="number"
+      @value={{this.boxHeight}}
+      min={{0}}
+      max={{100}}
+      data-test-column-count={{true}}
+    />
+  </label>
 </div>
 
-{{#printable-pages
-  onRenderStart=(action "start")
-  onRenderProgress=(action "updateProgress")
-  onRenderComplete=(action "complete")
+<PrintablePages
+  @onRenderStart={{this.onStart}}
+  @onRenderProgress={{this.onUpdateProgress}}
+  @onRenderComplete={{this.onComplete}}
   as |document|
-}}
-  {{#document.chapter as |chapter|}}
-    {{#chapter.page-header as |header|}}
+>
+  <document.chapter as |chapter|>
+    <chapter.page-header as |header|>
       <div>
         <div>Chapter {{header.pageMeta.chapterNumber}}</div>
         <div>page {{header.pageMeta.current}} of {{header.pageMeta.total}}</div>
       </div>
-    {{/chapter.page-header}}
+    </chapter.page-header>
 
-    {{#chapter.section columnCount=this.columnCount data=this.sectionData as |section|}}
+    <chapter.section
+      @columnCount={{this.columnCount}}
+      @data={{this.sectionData}}
+      as |section|
+    >
       {{#if (eq section.index 0)}}
         <h3>Section 1</h3>
       {{/if}}
 
-      <h4>Section 1.{{section.data}}</h4>
-      <p>
+      <h4>Section 1.{{section}}</h4>
+      <p {{style height=(concat this.boxHeight "px")}}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
       </p>
-    {{/chapter.section}}
+    </chapter.section>
 
-    {{#chapter.page-footer as |footer|}}
-      <div>Footer page {{footer.pageMeta.current}} of {{footer.pageMeta.total}}</div>
-    {{/chapter.page-footer}}
-  {{/document.chapter}}
-{{/printable-pages}}
+    <chapter.page-footer as |footer|>
+      <div>Footer page
+        {{footer.pageMeta.current}}
+        of
+        {{footer.pageMeta.total}}</div>
+    </chapter.page-footer>
+  </document.chapter>
+</PrintablePages>

@@ -1,41 +1,47 @@
 import Controller from "@ember/controller";
-import { computed } from "@ember/object";
 import { htmlSafe } from "@ember/template";
+import { action } from "@ember/object";
+import { tracked } from "@glimmer/tracking";
+export default class extends Controller {
+  queryParams = ["dataLength", "columnCount", "chapterCount", "sectionOneHeight"];
 
-export default Controller.extend({
-  queryParams: [
-    "dataLength",
-    "columnCount",
-    "chapterCount",
-    "sectionOneHeight"
-  ],
-  dataLength: 1000,
-  columnCount: 2,
-  chapterCount: 1,
-  sectionOneHeight: 300,
-  sectionData: computed("dataLength", function() {
+  @tracked dataLength = 1000;
+  @tracked columnCount = 2;
+  @tracked chapterCount = 1;
+  @tracked sectionOneHeight = 300;
+
+  @tracked startTimeStamp;
+  @tracked isRunning;
+  @tracked renderTime;
+  @tracked currentPage;
+  @tracked isCurrent;
+
+  get sectionData() {
     return [...Array(Number(this.dataLength))].map((_, i) => i);
-  }),
-  chapters: computed("chapterCount", function() {
-    return [...Array(Number(this.chapterCount))].map((_, i) => i);
-  }),
-  sectionOneHeightSanitized: computed("sectionOneHeight", function() {
-    return htmlSafe(Number(this.sectionOneHeight));
-  }),
-
-  actions: {
-    start(currentPage) {
-      this.set("startTimeStamp", new Date());
-      this.set("isRunning", true);
-      this.set("currentPage", currentPage);
-    },
-    updateProgress(currentPage) {
-      this.set("currentPage", currentPage);
-    },
-    complete() {
-      this.set("renderTime", (new Date() - this.startTimeStamp) / 1000);
-      this.set("isRunning", false);
-      this.set("isComplete", true);
-    }
   }
-});
+  get chapters() {
+    return [...Array(Number(this.chapterCount))].map((_, i) => i);
+  }
+  get sectionOneHeightSanitized() {
+    return htmlSafe(Number(this.sectionOneHeight));
+  }
+
+  @action
+  start(currentPage) {
+    this.startTimeStamp = new Date();
+    this.isRunning = true;
+    this.currentPage = currentPage;
+  }
+
+  @action
+  updateProgress(currentPage) {
+    this.currentPage = currentPage;
+  }
+
+  @action
+  complete() {
+    this.renderTime = (new Date() - this.startTimeStamp) / 1000;
+    this.isRunning = false;
+    this.isComplete = true;
+  }
+}

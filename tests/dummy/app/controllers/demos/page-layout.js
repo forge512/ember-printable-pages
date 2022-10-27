@@ -1,60 +1,53 @@
-import Controller from '@ember/controller';
-import { computed } from '@ember/object';
-import { run } from '@ember/runloop';
+import Controller from "@ember/controller";
+import { action } from "@ember/object";
+import { tracked } from "@glimmer/tracking";
 
 const PAGE_LAYOUTS = {
-  'us-letter-portrait': {
-    height: '11in',
-    width: '8.5in',
+  "us-letter-portrait": {
+    height: "11",
+    width: "8.5",
   },
-  'us-letter-landscape': {
-    height: '8.5in',
-    width: '11in',
+  "us-letter-landscape": {
+    height: "8.5",
+    width: "11",
   },
-  'us-legal-portrait': {
-    height: '14in',
-    width: '8.5in',
+  "us-legal-portrait": {
+    height: "14",
+    width: "8.5",
   },
-  'us-legal-landscape': {
-    height: '8.5in',
-    width: '14in',
+  "us-legal-landscape": {
+    height: "8.5",
+    width: "14",
   },
-  'a4-portrait': {
-    height: '11.69in',
-    width: '8.27in',
+  "a4-portrait": {
+    height: "11.69",
+    width: "8.27",
   },
-  'a4-landscape': {
-    height: '8.27in',
-    width: '11.69in',
+  "a4-landscape": {
+    height: "8.27",
+    width: "11.69",
   },
 };
 
-export default Controller.extend({
-  pageHeight: '11in',
-  pageWidth: '8.5in',
+export default class extends Controller {
+  @tracked pageHeight = "11";
+  @tracked pageWidth = "8.5";
+  @tracked pageSize = "us-letter-portrait";
 
-  pageSize: 'us-letter-portrait',
-  pageLayoutOpts: computed(function() {
+  get pageLayoutOpts() {
     return Object.keys(PAGE_LAYOUTS);
-  }),
-
-  marginSize: 0.5,
-  pageMargins: computed('marginSize', function() {
-    return `${this.marginSize}in`;
-  }),
-
-  actions: {
-    updatePageLayout(_event) {
-      _event.preventDefault();
-      let pageLayout = PAGE_LAYOUTS[this.pageSize];
-      this.setProperties({
-        pageHeight: pageLayout.height,
-        pageWidth: pageLayout.width,
-        hidePages: true,
-      });
-      run.later(this, () => {
-        this.set('hidePages', false);
-      }, 10);
-    }
   }
-});
+
+  @action
+  updatePageLayout(event) {
+    event.preventDefault();
+    let pageLayout = PAGE_LAYOUTS[this.pageSize];
+    this.pageHeight = pageLayout.height;
+    this.pageWidth = pageLayout.width;
+  }
+
+  @action
+  updatePageSize(event) {
+    this.pageSize = event.target.value;
+  }
+}

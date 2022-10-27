@@ -12,9 +12,9 @@ Storage.reopenClass({
       bottom: 0.5,
       left: 0.5,
       orientation: "portrait",
-      units: "in"
+      units: "in",
     };
-  }
+  },
 });
 
 export default Storage;

@@ -1,0 +1,86 @@
+<div class='py-2'>
+  <label>Paper Dimensions</label>
+  <div class='flex flex-row items-center w-full'>
+    <Input
+      @type='number'
+      step='0.05'
+      @value={{this.settings.width}}
+      size={{4}}
+      min={{0}}
+      data-test-width={{true}}
+      class='min-w-0 bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal'
+      aria-label="Paper Width"
+    />
+    <span class='text-lg px-2'>x</span>
+    <Input
+      @type='number'
+      step='0.05'
+      @value={{this.settings.height}}
+      min={{0}}
+      data-test-width={{true}}
+      class='min-w-0 bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal'
+      aria-label="Paper Height"
+    />
+  </div>
+</div>
+
+<div class='py-2'>
+  <label>Print Margins</label>
+  <p class='text-xs mb-1'>Printer capabilities vary widely. Make adjustments
+    using print preview or test pages until perfect.</p>
+  <div class='flex flex-row items-center w-full py-1'>
+    <span class='w-16 text-sm px-2'>Top</span>
+    <Input
+      @type='number'
+      step='0.05'
+      @value={{this.settings.top}}
+      size={{4}}
+      min={{0}}
+      data-test-width={{true}}
+      class='w-24 bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal'
+      aria-label="Margin Top"
+    />
+  </div>
+
+  <div class='flex flex-row items-center w-full py-1'>
+    <span class='w-16 text-sm px-2'>Bottom</span>
+    <Input
+      @type='number'
+      step='0.05'
+      @value={{this.settings.bottom}}
+      size={{4}}
+      min={{0}}
+      data-test-width={{true}}
+      class='w-24 bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal'
+      aria-label="Margin Bottom"
+    />
+  </div>
+
+  <div class='flex flex-row items-center w-full py-1'>
+    <span class='w-16 text-sm px-2'>Left</span>
+    <Input
+      @type='number'
+      step='0.05'
+      @value={{this.settings.left}}
+      size={{4}}
+      min={{0}}
+      data-test-width={{true}}
+      class='w-24 bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal'
+      aria-label="Margin Left"
+    />
+  </div>
+
+  <div class='flex flex-row items-center w-full py-1'>
+    <span class='w-16 text-sm px-2'>Right</span>
+    <Input
+      @type='number'
+      step='0.05'
+      @value={{this.settings.right}}
+      size={{4}}
+      min={{0}}
+      data-test-width={{true}}
+      class='w-24 bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block appearance-none leading-normal'
+      aria-label="Margin Right"
+    />
+  </div>
+</div>

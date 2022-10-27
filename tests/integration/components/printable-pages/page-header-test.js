@@ -3,12 +3,10 @@ import { setupRenderingTest } from "ember-qunit";
 import { render } from "@ember/test-helpers";
 import hbs from "htmlbars-inline-precompile";
 
-module("Integration | Component | printable-pages/page-header", function(
-  hooks
-) {
+module("Integration | Component | printable-pages/page-header", function (hooks) {
   setupRenderingTest(hooks);
 
-  let renderSingleChapterTemplate = function(context) {
+  let renderSingleChapterTemplate = function (context) {
     context.set(
       "sectionData",
       [...Array(Number(context.sectionCount))].map((_, i) => i)
@@ -44,7 +42,7 @@ module("Integration | Component | printable-pages/page-header", function(
     `);
   };
 
-  let renderMultiChapterTemplate = function(context) {
+  let renderMultiChapterTemplate = function (context) {
     context.set(
       "sectionData",
       [...Array(Number(context.sectionCount))].map((_, i) => i)
@@ -106,15 +104,13 @@ module("Integration | Component | printable-pages/page-header", function(
     `);
   };
 
-  test("single-page single-chapter document - has expected page meta info", async function(assert) {
+  test("single-page single-chapter document - has expected page meta info", async function (assert) {
     this.set("columnCount", 1);
     this.set("sectionCount", 1);
 
     await renderSingleChapterTemplate(this);
 
-    assert
-      .dom("[data-test-chapter] [data-test-page-header]")
-      .exists({ count: 1 });
+    assert.dom("[data-test-chapter] [data-test-page-header]").exists({ count: 1 });
 
     assert.dom("[data-test-header-chapter-number]").hasText("1");
     assert.dom("[data-test-header-page-number]").hasText("1");
@@ -125,202 +121,100 @@ module("Integration | Component | printable-pages/page-header", function(
     assert.dom("[data-test-header-total]").hasText("1");
   });
 
-  test("multi-page single-chapter document - has expected page meta info", async function(assert) {
+  test("multi-page single-chapter document - has expected page meta info", async function (assert) {
     this.set("columnCount", 1);
     this.set("sectionCount", 17);
 
     await renderSingleChapterTemplate(this);
 
-    assert
-      .dom("[data-test-chapter] [data-test-page-header]")
-      .exists({ count: 2 });
+    assert.dom("[data-test-chapter] [data-test-page-header]").exists({ count: 2 });
 
     // Chapter 1 Page 1
-    assert
-      .dom("[data-test-page='1'] [data-test-header-chapter-number]")
-      .hasText("1");
-    assert
-      .dom("[data-test-page='1'] [data-test-header-page-number]")
-      .hasText("1");
-    assert
-      .dom("[data-test-page='1'] [data-test-header-is-first]")
-      .hasText("true");
-    assert
-      .dom("[data-test-page='1'] [data-test-header-is-first-in-chapter]")
-      .hasText("true");
-    assert
-      .dom("[data-test-page='1'] [data-test-header-is-last]")
-      .hasText("false");
-    assert
-      .dom("[data-test-page='1'] [data-test-header-is-last-in-chapter]")
-      .hasText("false");
+    assert.dom("[data-test-page='1'] [data-test-header-chapter-number]").hasText("1");
+    assert.dom("[data-test-page='1'] [data-test-header-page-number]").hasText("1");
+    assert.dom("[data-test-page='1'] [data-test-header-is-first]").hasText("true");
+    assert.dom("[data-test-page='1'] [data-test-header-is-first-in-chapter]").hasText("true");
+    assert.dom("[data-test-page='1'] [data-test-header-is-last]").hasText("false");
+    assert.dom("[data-test-page='1'] [data-test-header-is-last-in-chapter]").hasText("false");
     assert.dom("[data-test-page='1'] [data-test-header-total]").hasText("2");
 
     // Chapter 1 Page 2
-    assert
-      .dom("[data-test-page='2'] [data-test-header-chapter-number]")
-      .hasText("1");
-    assert
-      .dom("[data-test-page='2'] [data-test-header-page-number]")
-      .hasText("2");
-    assert
-      .dom("[data-test-page='2'] [data-test-header-is-first]")
-      .hasText("false");
-    assert
-      .dom("[data-test-page='2'] [data-test-header-is-first-in-chapter]")
-      .hasText("false");
-    assert
-      .dom("[data-test-page='2'] [data-test-header-is-last]")
-      .hasText("true");
-    assert
-      .dom("[data-test-page='2'] [data-test-header-is-last-in-chapter]")
-      .hasText("true");
+    assert.dom("[data-test-page='2'] [data-test-header-chapter-number]").hasText("1");
+    assert.dom("[data-test-page='2'] [data-test-header-page-number]").hasText("2");
+    assert.dom("[data-test-page='2'] [data-test-header-is-first]").hasText("false");
+    assert.dom("[data-test-page='2'] [data-test-header-is-first-in-chapter]").hasText("false");
+    assert.dom("[data-test-page='2'] [data-test-header-is-last]").hasText("true");
+    assert.dom("[data-test-page='2'] [data-test-header-is-last-in-chapter]").hasText("true");
     assert.dom("[data-test-page='2'] [data-test-header-total]").hasText("2");
   });
 
-  test("single-page multi-chapter document - has expected page meta info", async function(assert) {
+  test("single-page multi-chapter document - has expected page meta info", async function (assert) {
     this.set("columnCount", 1);
     this.set("sectionCount", 1);
 
     await renderMultiChapterTemplate(this);
 
-    assert
-      .dom("[data-test-chapter] [data-test-page-header]")
-      .exists({ count: 2 });
+    assert.dom("[data-test-chapter] [data-test-page-header]").exists({ count: 2 });
 
-    assert
-      .dom("[data-test-page='1'] [data-test-header-chapter-number]")
-      .hasText("1");
-    assert
-      .dom("[data-test-page='1'] [data-test-header-page-number]")
-      .hasText("1");
-    assert
-      .dom("[data-test-page='1'] [data-test-header-is-first]")
-      .hasText("true");
-    assert
-      .dom("[data-test-page='1'] [data-test-header-is-first-in-chapter]")
-      .hasText("true");
-    assert
-      .dom("[data-test-page='1'] [data-test-header-is-last]")
-      .hasText("false");
-    assert
-      .dom("[data-test-page='1'] [data-test-header-is-last-in-chapter]")
-      .hasText("true");
+    assert.dom("[data-test-page='1'] [data-test-header-chapter-number]").hasText("1");
+    assert.dom("[data-test-page='1'] [data-test-header-page-number]").hasText("1");
+    assert.dom("[data-test-page='1'] [data-test-header-is-first]").hasText("true");
+    assert.dom("[data-test-page='1'] [data-test-header-is-first-in-chapter]").hasText("true");
+    assert.dom("[data-test-page='1'] [data-test-header-is-last]").hasText("false");
+    assert.dom("[data-test-page='1'] [data-test-header-is-last-in-chapter]").hasText("true");
     assert.dom("[data-test-page='1'] [data-test-header-total]").hasText("2");
 
-    assert
-      .dom("[data-test-page='2'] [data-test-header-chapter-number]")
-      .hasText("2");
-    assert
-      .dom("[data-test-page='2'] [data-test-header-page-number]")
-      .hasText("2");
-    assert
-      .dom("[data-test-page='2'] [data-test-header-is-first]")
-      .hasText("false");
-    assert
-      .dom("[data-test-page='2'] [data-test-header-is-first-in-chapter]")
-      .hasText("true");
-    assert
-      .dom("[data-test-page='2'] [data-test-header-is-last]")
-      .hasText("true");
-    assert
-      .dom("[data-test-page='2'] [data-test-header-is-last-in-chapter]")
-      .hasText("true");
+    assert.dom("[data-test-page='2'] [data-test-header-chapter-number]").hasText("2");
+    assert.dom("[data-test-page='2'] [data-test-header-page-number]").hasText("2");
+    assert.dom("[data-test-page='2'] [data-test-header-is-first]").hasText("false");
+    assert.dom("[data-test-page='2'] [data-test-header-is-first-in-chapter]").hasText("true");
+    assert.dom("[data-test-page='2'] [data-test-header-is-last]").hasText("true");
+    assert.dom("[data-test-page='2'] [data-test-header-is-last-in-chapter]").hasText("true");
     assert.dom("[data-test-page='2'] [data-test-header-total]").hasText("2");
   });
 
-  test("multi-page multi-chapter document - has expected page meta info", async function(assert) {
+  test("multi-page multi-chapter document - has expected page meta info", async function (assert) {
     this.set("columnCount", 1);
     this.set("sectionCount", 17);
 
     await renderMultiChapterTemplate(this);
 
-    assert
-      .dom("[data-test-chapter] [data-test-page-header]")
-      .exists({ count: 4 });
+    assert.dom("[data-test-chapter] [data-test-page-header]").exists({ count: 4 });
 
     // Chapter 1 Page 1
-    assert
-      .dom("[data-test-page='1'] [data-test-header-chapter-number]")
-      .hasText("1");
-    assert
-      .dom("[data-test-page='1'] [data-test-header-page-number]")
-      .hasText("1");
-    assert
-      .dom("[data-test-page='1'] [data-test-header-is-first]")
-      .hasText("true");
-    assert
-      .dom("[data-test-page='1'] [data-test-header-is-first-in-chapter]")
-      .hasText("true");
-    assert
-      .dom("[data-test-page='1'] [data-test-header-is-last]")
-      .hasText("false");
-    assert
-      .dom("[data-test-page='1'] [data-test-header-is-last-in-chapter]")
-      .hasText("false");
+    assert.dom("[data-test-page='1'] [data-test-header-chapter-number]").hasText("1");
+    assert.dom("[data-test-page='1'] [data-test-header-page-number]").hasText("1");
+    assert.dom("[data-test-page='1'] [data-test-header-is-first]").hasText("true");
+    assert.dom("[data-test-page='1'] [data-test-header-is-first-in-chapter]").hasText("true");
+    assert.dom("[data-test-page='1'] [data-test-header-is-last]").hasText("false");
+    assert.dom("[data-test-page='1'] [data-test-header-is-last-in-chapter]").hasText("false");
     assert.dom("[data-test-page='1'] [data-test-header-total]").hasText("4");
 
     // Chapter 1 Page 2
-    assert
-      .dom("[data-test-page='2'] [data-test-header-chapter-number]")
-      .hasText("1");
-    assert
-      .dom("[data-test-page='2'] [data-test-header-page-number]")
-      .hasText("2");
-    assert
-      .dom("[data-test-page='2'] [data-test-header-is-first]")
-      .hasText("false");
-    assert
-      .dom("[data-test-page='2'] [data-test-header-is-first-in-chapter]")
-      .hasText("false");
-    assert
-      .dom("[data-test-page='2'] [data-test-header-is-last]")
-      .hasText("false");
-    assert
-      .dom("[data-test-page='2'] [data-test-header-is-last-in-chapter]")
-      .hasText("true");
+    assert.dom("[data-test-page='2'] [data-test-header-chapter-number]").hasText("1");
+    assert.dom("[data-test-page='2'] [data-test-header-page-number]").hasText("2");
+    assert.dom("[data-test-page='2'] [data-test-header-is-first]").hasText("false");
+    assert.dom("[data-test-page='2'] [data-test-header-is-first-in-chapter]").hasText("false");
+    assert.dom("[data-test-page='2'] [data-test-header-is-last]").hasText("false");
+    assert.dom("[data-test-page='2'] [data-test-header-is-last-in-chapter]").hasText("true");
     assert.dom("[data-test-page='2'] [data-test-header-total]").hasText("4");
 
     // Chapter 2 Page 1
-    assert
-      .dom("[data-test-page='3'] [data-test-header-chapter-number]")
-      .hasText("2");
-    assert
-      .dom("[data-test-page='3'] [data-test-header-page-number]")
-      .hasText("3");
-    assert
-      .dom("[data-test-page='3'] [data-test-header-is-first]")
-      .hasText("false");
-    assert
-      .dom("[data-test-page='3'] [data-test-header-is-first-in-chapter]")
-      .hasText("true");
-    assert
-      .dom("[data-test-page='3'] [data-test-header-is-last]")
-      .hasText("false");
-    assert
-      .dom("[data-test-page='3'] [data-test-header-is-last-in-chapter]")
-      .hasText("false");
+    assert.dom("[data-test-page='3'] [data-test-header-chapter-number]").hasText("2");
+    assert.dom("[data-test-page='3'] [data-test-header-page-number]").hasText("3");
+    assert.dom("[data-test-page='3'] [data-test-header-is-first]").hasText("false");
+    assert.dom("[data-test-page='3'] [data-test-header-is-first-in-chapter]").hasText("true");
+    assert.dom("[data-test-page='3'] [data-test-header-is-last]").hasText("false");
+    assert.dom("[data-test-page='3'] [data-test-header-is-last-in-chapter]").hasText("false");
     assert.dom("[data-test-page='3'] [data-test-header-total]").hasText("4");
 
     // Chapter 2 Page 2
-    assert
-      .dom("[data-test-page='4'] [data-test-header-chapter-number]")
-      .hasText("2");
-    assert
-      .dom("[data-test-page='4'] [data-test-header-page-number]")
-      .hasText("4");
-    assert
-      .dom("[data-test-page='4'] [data-test-header-is-first]")
-      .hasText("false");
-    assert
-      .dom("[data-test-page='4'] [data-test-header-is-first-in-chapter]")
-      .hasText("false");
-    assert
-      .dom("[data-test-page='4'] [data-test-header-is-last]")
-      .hasText("true");
-    assert
-      .dom("[data-test-page='4'] [data-test-header-is-last-in-chapter]")
-      .hasText("true");
+    assert.dom("[data-test-page='4'] [data-test-header-chapter-number]").hasText("2");
+    assert.dom("[data-test-page='4'] [data-test-header-page-number]").hasText("4");
+    assert.dom("[data-test-page='4'] [data-test-header-is-first]").hasText("false");
+    assert.dom("[data-test-page='4'] [data-test-header-is-first-in-chapter]").hasText("false");
+    assert.dom("[data-test-page='4'] [data-test-header-is-last]").hasText("true");
+    assert.dom("[data-test-page='4'] [data-test-header-is-last-in-chapter]").hasText("true");
     assert.dom("[data-test-page='4'] [data-test-header-total]").hasText("4");
   });
 });

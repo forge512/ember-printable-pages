@@ -1,7 +1,7 @@
-{{link-to "All Demos" "demos.index"}}
+<LinkTo @route="demos.index">All Demos</LinkTo>
 
-<form onsubmit={{action "updatePageLayout"}}>
-  <select onchange={{action (mut this.pageSize) value="target.value"}}>
+<form onsubmit={{this.updatePageLayout}}>
+  <select {{on 'change' this.updatePageSize}} aria-label="Page Layout">
     <option value="">Select One</option>
     {{#each this.pageLayoutOpts as |layout|}}
       {{#if (eq layout this.pageSize)}}
@@ -11,88 +11,102 @@
       {{/if}}
     {{/each}}
   </select>
-  {{input type="text" value=this.marginSize}}
-  <input type="submit" value="Update">
+  <Input @type="text" @value={{this.marginSize}} aria-label="Margin Size" />
+  <input type="submit" value="Update" aria-label="Update" />
 </form>
 
-{{#unless hidePages}}
-  {{#printable-pages
-    pageLayout=(hash
-      height=this.pageHeight
-      width=this.pageWidth
-      margins=this.pageMargins
-    )
-    onRenderStart=progressDisplay.start
-    onRenderProgress=progressDisplay.updateProgress
-    onRenderComplete=progressDisplay.complete
-    as |document|
+<PrintablePages
+  @dimensions={{hash
+    height=this.pageHeight
+    width=this.pageWidth
   }}
+  @margins={{hash
+    top=0.5
+    right=0.5
+    bottom=0.5
+    left=0.5
+  }}
+  @units="in"
+  @onRenderStart={{@progressDisplay.start}}
+  @onRenderProgress={{@progressDisplay.updateProgress}}
+  @onRenderComplete={{@progressDisplay.complete}}
+  as |document|
+>
 
-    {{#document.chapter as |chapter|}}
-      {{#chapter.page-header as |header|}}
-        <div>
-          <div>Chapter {{header.chapterNumber}}</div>
-          <div>page {{header.current}} of {{header.total}}</div>
-        </div>
-      {{/chapter.page-header}}
+  <document.chapter as |chapter|>
+    <chapter.page-header as |header|>
+      <div>
+        <div>Chapter {{header.chapterNumber}}</div>
+        <div>page {{header.current}} of {{header.total}}</div>
+      </div>
+    </chapter.page-header>
 
-      {{#chapter.section columnCount=1}}
-        <h1>Section 1</h1>
-        <div>current {{chapter.number.current}}</div>
-        <div>total {{chapter.number.total}}</div>
-        <div>isFirst {{chapter.number.isFirst}}</div>
-        <div>isLast {{chapter.number.isLast}}</div>
-        <div>isFirstInChapter {{chapter.number.isFirstInChapter}}</div>
-        <div>isLastInChapter {{chapter.number.isLastInChapter}}</div>
-      {{/chapter.section}}
+    <chapter.section @columnCount={{1}}>
+      <h1>Section 1</h1>
+      <div>current {{chapter.number.current}}</div>
+      <div>total {{chapter.number.total}}</div>
+      <div>isFirst {{chapter.number.isFirst}}</div>
+      <div>isLast {{chapter.number.isLast}}</div>
+      <div>isFirstInChapter {{chapter.number.isFirstInChapter}}</div>
+      <div>isLastInChapter {{chapter.number.isLastInChapter}}</div>
+    </chapter.section>
 
-      {{#chapter.section columnCount=1}}
-        <h3>Section 2</h3>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sapien ligula,
-          scelerisque et imperdiet sit amet, imperdiet sit amet nisi. Nulla sit amet neque
-          ullamcorper lorem tincidunt facilisis. Morbi ante risus, consectetur id feugiat
-          nec, interdum ac enim. Phasellus molestie placerat lorem et pharetra. Aenean congue
-          tempor viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus eros,
-          id feugiat erat tortor et felis. Pellentesque id nisl non justo viverra lacinia
-          id sit amet arcu. Mauris non euismod ipsum. Fusce lacinia felis nec euismod vulputate.
-        </p>
-      {{/chapter.section}}
+    <chapter.section @columnCount={{1}}>
+      <h3>Section 2</h3>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+        sapien ligula, scelerisque et imperdiet sit amet, imperdiet sit amet
+        nisi. Nulla sit amet neque ullamcorper lorem tincidunt facilisis.
+        Morbi ante risus, consectetur id feugiat nec, interdum ac enim.
+        Phasellus molestie placerat lorem et pharetra. Aenean congue tempor
+        viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus
+        eros, id feugiat erat tortor et felis. Pellentesque id nisl non justo
+        viverra lacinia id sit amet arcu. Mauris non euismod ipsum. Fusce
+        lacinia felis nec euismod vulputate.
+      </p>
+    </chapter.section>
 
-      {{#chapter.section columnCount=2 data=(array 1 2 3 4 5) as |section|}}
-        {{#if (eq section.index 0)}}
-          <h3>Section 3</h3>
-        {{/if}}
+    <chapter.section
+      @columnCount={{2}}
+      @data={{array 1 2 3 4 5}}
+      as |section|
+    >
+      {{#if (eq section.index 0)}}
+        <h3>Section 3</h3>
+      {{/if}}
 
-        <h4>Section 3 {{section.data}}</h4>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sapien ligula,
-          scelerisque et imperdiet sit amet, imperdiet sit amet nisi. Nulla sit amet neque
-          ullamcorper lorem tincidunt facilisis. Morbi ante risus, consectetur id feugiat
-          nec, interdum ac enim. Phasellus molestie placerat lorem et pharetra. Aenean congue
-          tempor viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus eros,
-          id feugiat erat tortor et felis. Pellentesque id nisl non justo viverra lacinia
-          id sit amet arcu. Mauris non euismod ipsum. Fusce lacinia felis nec euismod vulputate.
-        </p>
-      {{/chapter.section}}
+      <h4>Section 3 -- {{section}}</h4>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+        sapien ligula, scelerisque et imperdiet sit amet, imperdiet sit amet
+        nisi. Nulla sit amet neque ullamcorper lorem tincidunt facilisis.
+        Morbi ante risus, consectetur id feugiat nec, interdum ac enim.
+        Phasellus molestie placerat lorem et pharetra. Aenean congue tempor
+        viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus
+        eros, id feugiat erat tortor et felis. Pellentesque id nisl non justo
+        viverra lacinia id sit amet arcu. Mauris non euismod ipsum. Fusce
+        lacinia felis nec euismod vulputate.
+      </p>
+    </chapter.section>
 
-      {{#chapter.section columnCount=1}}
-        <h3>Section 4</h3>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sapien ligula,
-          scelerisque et imperdiet sit amet, imperdiet sit amet nisi. Nulla sit amet neque
-          ullamcorper lorem tincidunt facilisis. Morbi ante risus, consectetur id feugiat
-          nec, interdum ac enim. Phasellus molestie placerat lorem et pharetra. Aenean congue
-          tempor viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus eros,
-          id feugiat erat tortor et felis. Pellentesque id nisl non justo viverra lacinia
-          id sit amet arcu. Mauris non euismod ipsum. Fusce lacinia felis nec euismod vulputate.
-        </p>
-      {{/chapter.section}}
+    <chapter.section @columnCount={{1}}>
+      <h3>Section 4</h3>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
+        sapien ligula, scelerisque et imperdiet sit amet, imperdiet sit amet
+        nisi. Nulla sit amet neque ullamcorper lorem tincidunt facilisis.
+        Morbi ante risus, consectetur id feugiat nec, interdum ac enim.
+        Phasellus molestie placerat lorem et pharetra. Aenean congue tempor
+        viverra. Nulla volutpat, est ut sagittis posuere, nisl metus luctus
+        eros, id feugiat erat tortor et felis. Pellentesque id nisl non justo
+        viverra lacinia id sit amet arcu. Mauris non euismod ipsum. Fusce
+        lacinia felis nec euismod vulputate.
+      </p>
+    </chapter.section>
 
-      {{#chapter.page-footer as |footer|}}
-        <div>Footer page {{footer.current}} of {{footer.total}}</div>
-      {{/chapter.page-footer}}
+    <chapter.page-footer as |footer|>
+      <div>Footer page {{footer.pageMeta.current}} of {{footer.pageMeta.total}}</div>
+    </chapter.page-footer>
 
-    {{/document.chapter}}
-  {{/printable-pages}}
-{{/unless}}
+  </document.chapter>
+</PrintablePages>

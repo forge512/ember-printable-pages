@@ -1,0 +1,12 @@
+<div>
+  {{#if @isRunning}}
+    Rendering page
+    {{@currentPage}}
+    {{#if @endPage}}of {{@endPage}}{{/if}}
+  {{else if (and (not @isRunning) @isComplete)}}
+    Rendered
+    {{@endPage}}
+    pages in
+    <span data-test-render-time>{{@renderTime}}</span>s
+  {{/if}}
+</div>

@@ -3,11 +3,11 @@ import { setupRenderingTest } from "ember-qunit";
 import { render } from "@ember/test-helpers";
 import hbs from "htmlbars-inline-precompile";
 
-module("Integration | Component | printable-pages/chapter", function(hooks) {
+module("Integration | Component | printable-pages/chapter", function (hooks) {
   setupRenderingTest(hooks);
 
-  module("with multiple chapters", function() {
-    let renderTemplate = function(context) {
+  module("with multiple chapters", function () {
+    let renderTemplate = function (context) {
       context.set(
         "sectionData",
         [...Array(Number(context.sectionCount))].map((_, i) => i)
@@ -53,7 +53,7 @@ module("Integration | Component | printable-pages/chapter", function(hooks) {
     `);
     };
 
-    test("1 page each, 1 item", async function(assert) {
+    test("1 page each, 1 item", async function (assert) {
       this.set("columnCount", 1);
       this.set("sectionCount", 1);
 
@@ -62,15 +62,11 @@ module("Integration | Component | printable-pages/chapter", function(hooks) {
       assert.dom("[data-test-chapter]").exists({ count: 2 });
       assert.dom("[data-test-page]").exists({ count: 2 });
 
-      assert
-        .dom("[data-test-chapter='0'] [data-test-page]")
-        .exists({ count: 1 });
-      assert
-        .dom("[data-test-chapter='1'] [data-test-page]")
-        .exists({ count: 1 });
+      assert.dom("[data-test-chapter='0'] [data-test-page]").exists({ count: 1 });
+      assert.dom("[data-test-chapter='1'] [data-test-page]").exists({ count: 1 });
     });
 
-    test("2 pages each, 2nd page in each chapter has 1 item", async function(assert) {
+    test("2 pages each, 2nd page in each chapter has 1 item", async function (assert) {
       this.set("columnCount", 1);
       this.set("sectionCount", 16);
 
@@ -79,34 +75,14 @@ module("Integration | Component | printable-pages/chapter", function(hooks) {
       assert.dom("[data-test-chapter]").exists({ count: 2 });
       assert.dom("[data-test-page]").exists({ count: 4 });
 
-      assert
-        .dom("[data-test-chapter='0'] [data-test-page]")
-        .exists({ count: 2 });
-      assert
-        .dom("[data-test-chapter='1'] [data-test-page]")
-        .exists({ count: 2 });
+      assert.dom("[data-test-chapter='0'] [data-test-page]").exists({ count: 2 });
+      assert.dom("[data-test-chapter='1'] [data-test-page]").exists({ count: 2 });
 
-      assert
-        .dom(
-          "[data-test-chapter='0'] [data-test-page='1'] [data-test-section-item]"
-        )
-        .exists({ count: 15 });
-      assert
-        .dom(
-          "[data-test-chapter='0'] [data-test-page='2'] [data-test-section-item]"
-        )
-        .exists({ count: 1 });
+      assert.dom("[data-test-chapter='0'] [data-test-page='1'] [data-test-section-item]").exists({ count: 15 });
+      assert.dom("[data-test-chapter='0'] [data-test-page='2'] [data-test-section-item]").exists({ count: 1 });
 
-      assert
-        .dom(
-          "[data-test-chapter='1'] [data-test-page='3'] [data-test-section-item]"
-        )
-        .exists({ count: 15 });
-      assert
-        .dom(
-          "[data-test-chapter='1'] [data-test-page='4'] [data-test-section-item]"
-        )
-        .exists({ count: 1 });
+      assert.dom("[data-test-chapter='1'] [data-test-page='3'] [data-test-section-item]").exists({ count: 15 });
+      assert.dom("[data-test-chapter='1'] [data-test-page='4'] [data-test-section-item]").exists({ count: 1 });
     });
   });
 });

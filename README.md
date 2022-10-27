@@ -9,9 +9,9 @@ from your existing components. This makes the documents easy to build, test, cus
 Compatibility
 ------------------------------------------------------------------------------
 
-* Ember.js v3.8 or above (excluding Ember 3.13, 3.14, 3.15)
-* Ember CLI v2.13 or above
-* Node.js v10 or above
+* Ember.js v3.24 or above
+* Ember CLI v3.24 or above
+* Node.js v16 or above
 
 
 Installation

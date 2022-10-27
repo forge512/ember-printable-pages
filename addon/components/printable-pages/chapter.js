@@ -1,43 +1,53 @@
-import Component from "@ember/component";
-import layout from "../../templates/components/printable-pages/chapter";
-import { alias } from "@ember/object/computed";
-import { computed } from "@ember/object";
+import Component from "@glimmer/component";
+import { action } from "@ember/object";
+import { tracked } from "@glimmer/tracking";
+import { guidFor } from "@ember/object/internals";
+import { log } from "../../utils/logger";
 
-export default Component.extend({
-  layout,
-  classNames: ["PrintablePages-chapter"],
+export default class Chapter extends Component {
+  elementId = "ember-" + guidFor(this);
+  @tracked chapter;
 
-  // LIFECYCLE HOOKS
-  didInsertElement() {
-    this._super(...arguments);
-    let chapter = this.register(this.elementId, {
-      name: this.name,
-      isToc: !!this.isToc
+  constructor() {
+    super(...arguments);
+    this.chapter = this.args.registerChapter(this.elementId, {
+      name: this.args.name,
+      isToc: !!this.args.isToc,
     });
-    this.set("chapter", chapter);
-  },
-
-  // COMPUTED PROPS
-  pages: alias("chapter.pages"),
-  startPage: alias("chapter.startPage"),
-  endPage: alias("chapter.endPage"),
-  pageCount: computed("endPage", "startPage", function() {
-    return 1 + this.endPage - this.startPage;
-  }),
-  "data-test-chapter": alias("chapter.index"),
-
-  actions: {
-    onPageOverflow(pageIndex) {
-      this.chapter.moveLastItemToNextPage(pageIndex, this.addPage);
-    },
-
-    renderNextItem(pageIndex, remainingHeight) {
-      this.chapter.renderNextItem(pageIndex, remainingHeight);
-      this.checkIfComplete();
-    },
-
-    renderNextPage(pageIndex) {
-      this.chapter.renderNextPage(pageIndex, this.addPage);
-    }
   }
-});
+
+  get pages() {
+    return this.chapter?.pages;
+  }
+
+  get startPage() {
+    return this.chapter?.startPage;
+  }
+
+  get endPage() {
+    return this.chapter?.endPage;
+  }
+
+  get pageCount() {
+    return 1 + this.endPage - this.startPage;
+  }
+
+  @action
+  onPageOverflow(pageIndex) {
+    log(`<chapter:${this.elementId}> onPageOverflow`);
+    this.chapter.moveLastItem(pageIndex, this.args.addPage);
+  }
+
+  @action
+  renderNextItem(pageIndex, remainingHeight) {
+    log(`<chapter:${this.elementId}> renderNextItem`);
+    this.chapter.renderNextItem(pageIndex, remainingHeight);
+    this.args.checkIfComplete();
+  }
+
+  @action
+  renderNextPage() {
+    log(`<chapter:${this.elementId}> renderNextPage`);
+    this.args.addPage(this.chapter.id);
+  }
+}

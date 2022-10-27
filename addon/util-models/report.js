@@ -1,22 +1,21 @@
-import EmberObject, { computed } from "@ember/object";
-import { alias } from "@ember/object/computed";
-import { A } from "@ember/array";
+export default class Report {
+  chapterMap = {};
+  chapters = [];
 
-export default EmberObject.extend({
-  init() {
-    this._super(...arguments);
-    this.set("chapterMap", EmberObject.create());
-    this.set("chapters", A([]));
-  },
+  get chapterCount() {
+    return this.chapters?.length;
+  }
 
-  chapterMap: null,
-  chapters: null,
-  chapterCount: alias("chapters.length"),
-  lastPage: alias("chapters.lastObject.endPage"),
-  isFinishedRendering: computed(
-    "chapters.@each.isFinishedRendering",
-    function() {
-      return this.chapters.isEvery("isFinishedRendering");
-    }
-  )
-});
+  get lastPage() {
+    return this.chapters?.[this.chapterCount - 1]?.endPage;
+  }
+
+  get isFinishedRendering() {
+    return !this.chapters.find((c) => !c.isFinishedRendering);
+  }
+
+  addChapter(chapter) {
+    this.chapterMap[chapter.id] = chapter;
+    this.chapters.push(chapter);
+  }
+}

@@ -1,8 +1,8 @@
 <h1>Table of Contents</h1>
 
 
-{{#docs-demo as |demo|}}
-  {{#demo.example name="toc-1" class="hidden"}}
+<DocsDemo as |demo|>
+  <demo.example @name="toc-1" @class="hidden">
     <PrintablePages as |document|>
       {{!
         <document.table-of-contents> yields an object with 2 properties.
@@ -38,7 +38,7 @@
         <chapter.page-footer>Footer content</chapter.page-footer>
       </document.chapter>
     </PrintablePages>
-  {{/demo.example}}
+  </demo.example>
 
-  {{docs-snippet name="toc-1" language="hbs"}}
-{{/docs-demo}}
+  <DocsSnippet @name="toc-1" @language="hbs" />
+</DocsDemo>
