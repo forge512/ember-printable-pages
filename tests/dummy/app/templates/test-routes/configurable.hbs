@@ -7,22 +7,27 @@
     @renderTime={{this.renderTime}}
   />
 
-  <label>Section Count</label>
-  <Input
-    @type='number'
-    @value={{this.sectionCount}}
-    min={{1}}
-    max={{10000}}
-    data-test-input-section-count={{true}}
-  />
-  <label>Column Count</label>
-  <Input
-    @type='number'
-    @value={{this.columnCount}}
-    min={{1}}
-    max={{3}}
-    data-test-column-count={{true}}
-  />
+  <label>
+    Section Count
+    <Input
+      @type='number'
+      @value={{this.sectionCount}}
+      min={{1}}
+      max={{10000}}
+      data-test-input-section-count={{true}}
+    />
+  </label>
+
+  <label>
+    Column Count
+    <Input
+      @type='number'
+      @value={{this.columnCount}}
+      min={{1}}
+      max={{3}}
+      data-test-column-count={{true}}
+    />
+  </label>
 </div>
 
 <PrintablePages
