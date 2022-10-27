@@ -294,27 +294,27 @@ workflows:
       - lint:
           requires:
             - prepare
-      - test_3_1:
-          requires:
-            - prepare
-      - test_lts_3_4:
-          requires:
-            - prepare
-      - test_lts_3_8:
-          requires:
-            - prepare
-      - test_lts_3_12:
-          requires:
-            - prepare
-      - test_lts_3_16:
-          requires:
-            - prepare
-      - test_lts_3_20:
-          requires:
-            - prepare
-      - test_lts_3_24:
-          requires:
-            - prepare
+      #- test_3_1:
+      #    requires:
+      #      - prepare
+      #- test_lts_3_4:
+      #    requires:
+      #      - prepare
+      #- test_lts_3_8:
+      #    requires:
+      #      - prepare
+      #- test_lts_3_12:
+      #    requires:
+      #      - prepare
+      #- test_lts_3_16:
+      #    requires:
+      #      - prepare
+      #- test_lts_3_20:
+      #    requires:
+      #      - prepare
+      #- test_lts_3_24:
+      #    requires:
+      #      - prepare
       - test_lts_3_28:
           requires:
             - prepare
