@@ -1,7 +1,6 @@
 import Component from "@glimmer/component";
 import { inject as service } from "@ember/service";
 import { isPresent } from "@ember/utils";
-import { getOwner } from "@ember/application";
 import { action } from "@ember/object";
 import { guidFor } from "@ember/object/internals";
 import { tracked } from "@glimmer/tracking";
@@ -46,10 +45,8 @@ export default class ChapterPage extends Component {
     this.renderNext.perform();
   }
 
-  // @action
-
-  @task({ keepLatest: true })
-  *setLastRenderedItem(elementId) {
+  // eslint-disable-next-line require-yield
+  @task({ keepLatest: true }) *setLastRenderedItem(elementId) {
     log(`<chapter-page:${this.elementId}> setLastRenderedItem`);
     this.lastRenderedItemId = elementId;
     this.renderNext.perform();

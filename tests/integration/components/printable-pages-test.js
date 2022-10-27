@@ -921,12 +921,12 @@ module("Integration | Component | printable-pages", function (hooks) {
 
       assert.dom("[data-test-page]").exists({ count: 1 });
       assert.dom("[data-test-page='1'] [data-test-page-header]").exists();
-      assert.equal(headerRenderCount, 1);
+      assert.strictEqual(headerRenderCount, 1);
 
       this.randomArg.value = 2;
       await settled();
 
-      assert.equal(headerRenderCount, 2, "changing random argument of <PrintablePages> will trigger a re-render");
+      assert.strictEqual(headerRenderCount, 2, "changing random argument of <PrintablePages> will trigger a re-render");
     });
   });
 });

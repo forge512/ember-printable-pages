@@ -1,9 +1,7 @@
 import Component from "@glimmer/component";
 import { isEmpty } from "@ember/utils";
-import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { guidFor } from "@ember/object/internals";
-import { scheduleOnce } from "@ember/runloop";
 import { log } from "../../utils/logger";
 
 export default class Section extends Component {
@@ -34,7 +32,7 @@ export default class Section extends Component {
   }
 
   get page() {
-    if (!this.section) return;
+    if (!this.section) return null;
     return this.section.pages.at(this.args.pageIndexInChapter);
   }
 

@@ -1,8 +1,7 @@
 import Component from "@glimmer/component";
-import { tracked } from "@glimmer/tracking";
 import { guidFor } from "@ember/object/internals";
 import { action } from "@ember/object";
-import { task, waitForProperty } from "ember-concurrency";
+import { task } from "ember-concurrency";
 export default class SectionItem extends Component {
   elementId = "ember-" + guidFor(this);
   element = null;
@@ -15,8 +14,8 @@ export default class SectionItem extends Component {
     this.args.renderNext();
   }
 
-  @task
-  *onRender() {
+  // eslint-disable-next-line require-yield
+  @task *onRender() {
     let height = this.element.offsetHeight;
     if (this.args.section.maxItemHeight === null || this.args.section.maxItemHeight < height) {
       this.args.section.maxItemHeight = height;

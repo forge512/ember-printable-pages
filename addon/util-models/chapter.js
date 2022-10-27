@@ -1,4 +1,3 @@
-import Page from "./page";
 import { tracked } from "@glimmer/tracking";
 import { action } from "@ember/object";
 import { log, group, groupEnd } from "../utils/logger";
@@ -59,8 +58,6 @@ export default class Chapter {
       section.nextItemIndex = section.nextItemIndex + 1;
     }
     let page = section.pages.at(pageIndex);
-
-    if (!page) debugger;
 
     // If rendered 2 or more items AND similar in height (within 200px)
     if (section.nextItemIndex > 1 && section.itemHeightDiff < 200) {

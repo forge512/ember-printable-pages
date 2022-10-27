@@ -46,7 +46,7 @@ export default class Chapter extends Component {
   }
 
   @action
-  renderNextPage(pageIndex) {
+  renderNextPage() {
     log(`<chapter:${this.elementId}> renderNextPage`);
     this.args.addPage(this.chapter.id);
   }
