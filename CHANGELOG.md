@@ -1,3 +1,18 @@
+# 1.0.0
+
+### Breaking Changes
+- Increased minimum Node version to 16
+- Previously changing the value of any argument on the top level `<PrintablePages>` would trigger a whole document re-render. This has been replaced by a single argument, `@trackedForRefresh`. It accepts a single value or a hash. Updates to the value or hash will trigger a full re-render of the document
+
+### Updates
+- ***Refactor to use Octane features `@tracked`, element modifiers, etc***
+- Upgrade to Ember 3.28
+- Upgrade Circle CI config to modern node 16 image
+- Disable tests for Ember 3.24 and below because they fail on CI. 3.24 at least passes locally and in actual projects.
+- Transition from `babel-eslint` to `@babel/eslint-parser`
+- Add `.tool-versions` for the asdf fans out there
+
+
 # 0.7.2
 
 - Bug: In some rare cases component:chapter-page would check for overflow before the page body element was given a fixed height. This could cause blank pages or the rendering of an infinite number of pages in some cases."
