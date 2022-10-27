@@ -11,7 +11,7 @@ module.exports = {
       legacyDecorators: true,
     },
     babelOptions: {
-      // eslint-disable-next-line node/no-unpublished-require
+      // eslint-disable-next-line node/no-extraneous-require
       plugins: [[require.resolve("@babel/plugin-proposal-decorators"), { legacy: true }]],
     },
   },
