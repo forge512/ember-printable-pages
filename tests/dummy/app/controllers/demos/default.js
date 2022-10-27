@@ -3,12 +3,7 @@ import { htmlSafe } from "@ember/template";
 import { action } from "@ember/object";
 import { tracked } from "@glimmer/tracking";
 export default class extends Controller {
-  queryParams = [
-    "dataLength",
-    "columnCount",
-    "chapterCount",
-    "sectionOneHeight",
-  ];
+  queryParams = ["dataLength", "columnCount", "chapterCount", "sectionOneHeight"];
 
   @tracked dataLength = 1000;
   @tracked columnCount = 2;

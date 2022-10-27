@@ -31,6 +31,7 @@ export default class SectionItem extends Component {
 
   @action
   willDestroy() {
+    super.willDestroy(...arguments);
     this.args.setLastRenderedItem("-" + this.elementId);
   }
 }

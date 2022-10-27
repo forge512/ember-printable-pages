@@ -10,6 +10,10 @@ module.exports = {
     ecmaFeatures: {
       legacyDecorators: true,
     },
+    babelOptions: {
+      // eslint-disable-next-line node/no-unpublished-require
+      plugins: [[require.resolve("@babel/plugin-proposal-decorators"), { legacy: true }]],
+    },
   },
   plugins: ["ember"],
   extends: ["eslint:recommended", "plugin:ember/recommended", "plugin:prettier/recommended"],
