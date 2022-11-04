@@ -1,5 +1,5 @@
 ---
-name: CI
+name: Deploy Docs
 
 on:
   push:
@@ -14,24 +14,24 @@ concurrency:
   cancel-in-progress: true
 env:
   CI: true
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: [test, floating-dependencies, ember-try-required]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: volta-cli/action@v1
 
-deploy:
-  name: Deploy
-  runs-on: ubuntu-latest
-  if: github.ref == 'refs/heads/main'
-  needs: [test, floating-dependencies, ember-try-required]
-  steps:
-    - uses: actions/checkout@v2
-    - uses: volta-cli/action@v1
+      - run: echo "ADDON_DOCS_VERSION_PATH=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
-    - run: echo "ADDON_DOCS_VERSION_PATH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+      - run: echo "ADDON_DOCS_UPDATE_LATEST=true" >> $GITHUB_ENV
+        if: contains(github.ref , 'main') == true
 
-    - run: echo "ADDON_DOCS_UPDATE_LATEST=true" >> $GITHUB_ENV
-      if: contains(github.ref , 'main') == true
+      - run: yarn install
 
-    - run: yarn install
-
-    - name: Deploy
-      env:
-        DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
-      run: yarn ember deploy production --verbose --activate
+      - name: Deploy
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        run: yarn ember deploy production --verbose --activate
