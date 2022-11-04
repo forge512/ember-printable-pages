@@ -4,13 +4,12 @@ name: Deploy Docs
 on:
   push:
     branches:
-      - main
       - master
-      # npm version tags
       - /^v\d+.\d+.\d+(?:-(?:alpha|beta|rc)\.\d+)?/
   pull_request:
+  workflow_dispatch:
 concurrency:
-  group: ci-tests-${{ github.ref }}-1
+  group: "pages"
   cancel-in-progress: true
 env:
   CI: true
@@ -18,7 +17,6 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    needs: [test, floating-dependencies, ember-try-required]
     steps:
       - uses: actions/checkout@v2
       - uses: volta-cli/action@v1
