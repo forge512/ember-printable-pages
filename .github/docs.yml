@@ -18,7 +18,6 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     needs: [test, floating-dependencies, ember-try-required]
     steps:
       - uses: actions/checkout@v2
