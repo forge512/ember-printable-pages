@@ -32,8 +32,7 @@ export default class Section extends Component {
   }
 
   get page() {
-    if (!this.section) return null;
-    return this.section.pages.at(this.args.pageIndexInChapter);
+    return this.section?.pages?.at(this.args.pageIndexInChapter);
   }
 
   get items() {
