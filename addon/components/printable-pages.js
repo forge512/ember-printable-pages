@@ -117,6 +117,8 @@ export default class PrintablePagesComponent extends Component {
 
   @task({ keepLatest: true })
   *reportStartTask(currentPage) {
+    if (waiterToken) waiter.endAsync(waiterToken);
+
     waiterToken = waiter.beginAsync();
 
     if (this.args.onRenderStart) {
