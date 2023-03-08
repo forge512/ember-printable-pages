@@ -58,5 +58,11 @@
     "name": "v1.0.0",
     "sha": "e277a913d921ea7f1bf081632d8eba0fe6766ce2",
     "tag": "v1.0.0"
+  },
+  "fix-docs": {
+    "path": "versions/fix-docs",
+    "name": "fix-docs",
+    "sha": "5e0ceb9d678194a92da284aa6db7d7446af2eecd",
+    "tag": null
   }
 }
