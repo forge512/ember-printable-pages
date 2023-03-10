@@ -3,7 +3,7 @@ import config from "dummy/config/environment";
 
 const Router = AddonDocsRouter.extend({
   location: config.locationType,
-  rootURL: config.rootURLe,
+  rootURL: config.rootURL,
 });
 
 Router.map(function () {
