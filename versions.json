@@ -52,5 +52,11 @@
     "name": "v0.7.1",
     "sha": "aaa5d76b0074b078037298a1d092289de9c0231d",
     "tag": "v0.7.1"
+  },
+  "merge": {
+    "path": "versions/merge",
+    "name": "merge",
+    "sha": "819dadd5cd3bac2f23880d4ee03adb2e24115687",
+    "tag": null
   }
 }
