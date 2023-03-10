@@ -2,20 +2,20 @@
 
 <DocsViewer as |viewer|>
   <viewer.nav as |nav|>
-    {{nav.section "Overview"}}
-    {{nav.item "Introduction" "docs.index"}}
-    {{nav.item "Installation" "docs.installation"}}
-    {{nav.item "Quick Start" "docs.getting-started"}}
-    {{nav.item "Limitations" "docs.limitations"}}
+    <nav.section @label="Overview" />
+    <nav.item @label="Introduction" @route="docs.index" />
+    <nav.item @label="Installation" @route="docs.installation" />
+    <nav.item @label="Quick Start" @route="docs.getting-started" />
+    <nav.item @label="Limitations" @route="docs.limitations" />
 
-    {{nav.section "Cookbook"}}
-    {{nav.item "Rerendering" "docs.rerendering"}}
-    {{nav.item "Layout Customization" "docs.layout-customization"}}
-    {{nav.item "Title Pages" "docs.title-pages"}}
-    {{nav.item "Page Numbers" "docs.page-numbers"}}
-    {{nav.item "Table of Contents" "docs.table-of-contents"}}
-    {{nav.item "Continued Sections" "docs.continued-sections"}}
-    {{nav.item "Tracking Render Progress" "docs.render-progress"}}
+    <nav.section @label="Cookbook" />
+    <nav.item @label="Rerendering" @route="docs.rerendering" />
+    <nav.item @label="Layout Customization" @route="docs.layout-customization" />
+    <nav.item @label="Title Pages" @route="docs.title-pages" />
+    <nav.item @label="Page Numbers" @route="docs.page-numbers" />
+    <nav.item @label="Table of Contents" @route="docs.table-of-contents" />
+    <nav.item @label="Continued Sections" @route="docs.continued-sections" />
+    <nav.item @label="Tracking Render Progress" @route="docs.render-progress" />
   </viewer.nav>
 
   <viewer.main>
