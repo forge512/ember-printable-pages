@@ -61,7 +61,10 @@ export default class PrintablePagesComponent extends Component {
   }
 
   get pageLayout() {
-    let units = isBlank(this.args.units) ? DEFAULT_DIMENSIONS.units : this.args.units;
+    let units = get(this.args, 'units');
+    if(isBlank(units)) {
+      units = DEFAULT_DIMENSIONS['units'];
+    }
     let width = getOrDefault(this.args, "dimensions", "width");
     let height = getOrDefault(this.args, "dimensions", "height");
     let top = getOrDefault(this.args, "margins", "top");
